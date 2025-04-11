@@ -24,6 +24,7 @@ Commit Nachrichten sollten sinnvoll geschrieben werden.
 
 ## Umgang mit Stories
 Bevor mit einer Aufgabe angefangen wird muss eine Story dazu im Backlog stehen. Diese beinhaltet eine Description, in welcher mit einem Satz beschrieben wird was und warum etwas gemacht werden soll. Ein Beispiel hierfür wäre: "Als Nutzer:in möchte ich ein Bild löschen können, um Bilder, welche mir nicht gefallen haben wieder von der Seite nehmen zu können". Wenn in der Kombination Wer? - Was? - Warum? keine Antwort auf die Warum Frage gegeben werden, so ist die Story unnötig und kann vernachlässigt und gelöscht werden.
+
 Akzeptanzkriterien in der Story machen jedem klar, was alles gegeben sein muss, damit die Story beendet ist. Ein ungeschriebenes, aber immer vorhandenes, Akzeptanzkriterium ist, dass die Webseite in allen anderen Aspekten sich immer noch genau so verhält, wie zuvor.
 ## Links
 - [How to Write a Git Commit Message](https://cbea.ms/git-commit)
