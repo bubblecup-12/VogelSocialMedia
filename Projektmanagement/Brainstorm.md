@@ -15,3 +15,6 @@
     - Unterteilung in Vogelarten
 - Suchfunktion
 
+# Finanzen
+Von 10 - 20 % der Zeit in Meetings / Planung verbuchen.
+
