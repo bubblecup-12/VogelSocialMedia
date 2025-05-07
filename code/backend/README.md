@@ -41,17 +41,15 @@ sudo -iu postgres psql
 
 ### 3. Benutzer und Datenbank in PostgreSQL anlegen
 
-In der geöffneten psql-Shell folgendene Befehle ausführen. Ersetze username und password durch deine eigenen Werte (und merken! 😉):
+In der geöffneten psql-Shell folgenden Befehl ausführen.
 
 ```bash
 CREATE DATABASE prisma;
-
-CREATE USER username WITH ENCRYPTED PASSWORD 'password'; 
 ```
 
 ### 4. .env-Datei vorbereiten
 
-Die Datei env.txt in .env umbenennen und deine eben gewählten Zugangsdaten (username, password) dort eintragen.
+Die Datei env.txt in .env umbenennen und dein Passwort dort eintragen.
 ### 5. Prisma vorbereiten
 
 Im Projektordner folgenden Befehl ausführen, um Prisma-Client zu generieren:
