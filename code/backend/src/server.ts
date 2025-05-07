@@ -10,7 +10,7 @@ const app = express();
 const port = 3000;
 type User = {
   id: string;
-  name: string;
+  username: string;
   email: string;
   password: string;
 }
@@ -30,7 +30,7 @@ app.get('/', async (req: Request, res: Response) => {
     const users = await prisma.user.findMany();
 
     // Namen extrahieren
-    const names = users.map((user:User) => user.name);
+    const names = users.map((user:User) => user.username);
 
     // Antwort zurück an den Client
     res.send(`There are ${users.length} users: ${names.join(', ')}`);
