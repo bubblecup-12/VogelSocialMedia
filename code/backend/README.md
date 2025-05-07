@@ -56,7 +56,9 @@ Die Datei env.txt in .env umbenennen und deine eben gewählten Zugangsdaten (use
 
 Im Projektordner folgenden Befehl ausführen, um Prisma-Client zu generieren:
 
+``` bash
 yarn prisma generate
+```
 
 ### 6. Datenbank initialisieren
 Dieser Command erstellt die DB nach der Datei `schema.prisma` 
