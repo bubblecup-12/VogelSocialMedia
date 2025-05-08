@@ -1,0 +1,19 @@
+.feed {
+  background: linear-gradient(
+      270deg,
+      rgba(20, 15, 86, 0.27) 0%,
+      rgba(20, 15, 86, 0.58) 24.04%,
+      rgba(20, 15, 86, 0.74) 42.79%,
+      rgba(17, 13, 71, 0.82) 55.53%,
+      rgba(13, 10, 56, 0.9) 68.27%
+    ),
+    url("../assets/images/BirdsSky.jpg") lightgray 50% / cover no-repeat;
+}
+.Header1 {
+  color: var(--Orange1, #e79a0e);
+  font-size: 64px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -1.28px;
+}
