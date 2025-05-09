@@ -2,14 +2,14 @@
 import { z } from "zod";
 
 export const userRegistrationSchema = z.object({
-  username: z.string(),
+  username: z.string().regex(/^\S*$/, "Username must not contain spaces"), // No whitespaces allowed,
   email: z.string().email(),
   password: z.string().min(8),
 });
 
 export const userLoginSchema = z.object({
-  username: z.string(),
-  password: z.string().min(8),
+  username: z.string().regex(/^\S*$/, "Username must not contain spaces"), // No whitespaces allowed,
+  password: z.string(),
 });
 // DTO-Typen aus den Schemas ableiten
 export type UserRegistrationDto = z.infer<typeof userRegistrationSchema>;
