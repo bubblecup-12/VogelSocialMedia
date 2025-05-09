@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+
+
+
+.StartPage {
+    display: grid;
+    grid-template-rows: 1fr 4fr 1fr;
+    background-color: lightgray    ;
+    min-height: 100vh;
+}
+
+.middleContainer {
+    grid-row-start: 2;
+    padding-left: 5%;
+    background: linear-gradient(224.72deg, rgba(31, 26, 74, 0.243) 0%, rgba(31, 26, 74, 0.9) 55.29%);
+}
+
+.buttonContainer {
+    margin-top: 3em;
+    display: flex;
+    padding-bottom: 2rem;
+}
+
+.welcome {
+    color: #E79A0E;
+    width: 844;
+    height: 77;
+    font-family: Inter;
+    font-weight: 700;
+    font-size: 64px;
+    line-height: 100%;
+    letter-spacing: -2%;
+
+}
+
+.welcomeMessage {
+    font-family: Inter;
+font-weight: 400;
+font-size: 24px;
+line-height: 150%;
+letter-spacing: 0%;
+vertical-align: middle;
+
+}
+
+
+.loginButton,
+.registerButton {
+  width: 250px;
+  height: 76px;
+  border-radius: 22px;
+  border-width: 3px;
+  font-size: 1rem;
+  cursor: pointer;
+  border-style: solid; 
+  border-color: #E79A0E;
+}
+
+.loginButton {
+    background-color: #FED640;
+
+}
+
+.registerButton {
+    background-color: #E7ECF2;
+}
