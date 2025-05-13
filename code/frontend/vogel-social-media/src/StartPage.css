@@ -6,14 +6,26 @@
 .StartPage {
     display: grid;
     grid-template-rows: 1fr 4fr 1fr;
-    background-color: lightgray    ;
     min-height: 100vh;
+    background-color: #FFFFFF; /* lol*/
+    
+}
+.topContainer {
+    display: flex;
+    justify-content: space-between;
 }
 
 .middleContainer {
     grid-row-start: 2;
     padding-left: 5%;
-    background: linear-gradient(224.72deg, rgba(31, 26, 74, 0.243) 0%, rgba(31, 26, 74, 0.9) 55.29%);
+    background-image:
+    linear-gradient(224.72deg, rgba(31, 26, 74, 0.243) 0%,
+     rgba(31, 26, 74, 0.9) 55.29%),
+    url( ../public/media/BirdBackground.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position:center;
+
 }
 
 .buttonContainer {
@@ -32,6 +44,9 @@
     line-height: 100%;
     letter-spacing: -2%;
 
+}
+.icon {
+    size:1 rem;
 }
 
 .welcomeMessage {
@@ -55,10 +70,18 @@ vertical-align: middle;
   cursor: pointer;
   border-style: solid; 
   border-color: #E79A0E;
+  color: #4C4141;
+  font-weight: 600;
+  font-size:larger;
+  text-align: left;
+  padding-left: 32px;
+
 }
 
 .loginButton {
     background-color: #FED640;
+    margin-right: 72px;
+    
 
 }
 
