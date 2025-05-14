@@ -3,42 +3,107 @@ import { PrismaClient } from "@prisma/client";
 import { UserLoginDto, userLoginSchema } from "../schemas/userSchemas";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import { string } from "zod";
+import bcrypt from "bcryptjs";
 
 const app = express();
 app.use(express.json());
 const prisma = new PrismaClient();
 // load environment variables from .env file
 dotenv.config();
-const JWT_SECRET: string = process.env.TOKEN_SECRET!;
-
-function generateAccessToken(username: string) {
-  return jwt.sign({ username }, JWT_SECRET, { expiresIn: "1800s" });
+const JWT_SECRET: string = process.env.TOKEN_SECRET!; // this secret is used to sign the JWT token
+// Generate a JWT token with the username as payload and a secret from the environment variables which expires in 1800 seconds (30 minutes)
+function generateAccessToken(username: string, userId: string) {
+  return jwt.sign(
+    { username: username, role: "user", sub: userId },
+    JWT_SECRET,
+    { expiresIn: "1800s", issuer: "VogelApi" }
+  ); //TODO: change role to user role
 }
-
+// Endpoint to register a new user
 export const registerUser = async (req: Request, res: Response) => {
-  const userRequest = await req.body;
-  const user = await prisma.user.create({ data: userRequest });
-  console.log(user.username);
-  res.json({ message: "User registered successfully", data: req.body });
+  const { username, password, email } = await req.body; //gets the data from the request body
+  if (!username || !password || !email) {
+    // check if username, password and email are provided and
+    res
+      .status(400)
+      .json({ message: "Username, password and email are required" });
+  }
+  const existingUser = await prisma.user.findUnique({
+    // check if the user already exists
+    where: {
+      username: username,
+    },
+  });
+  if (existingUser) {
+    // if the user already exists, return an error message
+    res.status(400).json({ message: `User "${username}" already exists` });
+  }
+  const hashedPassword = await bcrypt.hash(password, 10); // hash the password with bcrypt
+  if (!hashedPassword) {
+    // check if the password was hashed successfully
+    res.status(500).json({ message: "Server Error" });
+  }
+  const userData = {
+    // create a new user object with the data from the request body and the hashed password
+    username: username,
+    email: email,
+    password: hashedPassword,
+  };
+  const user = await prisma.user.create({ data: userData }); // create a new user in the database
+  if (!user) {
+    // check if the user was created successfully
+    res.status(500).json({ message: "Server Error" });
+  }
+  res.json({ message: "User registered successfully" });
+  res.status(201).json({
+    message: "user created",
+    data: { username: username, email: email },
+  }); // return the user object with the username and email
 };
-
-export const loginUser = (req: Request, res: Response) => {
-  const token: string = generateAccessToken(req.body.username);
-  res.json({ message: "User logged in successfully", data: req.body, token });
+// Endpoint to login a user (unfinished)
+export const loginUser = async (req: Request, res: Response) => {
+  const { username, password } = req.body; // get the data from the request body
+  if (!username || !password) {
+    // check if username and password are provided
+    res.status(400).json({ message: "Username and password are required" });
+  }
+  const user = await prisma.user.findUnique({
+    // check if the user exists
+    where: {
+      username: username,
+    },
+  });
+  if (!user) {
+    // if the user does not exist, return an error message
+    res.status(400).json({ message: `User "${username}" not found` });
+    return;
+  }
+  const isPasswordValid = await bcrypt.compare(password, user.password); // compare the password with the hashed password in the database
+  if (!isPasswordValid) {
+    // if the password is not valid, return an error message
+    res.status(401).json({ message: "Invalid password" });
+  }
+  const token: string = generateAccessToken(user.username, user.id); // generate a JWT token with the username and userId as payload
+  res.set("Authorization", `Bearer ${token}`); // set the token in the response header
+  res.json({ message: "User logged in successfully" });
 };
-
+// Endpoint to get user data
 export const getUser = async (req: Request, res: Response) => {
-  const username = req.body.username;
-  console.log(username, req.body);
+  const username: string = req.query.username as string;
+  if (!username) {
+    res.status(400).json({ message: "Username is required" });
+  }
   const user = await prisma.user.findUnique({
     where: {
       username: username,
     },
   });
   if (!user) {
-    res.status(404).json({ message: "User not found" });
+    res.status(404).json({ message: `User "${username}" not found` });
+    return;
   }
-  res.json({ message: "User found", data: user });
+  res.json({
+    message: "User found",
+    data: { username: user.username, email: user.email },
+  });
 };
-

@@ -6,6 +6,16 @@
 
 ---
 
+## Backend Nutzung
+
+Dieser Command startet das Backend nachdem es korrekt installiert wurde.
+
+```
+yarn start
+```
+
+Die Swagger Doku ist unter [/api-docs](http://localhost:3000/api-docs/)
+
 ## 🛠️ Installation
 
 ### 1. PostgreSQL installieren
@@ -50,12 +60,14 @@ CREATE DATABASE prisma;
 
 ### 4. .env-Datei vorbereiten
 
-Die Datei env.txt in .env umbenennen und dein Passwort dort eintragen.
+Die Datei .env.example in .env umbenennen und dein Passwort dort eintragen.
+Außerdem solltest du das Token secret ändern.
+
 ### 5. Prisma vorbereiten
 
 Im Projektordner folgenden Befehl ausführen, um Prisma-Client zu generieren:
 
-``` bash
+```bash
 yarn prisma generate
 ```
 
