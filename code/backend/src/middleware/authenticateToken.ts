@@ -36,8 +36,20 @@ export function authenticateToken() {
         if (err) {
           if (err instanceof TokenExpiredError)
             // check if the error is expired and return 401
-            res.status(401).json({ message: "Token expired" });
-          else res.status(403).json({ message: "Invalid token" });
+            res
+              .status(401)
+              .json({
+                error: "Token expired",
+                details: [{ message: "Token expired" }],
+              });
+          // if the token is invalid, return 403 Forbidden
+          else
+            res
+              .status(403)
+              .json({
+                error: "Invalid token",
+                details: [{ message: "Invalid token" }],
+              });
         }
         next();
       });
