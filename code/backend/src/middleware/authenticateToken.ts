@@ -32,24 +32,25 @@ export function authenticateToken() {
     else {
       jwt.verify(token, JWT_SECRET, (err: any, user: any) => {
         // verify the token with the secret
-        console.log(err);
+
         if (err) {
-          if (err instanceof TokenExpiredError)
+          if (err instanceof TokenExpiredError) {
             // check if the error is expired and return 401
-            res
-              .status(401)
-              .json({
-                error: "Token expired",
-                details: [{ message: "Token expired" }],
-              });
+            res.status(401).json({
+              error: "Token expired",
+              details: [{ message: "Token expired" }],
+            });
+            return;
+          }
+
           // if the token is invalid, return 403 Forbidden
-          else
-            res
-              .status(403)
-              .json({
-                error: "Invalid token",
-                details: [{ message: "Invalid token" }],
-              });
+          else {
+            res.status(403).json({
+              error: "Invalid token",
+              details: [{ message: "Invalid token" }],
+            });
+            return;
+          }
         }
         next();
       });

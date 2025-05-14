@@ -37,6 +37,7 @@ export const registerUser = async (req: Request, res: Response) => {
       error: "Invalid data",
       details: [{ message: `User "${username}" already exists` }],
     });
+    return;
   }
   const hashedPassword = await bcrypt.hash(password, 10); // hash the password with bcrypt
   if (!hashedPassword) {
@@ -45,6 +46,7 @@ export const registerUser = async (req: Request, res: Response) => {
       error: "Invalid data",
       details: [{ message: "Server Error" }],
     });
+    return;
   }
   const userData = {
     // create a new user object with the data from the request body and the hashed password
@@ -59,6 +61,7 @@ export const registerUser = async (req: Request, res: Response) => {
       error: "Server error",
       details: [{ message: "Server Error while creating user" }],
     });
+    return;
   }
   const token: string = generateAccessToken(user.username, user.id); // generate a JWT token with the username and userId as payload
   res.set("Authorization", `Bearer ${token}`); // set the token in the response header
@@ -77,6 +80,7 @@ export const loginUser = async (req: Request, res: Response) => {
       error: "Invalid data",
       details: [{ message: "Username and password are required" }],
     });
+    return;
   }
   const user = await prisma.user.findUnique({
     // check if the user exists
@@ -86,7 +90,12 @@ export const loginUser = async (req: Request, res: Response) => {
   });
   if (!user) {
     // if the user does not exist, return an error message
-    res.status(400).json({ message: `User "${username}" not found` });
+    res
+      .status(400)
+      .json({
+        error: "user not found",
+        details: [{ message: `User "${username}" not found` }],
+      });
     return;
   }
   const isPasswordValid = await bcrypt.compare(password, user.password); // compare the password with the hashed password in the database
@@ -96,6 +105,7 @@ export const loginUser = async (req: Request, res: Response) => {
       error: "invalid credentials",
       details: [{ message: "Invalid password" }],
     });
+    return;
   }
   const token: string = generateAccessToken(user.username, user.id); // generate a JWT token with the username and userId as payload
   res.set("Authorization", `Bearer ${token}`); // set the token in the response header
@@ -110,6 +120,7 @@ export const getUser = async (req: Request, res: Response) => {
       error: "no username",
       details: [{ message: "Username is required" }],
     });
+    return;
   }
   const user = await prisma.user.findUnique({
     where: {
