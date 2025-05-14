@@ -1,0 +1,46 @@
+:root {
+  --Rotkehlchen-gray: #e7ecf2;
+  --Rotkehlchen-brown1: #a28d7a;
+  --Rotkehlchen-orange-default: #e79a0e;
+}
+
+.base-header {
+  width: 100vw;
+  display: flex;
+  height: 76px;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  border-bottom: 3px solid var(--Rotkehlchen-brown1);
+  background: var(--Rotkehlchen-gray);
+}
+.base-header-title {
+  display: flex;
+  width: 162px;
+  height: 63px;
+  flex-direction: column;
+  justify-content: center;
+  flex-shrink: 0;
+
+  color: var(--Rotkehlchen-orange-default);
+  text-align: center;
+
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 40px;
+}
+
+.base-header-icon {
+  margin: 40px;
+  display: flex;
+  width: 30px;
+  height: 30px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+
+  background-size: cover;
+  background-repeat: no-repeat;
+}
