@@ -1,8 +1,6 @@
 {
   "commands": [
     "echo Starting installation...",
-    "echo installing node_modules",
-    "yarn install",
     "echo starting docker container",
     "yarn start-containers",
     "echo generating prisma",
