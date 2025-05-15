@@ -32,7 +32,11 @@
     "typescript": "^5.8.3"
   },
   "scripts": {
-    "start": "nodemon src/server.ts",
+    "start-containers": "docker-compose -f ../db/docker-compose.yaml up -d",
+    "stop-containers": "docker-compose down",
+    "start": "yarn start-containers && nodemon src/server.ts",
+    "start-no-docker": "nodemon src/server.ts",
+    "install-script": "ts-node scripts/install.ts",
     "build": "tsc",
     "dev": "ts-node-dev --respawn src/server.ts"
   }
