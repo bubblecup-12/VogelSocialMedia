@@ -33,7 +33,7 @@ TOKEN_SECRET="${jwtSecret}"
 DB_USER="${postgresUser}"
 DB_PASSWORD="${postgresPassword}"`;
 try {
-  fs.writeFileSync("./scripts/.env", env);
+  fs.writeFileSync(".env", env);
   console.log("File has been written successfully.");
 } catch (err) {
   console.error("Error writing to file:", err);
