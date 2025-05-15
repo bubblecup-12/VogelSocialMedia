@@ -2,6 +2,7 @@ import React, { use } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { useState, useEffect } from 'react';
+import Header from './Header';
 
 function App() {
   const [username, setUsername] = useState<string>('');
@@ -26,7 +27,7 @@ useEffect(() => {
   const changeMail = (event : React.ChangeEvent<HTMLInputElement>) => {
     setMail(event.target.value);
   }
-
+  return (<Header/>);
   return (
     <div className="App">
       {isCreate? <h1>Create Account</h1> :  <h1>Login</h1> }
