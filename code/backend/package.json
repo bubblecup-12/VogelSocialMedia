@@ -37,7 +37,7 @@
     "stop-containers": "docker-compose down",
     "start": "yarn start-containers && nodemon src/server.ts",
     "start-no-docker": "nodemon src/server.ts",
-    "install-script": "ts-node scripts/install.ts",
+    "install-script": "yarn install && ts-node scripts/install.ts",
     "build": "tsc",
     "dev": "ts-node-dev --respawn src/server.ts"
   }
