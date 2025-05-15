@@ -27,6 +27,7 @@ while (!postgresPassword) {
   });
   !postgresPassword && console.log("Password cannot be empty");
 }
+// getting user input for .env file
 const jwtSecret: string = crypto.randomBytes(32).toString("hex"); // 64 Zeichen
 const env: string = `DATABASE_URL="postgresql://${postgresUser}:${postgresPassword}@localhost:5432/prisma"
 TOKEN_SECRET="${jwtSecret}"
@@ -38,13 +39,14 @@ try {
 } catch (err) {
   console.error("Error writing to file:", err);
 }
-
+// running the commands from the JSON file
+// The commands are executed in the order they are defined in the JSON file
 (async () => {
   for (const command of config.commands) {
     try {
       const { stdout, stderr } = await execPromise(command); // Wait for the command to finish
       if (stderr) {
-        console.log(`stderr: ${stderr}`);
+        console.log(stderr);
       }
       console.log(stdout); // Print the output of the command`);
     } catch (error: any) {
@@ -56,8 +58,6 @@ try {
   fs.writeFile(json_path, JSON.stringify(config), (err) => {
     if (err) {
       console.error("Error writing to file:", err);
-    } else {
-      console.log("File has been updated successfully.");
     }
   });
   console.log("Installation complete");

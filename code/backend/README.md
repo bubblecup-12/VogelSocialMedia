@@ -1,3 +1,7 @@
+Hier ist deine überarbeitete Dokumentation mit **korrigierten Rechtschreibfehlern, konsistenter Formatierung** und kleineren stilistischen Verbesserungen:
+
+---
+
 ## 📦 Verwendete Software
 
 - **Backend:** Node.js
@@ -6,75 +10,109 @@
 
 ---
 
-## Backend Nutzung
+## ▶️ Backend starten
 
-Dieser Command startet das Backend nachdem es korrekt installiert wurde.
+Dieser Befehl startet das Backend, nachdem es korrekt installiert wurde:
+DB in Docker
 
-```
+```bash
 yarn start
 ```
 
-Die Swagger Doku ist unter [/api-docs](http://localhost:3000/api-docs/)
+DB nicht in Docker
+
+```bash
+yarn start-no-docker
+```
+
+Die Swagger-Dokumentation findest du unter:
+[http://localhost:3000/api-docs](http://localhost:3000/api-docs)
+
+---
 
 ## 🛠️ Installation
 
-### 1. PostgreSQL installieren
+### 🚀 Installation mit Docker
 
-#### 🔹 Windows
+1. [Docker installieren](https://www.docker.com/)
+2. Installations-Skript ausführen:
 
-PostgreSQL kannst du [hier herunterladen](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads).
+```bash
+yarn install-script
+```
 
-#### 🔹 Linux
+---
 
-Einfach über den Paketmanager deiner Wahl installieren. Danach den PostgreSQL-Dienst aktivieren (logischischerweise nur wenn du `systemd` verwendest):
+### 🧱 Manuelle Installation
+
+#### 1. PostgreSQL installieren
+
+##### 🔹 Windows
+
+PostgreSQL kannst du hier herunterladen:
+[https://www.enterprisedb.com/downloads/postgres-postgresql-downloads](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads)
+
+##### 🔹 Linux
+
+PostgreSQL über deinen Paketmanager installieren. Danach den Dienst aktivieren:
 
 ```bash
 sudo systemctl enable postgresql --now
 ```
 
-### 2. In eine SQL-Shell wechseln
+---
 
-🔹 Windows
+#### 2. In eine SQL-Shell wechseln
 
-Folgenden Befehl ausführen, um als PostgreSQL-Benutzer in die psql-Shell zu gelangen:
+##### 🔹 Windows
 
 ```bash
 psql
 ```
 
-🔹 Linux
-
-Folgenden Befehl ausführen, um als PostgreSQL-Benutzer in die psql-Shell zu gelangen:
+##### 🔹 Linux
 
 ```bash
 sudo -iu postgres psql
 ```
 
-### 3. Benutzer und Datenbank in PostgreSQL anlegen
+---
 
-In der geöffneten psql-Shell folgenden Befehl ausführen.
+#### 3. Benutzer und Datenbank anlegen
 
-```bash
+In der geöffneten psql-Shell:
+
+```sql
 CREATE DATABASE prisma;
 ```
 
-### 4. .env-Datei vorbereiten
+---
 
-Die Datei .env.example in .env umbenennen und dein Passwort dort eintragen.
-Außerdem solltest du das Token secret ändern.
+#### 4. .env-Datei vorbereiten
 
-### 5. Prisma vorbereiten
+- Die Datei `.env.example` in `.env` umbenennen
+- Passwort und Token-Secret anpassen
 
-Im Projektordner folgenden Befehl ausführen, um Prisma-Client zu generieren:
+---
+
+#### 5. Prisma vorbereiten
+
+Im Projektordner folgenden Befehl ausführen, um den Prisma-Client zu generieren:
 
 ```bash
 yarn prisma generate
 ```
 
-### 6. Datenbank initialisieren
+---
 
-Dieser Command erstellt die DB nach der Datei `schema.prisma`
+#### 6. Datenbank initialisieren
+
+Dies erstellt die Datenbank anhand der `schema.prisma`:
 
 ```bash
 yarn prisma migrate dev --name init
 ```
+
+---
+
+Wenn du möchtest, kann ich die Doku auch automatisch auf Englisch übersetzen oder als `README.md` formatieren. Sag einfach Bescheid!
