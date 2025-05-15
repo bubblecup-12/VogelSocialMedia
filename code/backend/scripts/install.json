@@ -1,0 +1,14 @@
+{
+  "commands": [
+    "echo Starting installation...",
+    "echo installing node_modules",
+    "yarn install",
+    "echo starting docker container",
+    "yarn start-containers",
+    "echo generating prisma",
+    "yarn prisma generate",
+    "echo migrating database",
+    "yarn prisma migrate dev --name init"
+  ],
+  "installed": true
+}
