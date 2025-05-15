@@ -6,6 +6,7 @@
   "dependencies": {
     "@prisma/client": "^6.7.0",
     "@types/bcryptjs": "^3.0.0",
+    "@types/readline-sync": "^1.4.8",
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
@@ -32,7 +33,7 @@
     "typescript": "^5.8.3"
   },
   "scripts": {
-    "start-containers": "docker-compose -f ../db/docker-compose.yaml up -d",
+    "start-containers": "docker-compose -f ../db/docker-compose.yaml --env-file .env up -d",
     "stop-containers": "docker-compose down",
     "start": "yarn start-containers && nodemon src/server.ts",
     "start-no-docker": "nodemon src/server.ts",
