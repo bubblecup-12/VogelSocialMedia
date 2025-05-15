@@ -29,7 +29,7 @@ while (!postgresPassword) {
 }
 const jwtSecret: string = crypto.randomBytes(32).toString("hex"); // 64 Zeichen
 const env: string = `DATABASE_URL="postgresql://${postgresUser}:${postgresPassword}@localhost:5432/prisma"
-JWT_SECRET="${jwtSecret}"
+TOKEN_SECRET="${jwtSecret}"
 DB_USER="${postgresUser}"
 DB_PASSWORD="${postgresPassword}"`;
 try {
