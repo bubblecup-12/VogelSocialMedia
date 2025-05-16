@@ -29,11 +29,7 @@
   font-weight: 500;
   text-decoration: none;
 }
-.footer-link.github img {
-  width: 20px;
-  height: 20px;
-  transform: scale(1.9);
-}
+
 .footer-link.feather img {
   width: 20px;
   height: 20px;
@@ -42,8 +38,8 @@
 
 
 .footer-link img {
-  width: 20px; 
-  height: 20px;
+
+  height: 22px;
   object-fit:unset;
   vertical-align: middle;
 }
