@@ -4,6 +4,7 @@ import { UserLoginDto, userLoginSchema } from "../schemas/userSchemas";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import bcrypt from "bcryptjs";
+import { StatusCodes } from "http-status-codes";
 
 const app = express();
 app.use(express.json());
@@ -33,7 +34,7 @@ export const registerUser = async (req: Request, res: Response) => {
   });
   if (existingUser) {
     // if the user already exists, return an error message
-    res.status(400).json({
+    res.status(StatusCodes.BAD_REQUEST).json({
       error: "Invalid data",
       details: [{ message: `User "${username}" already exists` }],
     });
@@ -42,8 +43,8 @@ export const registerUser = async (req: Request, res: Response) => {
   const hashedPassword = await bcrypt.hash(password, 10); // hash the password with bcrypt
   if (!hashedPassword) {
     // check if the password was hashed successfully
-    res.status(500).json({
-      error: "Invalid data",
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      error: "Server error",
       details: [{ message: "Server Error" }],
     });
     return;
@@ -57,7 +58,7 @@ export const registerUser = async (req: Request, res: Response) => {
   const user = await prisma.user.create({ data: userData }); // create a new user in the database
   if (!user) {
     // check if the user was created successfully
-    res.status(500).json({
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       error: "Server error",
       details: [{ message: "Server Error while creating user" }],
     });
@@ -65,7 +66,7 @@ export const registerUser = async (req: Request, res: Response) => {
   }
   const token: string = generateAccessToken(user.username, user.id); // generate a JWT token with the username and userId as payload
   res.set("Authorization", `Bearer ${token}`); // set the token in the response header
-  res.status(201).json({
+  res.status(StatusCodes.CREATED).json({
     message: "user created",
     data: { username: username, email: email },
   }); // return the user object with the username and email
@@ -74,14 +75,7 @@ export const registerUser = async (req: Request, res: Response) => {
 // Endpoint to login a user (unfinished)
 export const loginUser = async (req: Request, res: Response) => {
   const { username, password } = req.body; // get the data from the request body
-  if (!username || !password) {
-    // check if username and password are provided
-    res.status(400).json({
-      error: "Invalid data",
-      details: [{ message: "Username and password are required" }],
-    });
-    return;
-  }
+
   const user = await prisma.user.findUnique({
     // check if the user exists
     where: {
@@ -90,18 +84,16 @@ export const loginUser = async (req: Request, res: Response) => {
   });
   if (!user) {
     // if the user does not exist, return an error message
-    res
-      .status(400)
-      .json({
-        error: "user not found",
-        details: [{ message: `User "${username}" not found` }],
-      });
+    res.status(StatusCodes.NOT_FOUND).json({
+      error: "user not found",
+      details: [{ message: `User "${username}" not found` }],
+    });
     return;
   }
   const isPasswordValid = await bcrypt.compare(password, user.password); // compare the password with the hashed password in the database
   if (!isPasswordValid) {
     // if the password is not valid, return an error message
-    res.status(401).json({
+    res.status(StatusCodes.UNAUTHORIZED).json({
       error: "invalid credentials",
       details: [{ message: "Invalid password" }],
     });
@@ -109,14 +101,14 @@ export const loginUser = async (req: Request, res: Response) => {
   }
   const token: string = generateAccessToken(user.username, user.id); // generate a JWT token with the username and userId as payload
   res.set("Authorization", `Bearer ${token}`); // set the token in the response header
-  res.json({ message: "User logged in successfully" });
+  res.status(StatusCodes.OK).json({ message: "User logged in successfully" });
 };
 
 // Endpoint to get user data
 export const getUser = async (req: Request, res: Response) => {
   const username: string = req.query.username as string;
   if (!username) {
-    res.status(400).json({
+    res.status(StatusCodes.BAD_REQUEST).json({
       error: "no username",
       details: [{ message: "Username is required" }],
     });
@@ -128,7 +120,7 @@ export const getUser = async (req: Request, res: Response) => {
     },
   });
   if (!user) {
-    res.status(404).json({
+    res.status(StatusCodes.NOT_FOUND).json({
       error: "user not found",
       details: [{ message: `User "${username}" not found` }],
     });
