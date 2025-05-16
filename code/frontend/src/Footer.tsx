@@ -10,8 +10,9 @@ function Footer() {
           <span>Feather Feed</span>
         </a>
         <a href="https://github.com" target="_blank " className="footer-link github">
-          <img src="/assets/icons/github.svg" alt="GitHub icon" />
-          <span>GitHub</span>
+          <img src="/assets/icons/github-mark.svg" alt="GitHub mark" />
+          
+          <img src="/assets/icons/GitHub_Logo.png" alt="GitHub logo" />
         </a>
       </div>
 
