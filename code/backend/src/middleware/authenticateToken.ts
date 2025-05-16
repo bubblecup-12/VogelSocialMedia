@@ -1,6 +1,7 @@
 import express, { NextFunction, Request, Response } from "express";
 import jwt, { TokenExpiredError } from "jsonwebtoken";
 import dotenv from "dotenv";
+import { StatusCodes } from "http-status-codes";
 dotenv.config();
 // imports the JWT secret
 const JWT_SECRET: string = process.env.TOKEN_SECRET!;
@@ -28,7 +29,7 @@ export function authenticateToken() {
     const token = authHeader && authHeader.split(" ")[1]; // split the header to get the token
 
     if (token == null)
-      res.sendStatus(401); // if there is no token, return 401 Unauthorized
+      res.sendStatus(StatusCodes.UNAUTHORIZED); // if there is no token, return 401 Unauthorized
     else {
       jwt.verify(token, JWT_SECRET, (err: any, user: any) => {
         // verify the token with the secret
@@ -36,7 +37,7 @@ export function authenticateToken() {
         if (err) {
           if (err instanceof TokenExpiredError) {
             // check if the error is expired and return 401
-            res.status(401).json({
+            res.status(StatusCodes.UNAUTHORIZED).json({
               error: "Token expired",
               details: [{ message: "Token expired" }],
             });
@@ -45,7 +46,7 @@ export function authenticateToken() {
 
           // if the token is invalid, return 403 Forbidden
           else {
-            res.status(403).json({
+            res.status(StatusCodes.FORBIDDEN).json({
               error: "Invalid token",
               details: [{ message: "Invalid token" }],
             });
