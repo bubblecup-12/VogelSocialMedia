@@ -9,7 +9,7 @@ export const userRegistrationSchema = z.object({
 
 export const userLoginSchema = z.object({
   username: z.string().regex(/^\S*$/, "Username must not contain spaces"), // No whitespaces allowed,
-  password: z.string(),
+  password: z.string().min(1, "Password is required"),
 });
 // DTO-Typen aus den Schemas ableiten
 export type UserRegistrationDto = z.infer<typeof userRegistrationSchema>;
