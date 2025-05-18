@@ -7,6 +7,5 @@
     "yarn prisma generate",
     "echo migrating database",
     "yarn prisma migrate dev --name init"
-  ],
-  "installed": true
+  ]
 }
