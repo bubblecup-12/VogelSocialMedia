@@ -1,11 +1,7 @@
-Hier ist deine überarbeitete Dokumentation mit **korrigierten Rechtschreibfehlern, konsistenter Formatierung** und kleineren stilistischen Verbesserungen:
-
----
-
 ## 📦 Verwendete Software
 
 - **Backend:** Node.js
-- **Datenbank:** PostgreSQL
+- **Datenbank:** PostgreSQL in Docker
 - **ORM:** Prisma
 
 ---
@@ -35,7 +31,8 @@ Die Swagger-Dokumentation findest du unter:
 ### 🚀 Installation mit Docker
 
 1. [Docker installieren](https://www.docker.com/)
-2. Installations-Skript ausführen:
+2. falls du schon PostgreSQL installiert hast musst du die Anwendung stoppen um Portkonflikte zu vermeiden.
+3. Installations-Skript im backend Ordner ausführen:
 
 ```bash
 yarn install-script
@@ -90,7 +87,7 @@ CREATE DATABASE prisma;
 
 #### 4. .env-Datei vorbereiten
 
-- Die Datei `.env.example` in `.env` umbenennen
+- Die Datei `.env.example` kopieren und die Kopie in `.env` umbenennen
 - Passwort und Token-Secret anpassen
 
 ---
@@ -114,5 +111,3 @@ yarn prisma migrate dev --name init
 ```
 
 ---
-
-Wenn du möchtest, kann ich die Doku auch automatisch auf Englisch übersetzen oder als `README.md` formatieren. Sag einfach Bescheid!
