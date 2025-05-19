@@ -7,5 +7,6 @@
     "yarn prisma generate",
     "echo migrating database",
     "yarn prisma migrate dev --name init"
-  ]
+  ],
+  "requiredKeys": ["DATABASE_URL", "TOKEN_SECRET", "DB_USER", "DB_PASSWORD"]
 }

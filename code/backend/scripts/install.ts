@@ -5,15 +5,29 @@ const execPromise = util.promisify(exec);
 import fs, { read } from "fs";
 import readlineSync from "readline-sync";
 import crypto from "crypto";
+import dotenv from "dotenv";
+import { boolean } from "zod";
 
 const json_path: string = "scripts/install.json"; // Path to the JSON file
 const raw = fs.readFileSync(json_path, "utf8");
 const config = JSON.parse(raw); // Parse the JSON file
 
-//check if there is a .env file and abort the installation
+//check if there is a .env and if it has the correct settings
+let allSet: boolean = true;
 if (fs.existsSync(".env")) {
-  // Check if the script has already been run
-  console.log("Already installed");
+  dotenv.config();
+  for (const key of config.requiredKeys) {
+    if (!process.env[key]) {
+      allSet = false;
+      break;
+    }
+  }
+} else {
+  allSet = false;
+}
+
+if (allSet) {
+  // if it`s all set abort the installation
   process.exit(0);
 }
 // getting user input for the PostgreSQL username and password
