@@ -8,5 +8,30 @@
     "echo migrating database",
     "yarn prisma migrate dev --name init"
   ],
-  "requiredKeys": ["DATABASE_URL", "TOKEN_SECRET", "DB_USER", "DB_PASSWORD"]
+  "requiredKeys": [
+    { "name": "DATABASE_URL", "generated": true },
+    { "name": "TOKEN_SECRET", "generated": true },
+    {
+      "name": "DB_USER",
+      "generated": false,
+      "default": "postgres",
+      "hide": false
+    },
+    {
+      "name": "DB_PASSWORD",
+      "generated": false,
+      "hide": true
+    },
+    {
+      "name": "MINIO_USER",
+      "generated": false,
+      "default": "minIO",
+      "hide": false
+    },
+    {
+      "name": "MINIO_PASSWORD",
+      "generated": false,
+      "hide": true
+    }
+  ]
 }
