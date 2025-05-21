@@ -4,6 +4,12 @@
   --Rotkehlchen-orange-default: #e79a0e;
 }
 
+.outest-container {
+  display: grid;
+  grid-template-rows: auto auto;
+  grid-template-columns: 1fr; /* 1 Spalte */
+  align-content: end;
+}
 .base-header {
   width: 100vw;
   display: flex;
@@ -11,10 +17,10 @@
   justify-content: space-between;
   align-items: center;
   flex-shrink: 0;
-  border-bottom: 3px solid var(--Rotkehlchen-brown1);
   background: var(--Rotkehlchen-gray);
+  border-bottom: 3px solid var(--Rotkehlchen-brown1);
 }
-.base-header-title {
+.header-title {
   display: flex;
   width: 162px;
   height: 63px;
@@ -31,7 +37,16 @@
   line-height: 40px;
 }
 
-.base-header-icon {
+@media (min-width: 768px) {
+  .menu-container {
+    align-items: end;
+    justify-content: end;
+    width: 100%;
+    display: flex;
+  }
+}
+
+.header-icon {
   margin: 40px;
   display: flex;
   width: 30px;
@@ -48,16 +63,40 @@
 /* ------------- MENÜ ------------- */
 
 .menu {
+  z-index: 1;
+  margin-top: -3px;
   display: flex;
-  padding: 27px 20px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   border-bottom: 3px solid var(--Rotkehlchen-brown1);
   background: var(--Rotkehlchen-gray);
+  padding-block-end: 13px;
+  justify-self: end;
 }
 
 @media (min-width: 768px) {
   .menu {
+    width: 200px;
+    margin-top: 0px;
+    flex-direction: column;
+    justify-content: center;
+
+    background: var(--Rotkehlchen-gray);
+    padding-block-end: 13px;
+    border-bottom: 0px solid var(--Rotkehlchen-brown1);
+    /*
+    border-bottom: 3px solid var(--Rotkehlchen-brown1);
+    border-left: 3px solid var(--Rotkehlchen-brown1); */
   }
+}
+
+.menu-item {
+  width: 80%;
+  text-align: center;
+  align-content: center;
+  padding-block-start: 13px;
+  padding-block-end: 13px;
+  padding-inline-start: 20px;
+  padding-inline-end: 20px;
 }
