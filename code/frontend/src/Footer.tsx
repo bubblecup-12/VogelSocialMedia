@@ -20,18 +20,14 @@ function Footer() {
       </div>
 
       <div className="footer-right">
-        <div className="footer-column">
-          <a href="">Home</a>
-          <a href="">About</a>
-        </div>
-        <div className="footer-column">
-          <a href="">Login</a>
-          <a href="">Sign up</a>
-        </div>
-        <div className="footer-column">
-          <a href="">Create Post</a>
-          <a href="">Feed</a>
-        </div>
+    
+          <a className="footer-link" href="#">Home</a>
+          <a className="footer-link" href="#">About</a>
+          <a className="footer-link" href="#">Login</a>
+          <a className="footer-link" href="#">Sign up</a>
+          <a className="footer-link" href="#">Create Post</a>
+          <a className="footer-link" href="#">Feed</a>
+       
       </div>
     </footer>
   );
