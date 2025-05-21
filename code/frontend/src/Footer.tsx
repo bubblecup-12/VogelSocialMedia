@@ -12,7 +12,7 @@ function Footer() {
           <img src="/assets/icons/feather_black.svg" alt="Feather icon" />
           <span>Feather Feed</span>
         </a>
-        <a href="https://github.com" target="_blank " className="footer-link github">
+        <a href="https://github.com/bubblecup-12/VogelSocialMedia" target="_blank " className="footer-link github">
           <img src="/assets/icons/github-mark.svg" alt="GitHub mark" />
           
           <img src="/assets/icons/GitHub_Logo.png" alt="GitHub logo" />
