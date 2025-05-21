@@ -21,10 +21,8 @@
   flex-direction: column;
   justify-content: center;
   flex-shrink: 0;
-
   color: var(--Rotkehlchen-orange-default);
   text-align: center;
-
   font-size: 24px;
   font-style: normal;
   font-weight: 700;
