@@ -4,6 +4,12 @@
   --Rotkehlchen-orange-default: #e79a0e;
 }
 
+.outest-container {
+  display: grid;
+  grid-template-rows: auto auto;
+  grid-template-columns: 1fr; /* 1 Spalte */
+  align-content: end;
+}
 .base-header {
   width: 100vw;
   display: flex;
@@ -30,7 +36,16 @@
   text-align: center;
 }
 
-.base-header-icon {
+@media (min-width: 768px) {
+  .menu-container {
+    align-items: end;
+    justify-content: end;
+    width: 100%;
+    display: flex;
+  }
+}
+
+.header-icon {
   margin: 40px;
   display: flex;
   width: 30px;
