@@ -66,6 +66,9 @@
 .footer-link:hover, .footer-link:active {
   text-decoration: underline;
 }
+.footer-link.feather:hover, .footer-link.feather:active {
+  text-decoration-color: var(--Rotkehlchen-orange-default) ;
+}
 
 /*@media adjusts styles for desktop */
 
