@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
-import { UserLoginDto, userLoginSchema } from "../schemas/userSchemas";
+import { PrismaClient, User } from "@prisma/client";
+import { UserLoginDto, UserRegistrationDto } from "../schemas/userSchemas";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import bcrypt from "bcryptjs";
@@ -14,19 +14,18 @@ dotenv.config();
 const JWT_SECRET: string = process.env.TOKEN_SECRET!; // this secret is used to sign the JWT token
 
 // Generate a JWT token with the username as payload and a secret from the environment variables which expires in 1800 seconds (30 minutes)
-function generateAccessToken(username: string, userId: string) {
-  return jwt.sign(
-    { username: username, role: "user", sub: userId },
-    JWT_SECRET,
-    { expiresIn: "1800s", issuer: "VogelApi" }
-  ); //TODO: change role to user role
+function generateAccessToken(username: string, userId: string, role: string) {
+  return jwt.sign({ username: username, role: role, sub: userId }, JWT_SECRET, {
+    expiresIn: "1800s",
+    issuer: "VogelApi",
+  });
 }
 
 // Endpoint to register a new user
 export const registerUser = async (req: Request, res: Response) => {
-  const { username, password, email } = await req.body; //gets the data from the request body
+  const { username, password, email }: UserRegistrationDto = await req.body; //gets the data from the request body
 
-  const existingUser = await prisma.user.findUnique({
+  const existingUser: User | null = await prisma.user.findUnique({
     // check if the user already exists
     where: {
       username: username,
@@ -40,6 +39,21 @@ export const registerUser = async (req: Request, res: Response) => {
     });
     return;
   }
+  const existingEmailUser: User | null = await prisma.user.findUnique({
+    // check if the email is already in use
+    where: {
+      email: email,
+    },
+  });
+  if (existingEmailUser) {
+    // if the email is already in use, return an error message
+    res.status(StatusCodes.BAD_REQUEST).json({
+      error: "Invalid data",
+      details: [{ message: `User with "${email}" already exists` }],
+    });
+    return;
+  }
+
   const hashedPassword = await bcrypt.hash(password, 10); // hash the password with bcrypt
   if (!hashedPassword) {
     // check if the password was hashed successfully
@@ -55,7 +69,7 @@ export const registerUser = async (req: Request, res: Response) => {
     email: email,
     password: hashedPassword,
   };
-  const user = await prisma.user.create({ data: userData }); // create a new user in the database
+  const user: User | null = await prisma.user.create({ data: userData }); // create a new user in the database
   if (!user) {
     // check if the user was created successfully
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
@@ -64,7 +78,7 @@ export const registerUser = async (req: Request, res: Response) => {
     });
     return;
   }
-  const token: string = generateAccessToken(user.username, user.id); // generate a JWT token with the username and userId as payload
+  const token: string = generateAccessToken(user.username, user.id, user.role); // generate a JWT token with the username and userId as payload
   res.set("Authorization", `Bearer ${token}`); // set the token in the response header
   res.status(StatusCodes.CREATED).json({
     message: "user created",
@@ -74,9 +88,9 @@ export const registerUser = async (req: Request, res: Response) => {
 
 // Endpoint to login a user (unfinished)
 export const loginUser = async (req: Request, res: Response) => {
-  const { username, password } = req.body; // get the data from the request body
+  const { username, password }: UserLoginDto = req.body; // get the data from the request body
 
-  const user = await prisma.user.findUnique({
+  const user: User | null = await prisma.user.findUnique({
     // check if the user exists
     where: {
       username: username,
@@ -99,7 +113,7 @@ export const loginUser = async (req: Request, res: Response) => {
     });
     return;
   }
-  const token: string = generateAccessToken(user.username, user.id); // generate a JWT token with the username and userId as payload
+  const token: string = generateAccessToken(user.username, user.id, user.role); // generate a JWT token with the username and userId as payload
   res.set("Authorization", `Bearer ${token}`); // set the token in the response header
   res.status(StatusCodes.OK).json({ message: "User logged in successfully" });
 };
@@ -114,7 +128,7 @@ export const getUser = async (req: Request, res: Response) => {
     });
     return;
   }
-  const user = await prisma.user.findUnique({
+  const user: User | null = await prisma.user.findUnique({
     where: {
       username: username,
     },
@@ -128,6 +142,11 @@ export const getUser = async (req: Request, res: Response) => {
   }
   res.json({
     message: "User found",
-    data: { username: user.username, email: user.email },
+    data: {
+      username: user.username,
+      email: user.email,
+      userId: user.id,
+      userInfo: user.bio,
+    },
   });
 };

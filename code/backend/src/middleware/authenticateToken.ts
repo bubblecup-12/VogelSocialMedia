@@ -3,18 +3,21 @@ import jwt, { TokenExpiredError } from "jsonwebtoken";
 import dotenv from "dotenv";
 import { StatusCodes } from "http-status-codes";
 dotenv.config();
-// imports the JWT secret
+
+// Import the JWT secret from environment variables
 const JWT_SECRET: string = process.env.TOKEN_SECRET!;
-if (!JWT_SECRET) console.log("no JWT secret");
-// create an interface for the JWT payload
-// this interface is used to define the structure of the JWT payload
+if (!JWT_SECRET) console.error("No JWT secret provided");
+
+// Define the structure of the JWT payload
 interface JwtPayload {
+  id: string;
   username: string;
+  role: string;
   iat: number;
   exp: number;
 }
-// extend the Express Request interface to include the user property
-// this is used to store the JWT payload in the request object
+
+// Extend the Express Request interface to include the user property
 declare global {
   namespace Express {
     interface Request {
@@ -22,39 +25,44 @@ declare global {
     }
   }
 }
+
 // Middleware function to authenticate the JWT token
 export function authenticateToken() {
   return (req: Request, res: Response, next: NextFunction) => {
-    const authHeader = req.headers["authorization"]; // get the authorization header from the request
-    const token = authHeader && authHeader.split(" ")[1]; // split the header to get the token
+    const authHeader = req.headers["authorization"]; // Get the authorization header
+    const token = authHeader && authHeader.split(" ")[1]; // Extract the token from the "Bearer <token>" format
 
-    if (token == null)
-      res.sendStatus(StatusCodes.UNAUTHORIZED); // if there is no token, return 401 Unauthorized
-    else {
-      jwt.verify(token, JWT_SECRET, (err: any, user: any) => {
-        // verify the token with the secret
-
-        if (err) {
-          if (err instanceof TokenExpiredError) {
-            // check if the error is expired and return 401
-            res.status(StatusCodes.UNAUTHORIZED).json({
-              error: "Token expired",
-              details: [{ message: "Token expired" }],
-            });
-            return;
-          }
-
-          // if the token is invalid, return 403 Forbidden
-          else {
-            res.status(StatusCodes.FORBIDDEN).json({
-              error: "Invalid token",
-              details: [{ message: "Invalid token" }],
-            });
-            return;
-          }
-        }
-        next();
+    if (!token) {
+      res.status(StatusCodes.UNAUTHORIZED).json({
+        error: "Unauthorized",
+        details: [{ message: "No token provided" }],
       });
+      return;
     }
+
+    jwt.verify(token, JWT_SECRET, (err, decoded) => {
+      if (err) {
+        if (err instanceof TokenExpiredError) {
+          // Handle expired token
+          res.status(StatusCodes.UNAUTHORIZED).json({
+            error: "Token expired",
+            details: [{ message: "Token has expired" }],
+          });
+          return;
+        }
+
+        // Handle invalid token
+        res.status(StatusCodes.FORBIDDEN).json({
+          error: "Invalid token",
+          details: [{ message: "Token is invalid" }],
+        });
+        return;
+      }
+
+      // Attach the decoded payload to the request object
+      req.user = decoded as JwtPayload;
+
+      next(); // Pass control to the next middleware or route handler
+    });
   };
 }
