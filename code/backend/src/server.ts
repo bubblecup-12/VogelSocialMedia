@@ -1,7 +1,9 @@
 import express, { Request, Response, Application } from "express";
-
+import { Client } from "minio";
 import dotenv from "dotenv";
 import userRouter from "./routes/userRoutes";
+import postRouter from "./routes/postRoutes";
+//import postController from "./controllers/postController";
 import bodyParser from "body-parser";
 
 dotenv.config();
@@ -9,6 +11,14 @@ dotenv.config();
 const app = express();
 const port = 3000;
 
+// minIO config
+export const minioClient = new Client({
+  endPoint: "localhost", // Replace with your MinIO server URL
+  port: 9000, // Default MinIO port
+  useSSL: false, // Set to true if using HTTPS
+  accessKey: process.env.MINIO_USER, // minIO username/access key
+  secretKey: process.env.MINIO_PASSWORD, // MinIO password/secret key
+});
 //swagger configuration
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
@@ -49,10 +59,8 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 app.use(bodyParser.json());
 app.use("/api/user", userRouter);
-// Sample route
-app.get("/api/hello", (req, res) => {
-  res.send("Hello World!");
-});
+app.use("/api/posts", postRouter);
+
 app.listen(port, () => {
   console.log(`Server läuft auf http://localhost:${port}`);
 });
