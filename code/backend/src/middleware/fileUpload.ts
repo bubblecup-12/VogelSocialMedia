@@ -26,7 +26,13 @@ export const upload = (req: Request, res: Response, next: NextFunction) => {
     }
 
     const files = req.files as Express.Multer.File[];
-
+    if (files.length > 15) {
+      //check if user uploaded more than 15 files
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        error: "Too many files",
+        details: [{ message: "You can upload a maximum of 15 files" }],
+      });
+    }
     for (const file of files) {
       //check for correct filetypes
       if (

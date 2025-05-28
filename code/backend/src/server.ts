@@ -3,7 +3,7 @@ import { Client } from "minio";
 import dotenv from "dotenv";
 import userRouter from "./routes/userRoutes";
 import postRouter from "./routes/postRoutes";
-//import postController from "./controllers/postController";
+import { authenticateToken } from "./middleware/authenticateToken";
 import bodyParser from "body-parser";
 
 dotenv.config();
@@ -59,7 +59,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 app.use(bodyParser.json());
 app.use("/api/user", userRouter);
-app.use("/api/posts", postRouter);
+app.use("/api/posts", authenticateToken(), postRouter);
 
 app.listen(port, () => {
   console.log(`Server läuft auf http://localhost:${port}`);
