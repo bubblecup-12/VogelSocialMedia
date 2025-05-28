@@ -1,4 +1,4 @@
-import "./Header.css";
+import "./header.css";
 import React, { useState, useRef, useEffect } from "react";
 
 
@@ -13,13 +13,14 @@ function Header() {
   };
 
   return (
-    <div className="outest-container" >
-      <header className="base-header">
+    <div className="" >
+      <header className="flex flex-col justify-between h-64">
+      <div className="header-icon"> {isOpen? <img src='/assets/icons/x.svg' alt="x" ref={iconRef} onClick={toggleMenu}/> : <img src='/assets/icons/three_menu_stripes_black.svg' alt="x" onClick={toggleMenu}  />} </div>
         <div className="header-icon"> <img src='/assets/icons/feather_black.svg' alt="featherIcon" /> </div>
-        <p className="header-title">
+        <p className="header-title rotate-90">
           Feather Feed
         </p>
-        <div className="header-icon"> {isOpen? <img src='/assets/icons/x.svg' alt="x" ref={iconRef} onClick={toggleMenu}/> : <img src='/assets/icons/three_menu_stripes_black.svg' alt="x" onClick={toggleMenu}  />} </div>
+        
       </header>
       <Menu isOpen={isOpen} toggleMenu={toggleMenu} setIsOpen={setIsOpen} iconRef={iconRef}/> 
     </div>
