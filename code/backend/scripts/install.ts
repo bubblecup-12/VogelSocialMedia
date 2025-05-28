@@ -6,55 +6,72 @@ import fs, { read } from "fs";
 import readlineSync from "readline-sync";
 import crypto from "crypto";
 import dotenv from "dotenv";
-import { boolean } from "zod";
+
+type env_config = {
+  name: string;
+  generated: boolean;
+  input?: string;
+  default?: string;
+  hide?: boolean;
+};
+type json_config = {
+  commands: string[];
+  requiredKeys: env_config[];
+};
 
 const json_path: string = "scripts/install.json"; // Path to the JSON file
 const raw = fs.readFileSync(json_path, "utf8");
-const config = JSON.parse(raw); // Parse the JSON file
+const config: json_config = JSON.parse(raw); // Parse the JSON file
 
 //check if there is a .env and if it has the correct settings
-let allSet: boolean = true;
+let missingConfigs: env_config[] = [];
 if (fs.existsSync(".env")) {
   dotenv.config();
-  for (const key of config.requiredKeys) {
-    if (!process.env[key]) {
-      allSet = false;
-      break;
+  for (const setting of config.requiredKeys) {
+    if (!process.env[setting.name]) {
+      missingConfigs.push(setting);
     }
   }
-} else {
-  allSet = false;
 }
 
-if (allSet) {
+if (missingConfigs.length < 1) {
   // if it`s all set abort the installation
   process.exit(0);
 }
+
 // getting user input for the PostgreSQL username and password
 console.log("generrating .env file");
-const postgresUser: string = readlineSync.question(
-  "Enter the PostgreSQL username (default: postgres): ",
-  { defaultInput: "postgres" }
-);
-let postgresPassword: string = "";
-while (!postgresPassword) {
-  postgresPassword = readlineSync.question("Enter the PostgreSQL password: ", {
-    hideEchoBack: true, // Hides the characters
-  });
-  !postgresPassword && console.log("Password cannot be empty");
+for (const setting of missingConfigs) {
+  if (!setting.generated) {
+    let input: string = "";
+    do {
+      input = readlineSync.question(
+        `Enter the ${setting.name} ${setting.default ? `(${setting.default})` : ""}: `,
+        { defaultInput: setting.default, hideEchoBack: setting.hide }
+      );
+    } while (!input);
+    process.env[setting.name] = input;
+  } else if (setting.name === "TOKEN_SECRET") {
+    // generating a random JWT secret
+    const jwtSecret: string = crypto.randomBytes(32).toString("hex"); // 64 Zeichen
+    process.env[setting.name] = jwtSecret;
+  }
 }
-// generating a random JWT secret
-const jwtSecret: string = crypto.randomBytes(32).toString("hex"); // 64 Zeichen
-const env: string = `DATABASE_URL="postgresql://${postgresUser}:${postgresPassword}@localhost:5432/prisma"
-TOKEN_SECRET="${jwtSecret}"
-DB_USER="${postgresUser}"
-DB_PASSWORD="${postgresPassword}"`;
+let env: string = `DATABASE_URL="postgresql://${process.env["DB_USER"]}:${process.env["DB_PASSWORD"]}@localhost:5432/prisma"\n`;
+for (const setting of config.requiredKeys) {
+  if (setting.name != "DATABASE_URL") {
+    env += `${setting.name}="${process.env[setting.name]}"\n`;
+  }
+}
+
+// writing the .env file
 try {
   fs.writeFileSync(".env", env);
   console.log("File has been written successfully.");
 } catch (err) {
   console.error("Error writing to file:", err);
 }
+
 // running the commands from the JSON file
 // The commands are executed in the order they are defined in the JSON file
 (async () => {
