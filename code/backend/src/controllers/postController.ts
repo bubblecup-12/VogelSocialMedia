@@ -14,7 +14,6 @@ export const uploadPost = async (req: Request, res: Response) => {
   const user: JwtPayload = req.user!; // Get the user from the request
   const { description, status, tags } = uploadPostSchema.parse(req.body);
   const BUCKET = "images"; // Name of the bucket where the images are stored
-  console.log(tags);
   try {
     const uploads = await Promise.all(
       files.map(async (file) => {
@@ -85,6 +84,16 @@ export const getPost = async (req: Request, res: Response) => {
       include: {
         user: true,
         media: true,
+        postTags: {
+          include: {
+            tag: true,
+          },
+        },
+      },
+    });
+    const likes: number = await prisma.like.count({
+      where: {
+        postId: postId,
       },
     });
     if (!postObject) {
@@ -98,7 +107,7 @@ export const getPost = async (req: Request, res: Response) => {
       });
       return;
     }
-    const post = await Promise.all(
+    const images = await Promise.all(
       // generate the presigned url for each image
       postObject?.media.map(async (image) => {
         try {
@@ -117,10 +126,19 @@ export const getPost = async (req: Request, res: Response) => {
           return null;
         }
       }) ?? []
-    );
+    ); // map the images to the presigned urls
     res.status(StatusCodes.OK).json({
-      message: "Post found",
-      post: post,
+      description: postObject.description,
+      status: postObject.status,
+      likes: likes,
+      tags: postObject.postTags.map((tag) => tag.tag.name),
+      user: {
+        id: postObject.user.id,
+        name: postObject.user.username,
+      },
+      createdAt: postObject.createdAt,
+      updatedAt: postObject.updatedAt,
+      images: images.filter((image) => image !== null), // filter out the null images
     });
   } catch (err: any) {
     if (err.code === "NotFound") {
@@ -139,5 +157,38 @@ export const getPost = async (req: Request, res: Response) => {
       error: "Failed to retrieve post",
       details: [{ message: "Server error" }],
     });
+  }
+};
+
+// get all posts from a user
+export const getUserPosts = async (req: Request, res: Response) => {
+  try {
+    const userId: string = req.query.userId as string; // Get the userId from the request
+    const posts = await prisma.post.findMany({
+      where: {
+        userId: userId,
+      },
+    });
+    if (!posts || posts.length === 0) {
+      res.status(StatusCodes.NOT_FOUND).json({
+        error: "No posts found",
+        details: [
+          {
+            message: `The user does not have any posts`,
+          },
+        ],
+      });
+      return;
+    }
+    res.status(StatusCodes.OK).json({
+      posts: posts,
+    });
+  } catch (err: any) {
+    console.error(err);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      error: "Failed to retrieve posts",
+      details: [{ message: "Server error" }],
+    });
+    return;
   }
 };

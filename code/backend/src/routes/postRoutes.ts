@@ -1,12 +1,14 @@
 import express from "express";
 import {
   getPost,
+  getUserPosts,
   uploadPost as uploadPost,
 } from "../controllers/postController";
 import { upload } from "../middleware/fileUpload";
-import { authenticateToken } from "../middleware/authenticateToken";
+
 import { validateData } from "../middleware/validationMiddleware";
 import { uploadPostSchema } from "../schemas/postSchemas";
+import { get } from "http";
 const router = express.Router();
 
 /**
@@ -56,16 +58,10 @@ const router = express.Router();
  *       200:
  *         description: Images uploaded successfully
  */
-router.post(
-  "/upload",
-  authenticateToken(),
-  upload,
-  validateData(uploadPostSchema),
-  uploadPost
-);
+router.post("/upload", upload, validateData(uploadPostSchema), uploadPost);
 /**
  * @swagger
- * /api/posts/get/{postId}:
+ * /api/posts/getPost/{postId}:
  *   get:
  *     summary: Get Post
  *     tags: [posts]
@@ -84,6 +80,27 @@ router.post(
  *       401:
  *         description: not authenticated
  */
-router.get("/get/:postId", getPost);
-
+router.get("/getPost/:userId", getPost);
+/**
+ * @swagger
+ * /api/posts/getUserPosts/{userId}:
+ *   get:
+ *     summary: Get Post
+ *     tags: [posts]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: postId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The user id
+ *     responses:
+ *       200:
+ *         description:  Ok
+ *       401:
+ *         description: not authenticated
+ */
+router.get("/getuserposts/:userId", getUserPosts);
 export default router;
