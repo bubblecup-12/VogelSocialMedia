@@ -8,12 +8,21 @@
   --Rotkehlchen-orange-default: #e79a0e;
 }
 
-.outest-container {
-  display: grid;
-  grid-template-rows: auto auto;
-  grid-template-columns: 1fr; /* 1 Spalte */
-  align-content: end;
+.background-birdsSky {
+  background: var(
+    --gradient-blue-backround-mobile,
+    linear-gradient(
+      270deg,
+      rgba(20, 15, 86, 0.27) 0%,
+      rgba(20, 15, 86, 0.58) 24%,
+      rgba(20, 15, 86, 0.74) 43%,
+      rgba(17, 13, 71, 0.82) 56%,
+      rgba(13, 10, 56, 0.9) 68%
+    ),
+    url("../public/assets/images/BirdsSky.jpg") lightgray 50% / cover no-repeat
+  );
 }
+
 .base-header {
   width: 100vw;
   display: flex;
@@ -25,40 +34,16 @@
   border-bottom: 3px solid var(--Rotkehlchen-brown1);
 }
 .header-title {
-  display: flex;
-  width: 162px;
-  height: 63px;
-  flex-direction: column;
-  justify-content: center;
-  flex-shrink: 0;
-
   color: var(--Rotkehlchen-orange-default);
-  text-align: center;
-
   font-size: 24px;
   font-style: normal;
   font-weight: 700;
   line-height: 40px;
 }
 
-@media (min-width: 768px) {
-  .menu-container {
-    align-items: end;
-    justify-content: end;
-    width: 100%;
-    display: flex;
-  }
-}
-
 .header-icon {
-  margin: 40px;
-  display: flex;
-  width: 30px;
-  height: 30px;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-shrink: 0;
 
   background-size: cover;
   background-repeat: no-repeat;

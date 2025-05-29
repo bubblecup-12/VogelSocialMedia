@@ -1,6 +1,7 @@
 import React, { use } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import './header.css';
 import { useState, useEffect } from 'react';
 import Header from './header';
 
@@ -27,7 +28,7 @@ useEffect(() => {
   const changeMail = (event : React.ChangeEvent<HTMLInputElement>) => {
     setMail(event.target.value);
   }
-  return (<Header/>);
+  return (<div className='background-birdsSky'> <Header/> </div>);
   return (
     <div className="App">
       {isCreate? <h1>Create Account</h1> :  <h1>Login</h1> }

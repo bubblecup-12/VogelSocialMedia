@@ -13,14 +13,16 @@ function Header() {
   };
 
   return (
-    <div className="" >
-      <header className="flex flex-col justify-between h-64">
-      <div className="header-icon"> {isOpen? <img src='/assets/icons/x.svg' alt="x" ref={iconRef} onClick={toggleMenu}/> : <img src='/assets/icons/three_menu_stripes_black.svg' alt="x" onClick={toggleMenu}  />} </div>
-        <div className="header-icon"> <img src='/assets/icons/feather_black.svg' alt="featherIcon" /> </div>
-        <p className="header-title rotate-90">
+    <div className="h-screen flex" >
+      <header className="flex flex-col justify-between">
+        <div className="header-icon cursor-pointer h-24 p-8" ref={iconRef} onClick={toggleMenu}> {isOpen? <img  src='/assets/icons/x_white.svg'  alt="x" /> : <img src='/assets/icons/menu30x25_white.svg' alt="x" onClick={toggleMenu}  />} </div>
+        <div className="header-icon cursor-pointer p-8"> <img className="w-8" src='/assets/icons/feather_white.svg' alt="featherIcon" /> </div>
+        <p className="header-title writing-vertical-lr whitespace-nowrap p-8 pl-7">
           Feather Feed
         </p>
-        
+  
+        <div className="header-icon cursor-pointer hover: p-8"> <img src='/assets/icons/plus_white.svg' alt="create post" /> </div>
+        <div className="header-icon cursor-pointer p-8"> <img src='/assets/icons/account_white.svg' alt="manage account" /> </div>
       </header>
       <Menu isOpen={isOpen} toggleMenu={toggleMenu} setIsOpen={setIsOpen} iconRef={iconRef}/> 
     </div>
