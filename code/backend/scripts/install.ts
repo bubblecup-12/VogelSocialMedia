@@ -6,6 +6,7 @@ import fs, { read } from "fs";
 import readlineSync from "readline-sync";
 import crypto from "crypto";
 import dotenv from "dotenv";
+import { minioClient } from "../src/server";
 
 type env_config = {
   name: string;
@@ -36,42 +37,41 @@ if (fs.existsSync(".env")) {
 
 if (missingConfigs.length < 1) {
   // if it`s all set abort the installation
-  process.exit(0);
-}
+  console.log("All required settings are already set in .env.");
+} else {
+  // getting user input for the PostgreSQL username and password
+  console.log("generrating .env file");
+  for (const setting of missingConfigs) {
+    if (!setting.generated) {
+      let input: string = "";
+      do {
+        input = readlineSync.question(
+          `Enter the ${setting.name} ${setting.default ? `(${setting.default})` : ""}: `,
+          { defaultInput: setting.default, hideEchoBack: setting.hide }
+        );
+      } while (!input);
+      process.env[setting.name] = input;
+    } else if (setting.name === "TOKEN_SECRET") {
+      // generating a random JWT secret
+      const jwtSecret: string = crypto.randomBytes(32).toString("hex"); // 64 Zeichen
+      process.env[setting.name] = jwtSecret;
+    }
+  }
+  let env: string = `DATABASE_URL="postgresql://${process.env["DB_USER"]}:${process.env["DB_PASSWORD"]}@localhost:5432/prisma"\n`;
+  for (const setting of config.requiredKeys) {
+    if (setting.name != "DATABASE_URL") {
+      env += `${setting.name}="${process.env[setting.name]}"\n`;
+    }
+  }
 
-// getting user input for the PostgreSQL username and password
-console.log("generrating .env file");
-for (const setting of missingConfigs) {
-  if (!setting.generated) {
-    let input: string = "";
-    do {
-      input = readlineSync.question(
-        `Enter the ${setting.name} ${setting.default ? `(${setting.default})` : ""}: `,
-        { defaultInput: setting.default, hideEchoBack: setting.hide }
-      );
-    } while (!input);
-    process.env[setting.name] = input;
-  } else if (setting.name === "TOKEN_SECRET") {
-    // generating a random JWT secret
-    const jwtSecret: string = crypto.randomBytes(32).toString("hex"); // 64 Zeichen
-    process.env[setting.name] = jwtSecret;
+  // writing the .env file
+  try {
+    fs.writeFileSync(".env", env);
+    console.log("File has been written successfully.");
+  } catch (err) {
+    console.error("Error writing to file:", err);
   }
 }
-let env: string = `DATABASE_URL="postgresql://${process.env["DB_USER"]}:${process.env["DB_PASSWORD"]}@localhost:5432/prisma"\n`;
-for (const setting of config.requiredKeys) {
-  if (setting.name != "DATABASE_URL") {
-    env += `${setting.name}="${process.env[setting.name]}"\n`;
-  }
-}
-
-// writing the .env file
-try {
-  fs.writeFileSync(".env", env);
-  console.log("File has been written successfully.");
-} catch (err) {
-  console.error("Error writing to file:", err);
-}
-
 // running the commands from the JSON file
 // The commands are executed in the order they are defined in the JSON file
 (async () => {
@@ -88,5 +88,19 @@ try {
     }
   }
 
+  // check if the images bucket exists in minIO
+  const exists = await new Promise<boolean>((resolve, reject) => {
+    minioClient
+      .bucketExists("images")
+      .then((exists: boolean) => resolve(exists))
+      .catch((err: Error) => reject(err));
+  });
+  if (!exists) {
+    // if the bucket does not exist, create it
+    await minioClient.makeBucket("images", "eu-west-1"); // region is required, but can be any valid region and doesn't mattter for minIO
+    console.log("Bucket 'images' created successfully.");
+  }
+
   console.log("Installation complete");
+  process.exit(0); // Exit the process after all commands are executed
 })();
