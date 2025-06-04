@@ -6,7 +6,7 @@
     "echo generating prisma",
     "yarn prisma generate",
     "echo migrating database",
-    "yarn prisma migrate dev --name init"
+    "yarn prisma migrate dev"
   ],
   "requiredKeys": [
     { "name": "DATABASE_URL", "generated": true },

@@ -129,7 +129,8 @@ code/frontend/node_modules
 
 # testing
 /coverage
-
+# generated
+code/backend/prisma/app
 # production
 build/
 dist/
