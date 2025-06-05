@@ -33,11 +33,13 @@ if (fs.existsSync(".env")) {
       missingConfigs.push(setting);
     }
   }
+} else {
+  missingConfigs = config.requiredKeys;
 }
-
-if (missingConfigs.length < 1) {
-  // if it`s all set abort the installation
-  console.log("All required settings are already set in .env.");
+  
+  if (missingConfigs.length < 1 ) {
+    // if it`s all set abort the installation
+    console.log("All required settings are already set in .env.");
 } else {
   // getting user input for the PostgreSQL username and password
   console.log("generrating .env file");

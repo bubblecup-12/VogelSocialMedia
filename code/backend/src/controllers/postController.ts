@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import dotenv from "dotenv";
 import { StatusCodes } from "http-status-codes";
 import { JwtPayload } from "jsonwebtoken";
-import { PrismaClient, Post } from "@prisma/client";
+import { PrismaClient, Post } from "../../prisma/app/generated/prisma/client";
 import { minioClient } from "../server";
 import { object } from "zod";
 import { uploadPostSchema } from "../schemas/postSchemas";
