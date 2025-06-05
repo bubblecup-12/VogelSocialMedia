@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { PrismaClient, User } from "@prisma/client";
+import { PrismaClient, User } from "../../prisma/app/generated/prisma/client";
 import { UserLoginDto, UserRegistrationDto } from "../schemas/userSchemas";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
