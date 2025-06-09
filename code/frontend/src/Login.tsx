@@ -1,8 +1,8 @@
-import React, { use } from 'react';
+//import React, { use } from 'react';
 import "./Login.css";
-import { useState, useEffect } from 'react';
+import { useState } from 'react'; //, useEffect
 import Header from './header';
-import { url } from 'inspector';
+//import { url } from 'inspector';
 
 
 function Login(){
@@ -20,20 +20,20 @@ function Login(){
                         {signup? "Sign Up": "Login"}
                     </div>
                     <div className='login-div-input'>
-                        <img className= 'login-icon' src='/assets/icons/email_orange.svg'></img>
+                        <img className= 'login-icon' src='/assets/icons/email_orange.svg' alt="icon username"></img>
                         <input type='text' className='login-input' placeholder='Username'></input>
                     </div>
                     {signup? <div className='login-div-input'>
-                        <img className= 'login-icon' src='\assets\icons\username_orange.svg'></img>
+                        <img className= 'login-icon' src='\assets\icons\username_orange.svg' alt="icon email"></img>
                         <input type='email' className='login-input' placeholder='Email'></input>
                     </div> : ""}
                     
                     <div className='login-div-input'>
-                        <img className= 'login-icon' src='\assets\icons\password_orange.svg'></img>
+                        <img className= 'login-icon' src='\assets\icons\password_orange.svg' alt="icon password"></img>
                         <input type='password' className='login-input'placeholder='Password'></input>
                     </div>
                         <input type='button' className='login-button' value={signup? "Signup": "Login"}></input>
-                        <div className='login-signup'>{signup? "Already have an account?": "Don't have an account yet?"} Click <a href='' className='login-link' onClick={toggleLogin}>here</a> {signup? "login": "to sign up"}</div>
+                        <div className='login-signup'>{signup? "Already have an account?": "Don't have an account yet?"} Click <input type="button" className='login-link' onClick={toggleLogin} value={'here'}></input> {signup? "login": "to sign up"}</div>
                 </div>
             </div>
         </div>
