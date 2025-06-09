@@ -99,7 +99,9 @@
 }
 .login-link{
     color: var(--Rotkehlchen-orange-default, #E79A0E);
-
+    background-color: transparent;
+    border: none;
+    text-decoration: underline;
     /* Body-M */
     font-family: Inter;
     font-size: 16px;
