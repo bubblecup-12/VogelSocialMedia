@@ -1,6 +1,8 @@
 import React, { use } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import './colors.css';
+import './fonts.css';
 import { useState, useEffect } from 'react';
 import Footer from './Footer';
 import Header from './header';
