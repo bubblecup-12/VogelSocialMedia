@@ -1,9 +1,17 @@
-import LoginSignUpPage from './LoginAndSignUpPage';
-
+import React, { use } from 'react';
+import logo from './logo.svg';
+import './App.css';
+import { useState, useEffect } from 'react';
+import Footer from './Footer';
+import Header from './header';
 
 function App() {
+  
   return (
-      <LoginSignUpPage/>
+    <div className="App">
+      <Header/>
+      <Footer/>
+    </div>
   );
 }
 
