@@ -1,11 +1,9 @@
-import React, { use } from 'react';
-import Login from './Login';
-import Header from './header';
+import LoginSignUpPage from './LoginAndSignUpPage';
 
 
 function App() {
   return (
-      <Login/>
+      <LoginSignUpPage/>
   );
 }
 
