@@ -10,7 +10,7 @@ function LoginAndSignUpPage(){
     const [signup, setSignup]= useState(false);
     return(
         <div className='login-display'>
-            <Header></Header>
+            <Header/>
             <div className="login-login">
                 <div className='login-part'>
                     <div className={signup? 'signup-image': 'login-image'}></div>
@@ -33,7 +33,7 @@ function LoginAndSignUpPage(){
                         <input type='password' className='login-input'placeholder='Password'></input>
                     </div>
                         <input type='button' className='login-button' value={signup? "Sign up": "Login"}></input>
-                        <div className='login-signup'>{signup? "Already have an account?": "Don't have an account yet?"} Click <input type="button" className='login-link' onClick={toggleLogin} value={'here'}></input> {signup? "login": "to sign up"}</div>
+                        <div className='login-signup' onClick={toggleLogin}>{signup? "Already have an account?": "Don't have an account yet?"} Click <span className='login-here'>here</span> {signup? "login": "to sign up"}</div>
                 </div>
             </div>
         </div>
