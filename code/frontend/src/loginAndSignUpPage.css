@@ -18,8 +18,7 @@
     background: var(--gradient-blue-backround-mobile, linear-gradient(270deg, rgba(20, 15, 86, 0.27) 0%, rgba(20, 15, 86, 0.58) 24%, rgba(20, 15, 86, 0.74) 43%, rgba(17, 13, 71, 0.82) 56%, rgba(13, 10, 56, 0.90) 68%), url('../public/assets/images/BirdsSky.jpg') lightgray 50% / cover no-repeat);
     align-items: center;
     justify-content: center;
-    min-width: 300px;
-    min-height: 400px;
+    
 }
 
 .login-text{
@@ -55,6 +54,7 @@
     gap: 10px;
     width: 150px;
     height: 32px;
+    cursor: pointer;
 
     border-radius: 10px;
     border: 2px solid var(--Rotkehlchen-orange-default);
@@ -107,11 +107,12 @@
     line-height: var(--Static-Body-Large-Line-Height, 24px); /* 150% */
     letter-spacing: var(--Static-Body-Large-Tracking, 0.5px);
 }
-.login-link{
+.login-here{
     color: var(--Rotkehlchen-orange-default, #E79A0E);
     background-color: transparent;
     border: none;
     text-decoration: underline;
+    cursor: pointer;
     /* Body-M */
     font-family: Inter;
     font-size: 16px;
@@ -124,6 +125,7 @@
 .login-signup{
     color: #FFF;
     text-align: center;
+    cursor: pointer;
 
     /* Body-M */
     font-family: Inter;
@@ -145,6 +147,10 @@
 
 /* Desktop view*/
 @media only screen and (min-width: 768px) {
+    .login-display{
+        min-width: 850px;
+        min-height: 800px;
+    }
     .login-login{
         display: flex;
         flex-direction: row;
@@ -155,8 +161,8 @@
         justify-content: start;
         width: 50vw;
         height: 60vh;
-        min-height: 300px;
-        min-width: 400px;
+        min-height: 400px;
+        min-width: 500px;
     }
     
     .login-image{
