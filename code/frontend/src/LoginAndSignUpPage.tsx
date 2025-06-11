@@ -1,8 +1,6 @@
-//import React, { use } from 'react';
 import "./loginAndSignUpPage.css";
-import { useState } from 'react'; //, useEffect
+import { useState } from 'react';
 import Header from './header';
-//import { url } from 'inspector';
 
 
 function LoginAndSignUpPage(){
