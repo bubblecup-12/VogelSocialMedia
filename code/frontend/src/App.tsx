@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Auth } from "./api/Auth";
 
 
+
 function App() {
 	return (
 		<Auth>
