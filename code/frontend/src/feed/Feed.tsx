@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "../header";
-import Footer from "../Footer";
+import Footer from "../footer/Footer";
 
 function Feed() {
     return (
