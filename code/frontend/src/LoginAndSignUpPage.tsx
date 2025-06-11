@@ -1,11 +1,11 @@
 //import React, { use } from 'react';
-import "./Login.css";
+import "./loginAndSignUpPage.css";
 import { useState } from 'react'; //, useEffect
 import Header from './header';
 //import { url } from 'inspector';
 
 
-function Login(){
+function LoginAndSignUpPage(){
     const toggleLogin=(event:React.MouseEvent<HTMLElement>)=>{event.preventDefault(); setSignup(!signup)};
     const [signup, setSignup]= useState(false);
     return(
@@ -32,11 +32,11 @@ function Login(){
                         <img className= 'login-icon' src='\assets\icons\password_orange.svg' alt="icon password"></img>
                         <input type='password' className='login-input'placeholder='Password'></input>
                     </div>
-                        <input type='button' className='login-button' value={signup? "Signup": "Login"}></input>
+                        <input type='button' className='login-button' value={signup? "Sign up": "Login"}></input>
                         <div className='login-signup'>{signup? "Already have an account?": "Don't have an account yet?"} Click <input type="button" className='login-link' onClick={toggleLogin} value={'here'}></input> {signup? "login": "to sign up"}</div>
                 </div>
             </div>
         </div>
     );
 }
-export default Login
+export default LoginAndSignUpPage

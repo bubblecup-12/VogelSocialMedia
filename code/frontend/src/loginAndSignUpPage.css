@@ -1,11 +1,12 @@
 :root {
   --Rotkehlchen-gray: #e7ecf2;
-  --Rotkehlchen-brown1: #a28d7a;
+  --Rotkehlchen-brown-light: #a28d7a;
   --Rotkehlchen-orange-default: #e79a0e;
   --Rotkehlchen-gray-default: #E7ECF2;
   --Rotkehlchen-brown-middle: #7F6D6D;
   --Rotkehlchen-yellow-default: #FED640;
   --Rotkehlchen-yellow-hover: #EAC22A;
+  --Rotkehlchen-brown-dark: #4C4141;
 }
 
 .login-display{
@@ -75,19 +76,28 @@
     display: flex;
     flex-direction: row;
     border-radius: 4px;
-    border: 2px solid var(--Rotkehlchen-brown-middle);
+    border: 3px solid var(--Rotkehlchen-brown-dark);
     background: #FFF;
     width:100%;
-    height: 32px;
+    height: 44px;
     align-items: center;
     justify-content: flex-start;
 }
 
+.login-div-input:hover{
+    border: 3px solid var(--Rotkehlchen-brown-middle);
+}
+
+.login-div-input:focus-within{
+    border: 3px solid var(--Rotkehlchen-orange-default)
+}
+
 .login-input{
     width: 100%;
-    height: 28px;
+    height: 40px;
     border: none;
     color: var(--Rotkehlchen-brown-middle);
+    outline: 0 !important;
 
     /* M3/body/large */
     font-family: var(--Static-Body-Large-Font, Roboto);
@@ -130,7 +140,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 18px;
+    gap: 24px;
 }
 
 /* Desktop view*/
@@ -160,7 +170,7 @@
 
         border-radius: 8px;
         border: 5px solid var(--Rotkehlchen-gray-default);
-        background-image: url("../public/assets/images/BirdLogin.jpg");
+        background-image: url("../public/assets/images/IceBirdLogin.jpg");
         background-size: cover;
         background-position: 75%;
     }
@@ -176,9 +186,9 @@
 
         border-radius: 8px;
         border: 5px solid var(--Rotkehlchen-gray-default);
-        background-image: url("../public/assets/images/OwlSignUp.png");
+        background-image: url("../public/assets/images/SummerOwlSignup.jpg");
         background-size: cover;
-        background-position: 75%;
+        /*background-position: 75%;*/
     }
 
     .login-part{
@@ -189,7 +199,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        gap: 1%;
+        gap: 24px;
     }
 
     
