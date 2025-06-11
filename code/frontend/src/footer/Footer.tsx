@@ -21,7 +21,7 @@ function Footer() {
 
       <div className="footer-right">
     
-          <a className="footer-link" href="#">Home</a>
+          <a className="footer-link" href="#">Home</a>i
           <a className="footer-link" href="#">About</a>
           <a className="footer-link" href="#">Login</a>
           <a className="footer-link" href="#">Sign up</a>
