@@ -1,8 +1,3 @@
-:root {
-  --Rotkehlchen-gray: #e7ecf2;
-  --Rotkehlchen-brown1: #a28d7a;
-  --Rotkehlchen-orange-default: #e79a0e;
-}
 
 /*mobile style first*/
 .footer {
@@ -29,7 +24,7 @@
   align-items: center;
   gap: 0.5rem;            /*Gap between icon and logo */
   text-decoration: none;  /*prevents constant underline*/
-  color: black;         
+  color: black;     
   font-weight: 500;
 }
 

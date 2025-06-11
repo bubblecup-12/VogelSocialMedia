@@ -1,0 +1,60 @@
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  src: url(../public/assets/fonts/Inter/static/Inter_24pt-Medium.ttf);
+  unicode-range: U+00-52F, U+1E00-1FFF, U+2200-22FF;
+}
+.title-h1 {
+  font-family: "Inter";
+  font-size: 2.5rem;
+  line-height: 130%;
+  letter-spacing: 3.2px;
+}
+
+.base-header-title {
+  font-family: "Lora";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 40px;
+}
+
+@media (width >= 768px) {
+  .title-h1 {
+    font-size: 4rem;
+  }
+}
+
+h1 {
+  font-family: "Inter";
+}
+@font-face {
+  font-family: "Lora";
+  font-style: normal;
+  src: url(../public/assets/fonts/Lora/Lora-VariableFont_wght.ttf);
+}
+.body-l,
+.body-m {
+  font-family: "Lora";
+}
+.body-l {
+  font-size: 1.5rem;
+  line-height: 110%;
+  letter-spacing: 1.2px;
+}
+.body-m {
+  font-size: 1rem;
+  line-height: 100%;
+  letter-spacing: 0.8px;
+}
+.footer-link {
+  font-family: "Lora";
+  font-size: 1rem;
+  line-height: 100%;
+  letter-spacing: 0.8px;
+}
+
+p {
+  font-family: "Lora";
+}
