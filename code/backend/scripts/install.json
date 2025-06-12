@@ -3,8 +3,6 @@
     "echo Starting installation...",
     "echo starting docker container",
     "yarn start-containers",
-    "echo generating prisma",
-    "yarn prisma generate",
     "echo migrating database",
     "yarn prisma migrate dev --name \"$(date +%Y%m%d%H%M%S)\""
   ],
