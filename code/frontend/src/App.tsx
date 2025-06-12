@@ -4,15 +4,12 @@ import './App.css';
 import './colors.css';
 import './fonts.css';
 import { useState, useEffect } from 'react';
-import Footer from './Footer';
-import Header from './header';
+import LoginAndSignUpPage from './LoginAndSignUpPage';
 
 function App() {
-  
   return (
     <div className="App">
-      <Header/>
-      <Footer/>
+      <LoginAndSignUpPage/>
     </div>
   );
 }
