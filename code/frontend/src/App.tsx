@@ -1,6 +1,6 @@
 import React, { use } from 'react';
 import logo from './logo.svg';
-import './App.css';
+import './app.css';
 import { useState, useEffect } from 'react';
 import Header from './Header';
 
