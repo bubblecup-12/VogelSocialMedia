@@ -1,7 +1,5 @@
 import "./loginAndSignUpPage.css";
 import { useState } from 'react';
-import Header from './header';
-import Footer from "./Footer";
 
 
 function LoginAndSignUpPage(){
