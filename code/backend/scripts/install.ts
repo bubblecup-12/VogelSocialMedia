@@ -75,6 +75,7 @@ if (fs.existsSync(".env")) {
     console.error("Error writing to file:", err);
   }
 }
+let failed: boolean = false;
 // running the commands from the JSON file
 // The commands are executed in the order they are defined in the JSON file
 (async () => {
@@ -87,6 +88,7 @@ if (fs.existsSync(".env")) {
       console.log(stdout); // Print the output of the command`);
     } catch (error: any) {
       console.log(`error: ${error.message}`);
+      failed = true;
       break; // Stop execution if an error occurs
     }
   }
@@ -104,6 +106,6 @@ if (fs.existsSync(".env")) {
     console.log("Bucket 'images' created successfully.");
   }
 
-  console.log("Installation complete");
+  console.log(failed?"installation failed":"Installation complete");
   process.exit(0); // Exit the process after all commands are executed
 })();

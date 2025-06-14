@@ -10,7 +10,11 @@ services:
       POSTGRES_DB: prisma
     volumes:
       - pgdata:/var/lib/postgresql/data
-
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
   minio:
     image: quay.io/minio/minio
     container_name: minio

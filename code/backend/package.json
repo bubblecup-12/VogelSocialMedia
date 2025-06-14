@@ -16,7 +16,6 @@
     "jsonwebtoken": "^9.0.2",
     "minio": "^8.0.5",
     "multer": "^2.0.0",
-    "node": "^22.15.0",
     "pg": "^8.15.6",
     "readline-sync": "^1.4.10",
     "swagger-jsdoc": "^6.2.8",
@@ -37,7 +36,7 @@
     "typescript": "^5.8.3"
   },
   "scripts": {
-    "start-containers": "docker-compose -f ../db/docker-compose.yaml --env-file .env up -d",
+    "start-containers": "docker compose -f ../db/docker-compose.yaml --env-file .env up -d --wait",
     "stop-containers": "docker-compose down",
     "start": "yarn start-containers && nodemon src/server.ts",
     "start-no-docker": "nodemon src/server.ts",
