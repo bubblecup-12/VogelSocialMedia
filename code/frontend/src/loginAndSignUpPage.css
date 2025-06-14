@@ -104,6 +104,14 @@
     gap: 24px;
 }
 
+.input-fields {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 16px;
+}
+
 /* Desktop view*/
 @media only screen and (min-width: 768px) {
     .login-display{
