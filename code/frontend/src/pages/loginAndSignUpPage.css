@@ -143,7 +143,7 @@
 
         border-radius: 8px;
         border: 5px solid var(--Rotkehlchen-gray);
-        background-image: url("../public/assets/images/IceBirdLogin.jpg");
+        background-image: url("../../public/assets/images/IceBirdLogin.jpg");
         background-size: cover;
         background-position: 75%;
     }
@@ -159,7 +159,7 @@
 
         border-radius: 8px;
         border: 5px solid var(--Rotkehlchen-gray);
-        background-image: url("../public/assets/images/SummerOwlSignup.jpg");
+        background-image: url("../../public/assets/images/SummerOwlSignup.jpg");
         background-size: cover;
         /*background-position: 75%;*/
     }
