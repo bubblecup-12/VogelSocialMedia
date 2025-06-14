@@ -18,3 +18,6 @@
 # Finanzen
 Von 10 - 20 % der Zeit in Meetings / Planung verbuchen.
 
+# Lessons learned
+nicht mit git übertreiben (Keine komplexen Dinge versuchen, das macht alles nur schlimmer)
+
