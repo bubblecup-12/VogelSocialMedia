@@ -1,4 +1,4 @@
-.login-display{
+.background{
     display: flex;
     flex-direction: column;
     height: 100vh; /* Full viewport height */
@@ -6,7 +6,7 @@
     background: var(--gradient-blue-backround-mobile);
     align-items: center;
     justify-content: center;
-    
+    background-attachment: fixed;
 }
 
 .login-text{
