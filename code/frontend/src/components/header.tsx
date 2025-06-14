@@ -15,11 +15,11 @@ function Header() {
   return (
     <div className="outest-container" >
       <header className="base-header">
-        <div className="base-header-icon"> <img src='/assets/icons/feather_black.svg' alt="featherIcon" /> </div>
-        <p className="header-title small-title">
+        <div className="header-icon"> <img src='/assets/icons/feather_orange.svg' alt="featherIcon" /> </div>
+        <p className="header-title">
           Feather Feed
         </p>
-        <div className="header-icon"> {isOpen? <img src='/assets/icons/x.svg' alt="x" ref={iconRef} onClick={toggleMenu}/> : <img src='/assets/icons/three_menu_stripes_black.svg' alt="x" onClick={toggleMenu}  />} </div>
+        <div className="header-icon"> {isOpen? <img src='/assets/icons/close_orange.svg' alt="close menu" ref={iconRef} onClick={toggleMenu}/> : <img src='/assets/icons/menu_orange.svg' alt="menu" onClick={toggleMenu}  />} </div>
       </header>
       <Menu isOpen={isOpen} toggleMenu={toggleMenu} setIsOpen={setIsOpen} iconRef={iconRef}/> 
     </div>
