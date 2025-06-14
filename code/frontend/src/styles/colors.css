@@ -1,10 +1,19 @@
 :root {
-    --Rotkehlchen-gray: #e7ecf2;
-    --Rotkehlchen-brown-light: #a28d7a;
-    --Rotkehlchen-brown-middle: #7F6D6D;
-    --Rotkehlchen-brown-dark: #4C4141;
-    --Rotkehlchen-yellow-default: #FED640;
-    --Rotkehlchen-yellow-hover: #EAC22A;
-    --Rotkehlchen-orange-default: #e79a0e;
-    --gradient-blue-backround-mobile: linear-gradient(270deg, rgba(20, 15, 86, 0.27) 0%, rgba(20, 15, 86, 0.58) 24%, rgba(20, 15, 86, 0.74) 43%, rgba(17, 13, 71, 0.82) 56%, rgba(13, 10, 56, 0.90) 68%), url('../../public/assets/images/BirdsSky.jpg') lightgray 50% / cover no-repeat;
-  }
+  --Rotkehlchen-gray: #e7ecf2;
+  --Rotkehlchen-brown-light: #a28d7a;
+  --Rotkehlchen-brown-middle: #7f6d6d;
+  --Rotkehlchen-brown-dark: #4c4141;
+  --Rotkehlchen-yellow-default: #fed640;
+  --Rotkehlchen-yellow-hover: #eac22a;
+  --Rotkehlchen-orange-default: #e79a0e;
+  --gradient-blue-backround-mobile: linear-gradient(
+      270deg,
+      rgba(20, 15, 86, 0.27) 0%,
+      rgba(20, 15, 86, 0.58) 24%,
+      rgba(20, 15, 86, 0.74) 43%,
+      rgba(17, 13, 71, 0.82) 56%,
+      rgba(13, 10, 56, 0.9) 68%
+    ),
+    url("../../public/assets/images/BirdsSky.jpg") lightgray 50% / cover
+      no-repeat;
+}

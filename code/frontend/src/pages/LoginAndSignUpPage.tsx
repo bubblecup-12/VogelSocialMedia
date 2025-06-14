@@ -8,7 +8,7 @@ function LoginAndSignUpPage() {
   };
   const [signup, setSignup] = useState(false);
   return (
-    <div className="login-display">
+    <div className="background">
       <div className="login-login">
         <div className="login-part">
           <div className={signup ? "signup-image" : "login-image"}></div>
