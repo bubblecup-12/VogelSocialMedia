@@ -13,23 +13,27 @@
       "name": "DB_USER",
       "generated": false,
       "default": "postgres",
-      "hide": false
+      "hide": false,
+      "minLength": 4
     },
     {
       "name": "DB_PASSWORD",
       "generated": false,
-      "hide": true
+      "hide": true,
+      "minLength": 8
     },
     {
       "name": "MINIO_USER",
       "generated": false,
       "default": "minIO",
-      "hide": false
+      "hide": false,
+      "minLength": 4
     },
     {
       "name": "MINIO_PASSWORD",
       "generated": false,
-      "hide": true
+      "hide": true,
+      "minLength":8
     }
   ]
 }
