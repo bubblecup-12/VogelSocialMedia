@@ -1,6 +1,7 @@
 import "./loginAndSignUpPage.css";
 import { useState } from 'react';
 import Header from './header';
+import Footer from "./Footer";
 
 
 function LoginAndSignUpPage(){
@@ -8,13 +9,12 @@ function LoginAndSignUpPage(){
     const [signup, setSignup]= useState(false);
     return(
         <div className='login-display'>
-            <Header/>
             <div className="login-login">
                 <div className='login-part'>
                     <div className={signup? 'signup-image': 'login-image'}></div>
                 </div>
                 <div className='login-part' >
-                    <div className='login-text'>
+                    <div className='login-text small-title'>
                         {signup? "Sign Up": "Login"}
                     </div>
                     <div className='login-div-input'>
@@ -30,8 +30,8 @@ function LoginAndSignUpPage(){
                         <img className= 'login-icon' src='\assets\icons\password_orange.svg' alt="icon password"></img>
                         <input type='password' className='login-input'placeholder='Password'></input>
                     </div>
-                        <input type='button' className='login-button' value={signup? "Sign up": "Login"}></input>
-                        <div className='login-signup' onClick={toggleLogin}>{signup? "Already have an account?": "Don't have an account yet?"} Click <span className='login-here'>here</span> {signup? "login": "to sign up"}</div>
+                        <input type='button' className='login-button body-m' value={signup? "Sign up": "Login"}></input>
+                        <div className='login-signup body-m' onClick={toggleLogin}>{signup? "Already have an account?": "Don't have an account yet?"} Click <span className='login-here body-m'>here</span> {signup? "login.": "to sign up."}</div>
                 </div>
             </div>
         </div>
