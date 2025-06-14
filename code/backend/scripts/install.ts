@@ -14,6 +14,7 @@ type env_config = {
   input?: string;
   default?: string;
   hide?: boolean;
+  minLength: number;
 };
 type json_config = {
   commands: string[];
@@ -29,7 +30,7 @@ let missingConfigs: env_config[] = [];
 if (fs.existsSync(".env")) {
   dotenv.config();
   for (const setting of config.requiredKeys) {
-    if (!process.env[setting.name]) {
+    if (!process.env[setting.name] || process.env[setting.name]!.length <= setting.minLength) {
       missingConfigs.push(setting);
     }
   }
@@ -48,10 +49,10 @@ if (fs.existsSync(".env")) {
       let input: string = "";
       do {
         input = readlineSync.question(
-          `Enter the ${setting.name} ${setting.default ? `(${setting.default})` : ""}: `,
+          `Enter the ${setting.name} ${setting.default ? `(${setting.default})` : "" + ` min: ${setting.minLength}`}: `,
           { defaultInput: setting.default, hideEchoBack: setting.hide }
         );
-      } while (!input);
+      } while (!input && input.length <= setting.minLength);
       process.env[setting.name] = input;
     } else if (setting.name === "TOKEN_SECRET") {
       // generating a random JWT secret
