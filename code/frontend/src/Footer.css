@@ -3,13 +3,14 @@
 .footer {
   display: flex;
   flex-direction: row;
-  align-items:flex-start;
+  align-items: flex-start;
   justify-content: space-between;
   background-color: var(--Rotkehlchen-gray);
   padding: 1rem;
   gap: 2rem;
   text-align: center;
   text-decoration: none;
+
 }
 
 .footer-left {
