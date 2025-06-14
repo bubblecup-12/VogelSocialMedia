@@ -1,9 +1,9 @@
 import "./App.css";
-import "./colors.css";
-import "./fonts.css";
-import LoginAndSignUpPage from "./LoginAndSignUpPage";
-import Footer from "./Footer";
-import Header from "./header";
+import "./styles/colors.css";
+import "./styles/fonts.css";
+import LoginAndSignUpPage from "./pages/LoginAndSignUpPage";
+import Footer from "./components/Footer";
+import Header from "./components/header";
 
 function App() {
   return (
