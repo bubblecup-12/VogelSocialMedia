@@ -3,10 +3,37 @@
     "echo Starting installation...",
     "echo starting docker container",
     "yarn start-containers",
-    "echo generating prisma",
-    "yarn prisma generate",
     "echo migrating database",
-    "yarn prisma migrate dev --name init"
+    "yarn prisma migrate dev --name \"$(date +%Y%m%d%H%M%S)\""
   ],
-  "requiredKeys": ["DATABASE_URL", "TOKEN_SECRET", "DB_USER", "DB_PASSWORD"]
+  "requiredKeys": [
+    { "name": "DATABASE_URL", "generated": true },
+    { "name": "TOKEN_SECRET", "generated": true },
+    {
+      "name": "DB_USER",
+      "generated": false,
+      "default": "postgres",
+      "hide": false,
+      "minLength": 4
+    },
+    {
+      "name": "DB_PASSWORD",
+      "generated": false,
+      "hide": true,
+      "minLength": 8
+    },
+    {
+      "name": "MINIO_USER",
+      "generated": false,
+      "default": "minIO",
+      "hide": false,
+      "minLength": 4
+    },
+    {
+      "name": "MINIO_PASSWORD",
+      "generated": false,
+      "hide": true,
+      "minLength":8
+    }
+  ]
 }
