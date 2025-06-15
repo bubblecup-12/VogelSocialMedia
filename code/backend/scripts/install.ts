@@ -52,7 +52,7 @@ if (fs.existsSync(".env")) {
           `Enter the ${setting.name} ${setting.default ? `(${setting.default})` : "" + ` min: ${setting.minLength}`}: `,
           { defaultInput: setting.default, hideEchoBack: setting.hide }
         );
-      } while (!input && input.length <= setting.minLength);
+      } while (!input || input.length < setting.minLength);
       process.env[setting.name] = input;
     } else if (setting.name === "TOKEN_SECRET") {
       // generating a random JWT secret
