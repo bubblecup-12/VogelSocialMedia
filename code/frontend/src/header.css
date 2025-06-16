@@ -11,8 +11,8 @@
   justify-content: space-between;
   align-items: center;
   flex-shrink: 0;
-  border-bottom: 3px solid var(--Rotkehlchen-brown1);
-  background: var(--Rotkehlchen-gray);
+  background: hsla(244, 70%, 13%, 0.71);
+  backdrop-filter: blur(8px);
   position: fixed;
   top: 0;
   left: 0;

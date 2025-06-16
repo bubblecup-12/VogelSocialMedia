@@ -1,0 +1,80 @@
+.profile-display {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Full viewport height */
+  width: 100vw; /* Full viewport width */
+  position: absolute;
+  background: var(
+    --gradient-blue-backround-mobile,
+    linear-gradient(
+      270deg,
+      rgba(20, 15, 86, 0.27) 0%,
+      rgba(20, 15, 86, 0.58) 24%,
+      rgba(20, 15, 86, 0.74) 43%,
+      rgba(17, 13, 71, 0.82) 56%,
+      rgba(13, 10, 56, 0.9) 68%
+    ),
+    url("../public/assets/images/BirdsSky.jpg") lightgray 50% / cover no-repeat
+  );
+  align-items: center;
+  background-attachment: fixed;
+  z-index: -1;
+}
+
+.user {
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    gap: 20px;
+    padding: 2rem;
+  }
+
+  .post-number {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--Rotkehlchen-brown-dark);
+  }
+
+  .profile-username {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--Rotkehlchen-brown-dark);
+  }
+
+  .image-list {
+    width: fit-content;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+
+@media screen and (min-width: 768px) {
+  .user-info {
+    display: flex;
+    flex-direction: row;
+    margin-top: 2rem;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .user {
+    width: 553px;
+  }
+
+  .post-number {
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  .profile-username {
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  .image-list {
+    width: fit-content;
+    /* TODO: Fix size of shown list (crop images on bottom of screen */
+    max-height: 600px;
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+}
