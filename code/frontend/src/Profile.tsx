@@ -4,6 +4,7 @@ import { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import QuiltedImageList from "./QuiltedImageList";
 import { deepOrange } from "@mui/material/colors";
+import Hashtags from "./Hashtags";
 
 function Profile() {
   return (
