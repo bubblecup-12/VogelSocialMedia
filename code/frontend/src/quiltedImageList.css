@@ -1,0 +1,22 @@
+
+.quilted-image-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+  margin: auto;
+}
+
+
+
+@media only screen and (min-width: 768px) {
+  .quilted-image-list {
+    display: flex;
+    gap: 10px;
+    width: fit-content;
+    justify-content: center;
+    align-self: center;
+  }
+}
