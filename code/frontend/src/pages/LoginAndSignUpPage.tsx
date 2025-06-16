@@ -22,7 +22,7 @@ function LoginAndSignUpPage() {
             <div className="login-div-input">
               <img
                 className="login-icon"
-                src="/assets/icons/email_orange.svg"
+                src="/assets/icons/username_orange.svg"
                 alt="icon username"
               ></img>
               <input
@@ -35,7 +35,7 @@ function LoginAndSignUpPage() {
               <div className="login-div-input">
                 <img
                   className="login-icon"
-                  src="\assets\icons\username_orange.svg"
+                  src="\assets\icons\email_orange.svg"
                   alt="icon email"
                 ></img>
                 <input
