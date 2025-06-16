@@ -1,23 +1,53 @@
-.background {
+:root {
+  --Rotkehlchen-gray: #e7ecf2;
+  --Rotkehlchen-brown-light: #a28d7a;
+  --Rotkehlchen-orange-default: #e79a0e;
+  --Rotkehlchen-gray-default: #e7ecf2;
+  --Rotkehlchen-brown-middle: #7f6d6d;
+  --Rotkehlchen-yellow-default: #fed640;
+  --Rotkehlchen-yellow-hover: #eac22a;
+  --Rotkehlchen-brown-dark: #4c4141;
+}
+
+.login-display {
   display: flex;
   flex-direction: column;
   height: 100vh; /* Full viewport height */
   width: 100vw; /* Full viewport width */
-  background: var(--gradient-blue-backround-mobile);
+  position: absolute;
+  background: var(
+    --gradient-blue-backround-mobile,
+    linear-gradient(
+      270deg,
+      rgba(20, 15, 86, 0.27) 0%,
+      rgba(20, 15, 86, 0.58) 24%,
+      rgba(20, 15, 86, 0.74) 43%,
+      rgba(17, 13, 71, 0.82) 56%,
+      rgba(13, 10, 56, 0.9) 68%
+    ),
+    url("../public/assets/images/BirdsSky.jpg") lightgray 50% / cover no-repeat
+  );
   align-items: center;
   justify-content: center;
-  background-attachment: fixed;
+  z-index: -1;
 }
 
 .login-text {
   display: flex;
-  padding: 40px;
+  padding: 8px 40px 40px 40px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 18px;
-  color: var(--Rotkehlchen-gray);
+  color: var(--Rotkehlchen-gray-default);
   text-align: center;
+
+  /* Body-L */
+  font-family: Inter;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 40px; /* 166.667% */
 }
 
 .login-icon {
@@ -79,36 +109,51 @@
   border: none;
   color: var(--Rotkehlchen-brown-middle);
   outline: 0 !important;
+
+  /* M3/body/large */
+  font-family: var(--Static-Body-Large-Font, Roboto);
+  font-size: var(--Static-Body-Large-Size, 16px);
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--Static-Body-Large-Line-Height, 24px); /* 150% */
+  letter-spacing: var(--Static-Body-Large-Tracking, 0.5px);
 }
 .login-here {
-  color: var(--Rotkehlchen-orange-default);
+  color: var(--Rotkehlchen-orange-default, #e79a0e);
   background-color: transparent;
   border: none;
   text-decoration: underline;
   cursor: pointer;
+  /* Body-M */
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 17px;
+  letter-spacing: 0.8px;
 }
 
 .login-signup {
   color: #fff;
   text-align: center;
   cursor: pointer;
+
+  /* Body-M */
+  font-family: Inter;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 17px; /* 106.25% */
+  letter-spacing: 0.8px;
 }
 
 .login-part {
   display: flex;
   padding: 8px 40px 40px 40px;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   gap: 24px;
-}
-
-.input-fields {
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 16px;
 }
 
 /* Desktop view*/
@@ -129,7 +174,6 @@
     height: 60vh;
     min-height: 400px;
     min-width: 500px;
-    backdrop-filter: blur(8px);
   }
 
   .login-image {
@@ -142,8 +186,8 @@
     align-items: center;
 
     border-radius: 8px;
-    border: 5px solid var(--Rotkehlchen-gray);
-    background-image: url("../../public/assets/images/IceBirdLogin.jpg");
+    border: 5px solid var(--Rotkehlchen-gray-default);
+    background-image: url("../public/assets/images/IceBirdLogin.jpg");
     background-size: cover;
     background-position: 75%;
   }
@@ -158,8 +202,8 @@
     align-items: center;
 
     border-radius: 8px;
-    border: 5px solid var(--Rotkehlchen-gray);
-    background-image: url("../../public/assets/images/SummerOwlSignup.jpg");
+    border: 5px solid var(--Rotkehlchen-gray-default);
+    background-image: url("../public/assets/images/SummerOwlSignup.jpg");
     background-size: cover;
     /*background-position: 75%;*/
   }
@@ -170,19 +214,8 @@
     padding: 3%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     gap: 24px;
   }
-
-  .input-fields {
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    justify-content: center;
-    gap: 16px;
-  }
-}
-.error-messages {
-  color: red;
 }
