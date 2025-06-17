@@ -7,12 +7,15 @@
 .base-header {
   width: 100vw;
   display: flex;
-  height: 76px;
+  height: 50px;
   justify-content: space-between;
   align-items: center;
   flex-shrink: 0;
   border-bottom: 3px solid var(--Rotkehlchen-brown1);
   background: var(--Rotkehlchen-gray);
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 .base-header-title {
   display: flex;
