@@ -1,5 +1,6 @@
 import "./header.css";
 import React, { useState, useRef, useEffect } from "react";
+import { Menu, MenuItem } from '@mui/material';
 
 
 // TODO: Dinge so umstrukturieren, dass der State für das offene menü in Header ist und das Menü auch in Header, sodass es mit width 100% die volle breite einnehmen kann
@@ -21,13 +22,13 @@ function Header() {
         </p>
         <div className="header-icon"> {isOpen? <img src='/assets/icons/close_orange.svg' alt="close menu" ref={iconRef} onClick={toggleMenu}/> : <img src='/assets/icons/menu_orange.svg' alt="menu" onClick={toggleMenu}  />} </div>
       </header>
-      <Menu isOpen={isOpen} toggleMenu={toggleMenu} setIsOpen={setIsOpen} iconRef={iconRef}/> 
+      <Menu1 isOpen={isOpen} toggleMenu={toggleMenu} setIsOpen={setIsOpen} iconRef={iconRef}/> 
     </div>
   );
 }
 
 
-function Menu({isOpen, toggleMenu, setIsOpen, iconRef}: any) {
+function Menu1({isOpen, toggleMenu, setIsOpen, iconRef}: any) {
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -45,16 +46,15 @@ function Menu({isOpen, toggleMenu, setIsOpen, iconRef}: any) {
 
   return (
     <div className="menu-container">
-      {isOpen && (
-        <div className="menu" ref={menuRef}>
-          <div className="menu-item">Home</div>
-          <div className="menu-item">Login</div>
-          <div className="menu-item">Sign up</div>
-          <div className="menu-item">Feed</div>
-          <div className="menu-item">Create Post</div>
-          <div className="menu-item">About</div>
-        </div>
-      )}
+      <Menu
+        
+        open={isOpen}
+        onClose={toggleMenu}
+      >
+        <MenuItem onClick={toggleMenu}>Option 1</MenuItem>
+        <MenuItem onClick={toggleMenu}>Option 2</MenuItem>
+        <MenuItem onClick={toggleMenu}>Option 3</MenuItem>
+      </Menu>
     </div>
   );
 };

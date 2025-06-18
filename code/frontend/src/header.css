@@ -3,21 +3,23 @@
   --Rotkehlchen-brown1: #a28d7a;
   --Rotkehlchen-orange-default: #e79a0e;
 }
-
 .outest-container {
-  display: grid;
-  grid-template-rows: auto auto;
-  grid-template-columns: 1fr; /* 1 Spalte */
-  align-content: end;
+  display: flex;
+  flex-direction: row;
+  justify-content: baseline;
 }
 .base-header {
   width: 100vw;
   display: flex;
-  height: 76px;
+  height: 50px;
   justify-content: space-between;
   align-items: center;
   flex-shrink: 0;
-  background: rgba(255, 255, 255, 0.25);
+  background: hsla(244, 70%, 13%, 0.71);
+  backdrop-filter: blur(8px);
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 .header-title {
   display: flex;
@@ -36,6 +38,11 @@
   line-height: 40px;
 }
 
+.menu-container {
+  align-items: end;
+  justify-content: end;
+  background-color: #e79a0e;
+}
 @media (min-width: 768px) {
   .menu-container {
     align-items: end;
