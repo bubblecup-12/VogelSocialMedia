@@ -10,7 +10,6 @@ import Feed from './feed/Feed';
 function App() {
   return (
     <div className="App">
-      <LoginAndSignUpPage/>
       <Feed/>
     </div>
   );
