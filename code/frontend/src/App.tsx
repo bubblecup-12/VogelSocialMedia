@@ -1,18 +1,16 @@
-import React, { use } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import { useState, useEffect } from 'react';
-import LoginAndSignUpPage from './LoginAndSignUpPage';
-import Profile from './Profile';
-import Header from './header';
-import Test from './test';
-import Footer from './Footer';
+import "./App.css";
+import "./styles/colors.css";
+import "./styles/fonts.css";
+import LoginAndSignUpPage from "./pages/LoginAndSignUpPage";
+import Footer from "./components/Footer";
+import Header from "./components/header";
 
 function App() {
   return (
     <div className="App">
-      <Test />
-      <Profile/>
+      <Header />
+      <LoginAndSignUpPage />
+      <Footer />
     </div>
   );
 }
