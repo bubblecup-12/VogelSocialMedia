@@ -18,7 +18,7 @@ function Header() {
       <header className="base-header">
         <div className="header-icon"> <img src='/assets/icons/feather_orange.svg' alt="featherIcon" /> </div>
         <p className="header-title">
-          Feather Feed
+          FeatherFeed
         </p>
         <div className="header-icon"> {isOpen? <img src='/assets/icons/close_orange.svg' alt="close menu" ref={iconRef} onClick={toggleMenu}/> : <img src='/assets/icons/menu_orange.svg' alt="menu" onClick={toggleMenu}  />} </div>
       </header>
