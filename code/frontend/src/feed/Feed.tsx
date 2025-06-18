@@ -49,8 +49,9 @@ function Feed() {
 
   return (
     <div className="feedContainer">
+        
+      <main className="feedContent" ref={feedRef}>^
         <Post/>
-      <main className="feedContent" ref={feedRef}>
         {posts.map((postId, idx) => (
           <TestPost key={idx} postId={postId} />
         ))}
