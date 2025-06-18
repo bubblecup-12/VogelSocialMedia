@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import TestPost from "../TestPost";
 import "./feed.css";
+import Post from "../Post";
 
 function Feed() {
   const [posts, setPosts] = useState<number[]>([]);
@@ -48,6 +49,7 @@ function Feed() {
 
   return (
     <div className="feedContainer">
+        <Post/>
       <main className="feedContent" ref={feedRef}>
         {posts.map((postId, idx) => (
           <TestPost key={idx} postId={postId} />
