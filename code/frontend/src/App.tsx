@@ -2,13 +2,15 @@ import "./App.css";
 import "./styles/colors.css";
 import "./styles/fonts.css";
 import LoginAndSignUpPage from "./pages/LoginAndSignUpPage";
-import Footer from "./components/Footer";
-import Header from "./components/header";
+import Footer from "./components/footer/Footer";
+
+import Feed from './components/feed/Feed';
 
 function App() {
   return (
     <div className="App">
-      <LoginAndSignUpPage/>
+      <Feed/>
+      <Footer/>
     </div>
   );
 }

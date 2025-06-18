@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import TestPost from "../TestPost";
+import TestPost from "../../TestPost";
 import "./feed.css";
 
 function Feed() {
