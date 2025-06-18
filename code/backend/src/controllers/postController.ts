@@ -13,6 +13,7 @@ export const uploadPost = async (req: Request, res: Response) => {
   const user: JwtPayload = req.user!; // Get the user from the request
   const { description, status, tags } = uploadPostSchema.parse(req.body);
   const BUCKET = "images"; // Name of the bucket where the images are stored
+  
   try {
     const uploads = await Promise.all(
       files.map(async (file) => {
@@ -57,16 +58,15 @@ export const uploadPost = async (req: Request, res: Response) => {
           })),
         },
       },
-    }); // create a new post in the database
+    }); 
+    // create a new post in the database
     res.status(StatusCodes.CREATED).json({
       message: "Upload successful",
       post: post,
     });
   } catch (err) {
     console.error(err);
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ error: "Upload failed" });
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: "Upload failed" });
   }
 };
 
