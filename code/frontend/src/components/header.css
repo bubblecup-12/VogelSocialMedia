@@ -1,0 +1,103 @@
+:root {
+  --Rotkehlchen-gray: #e7ecf2;
+  --Rotkehlchen-brown1: #a28d7a;
+  --Rotkehlchen-orange-default: #e79a0e;
+}
+.outest-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: baseline;
+}
+.base-header {
+  width: 100vw;
+  display: flex;
+  height: 50px;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  background: hsla(244, 70%, 13%, 0.71);
+  backdrop-filter: blur(8px);
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+.header-title {
+  display: flex;
+  width: 162px;
+  height: 63px;
+  flex-direction: column;
+  justify-content: center;
+  flex-shrink: 0;
+
+  color: var(--Rotkehlchen-orange-default);
+  text-align: center;
+}
+
+.menu-container {
+  align-items: end;
+  justify-content: end;
+  background-color: #e79a0e;
+}
+@media (min-width: 768px) {
+  .menu-container {
+    align-items: end;
+    justify-content: end;
+    width: 100%;
+    display: flex;
+  }
+}
+
+.header-icon {
+  margin: 40px;
+  display: flex;
+  width: 30px;
+  height: 30px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* ------------- MENÜ ------------- */
+
+.menu {
+  z-index: 1;
+  margin-top: -3px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 3px solid var(--Rotkehlchen-brown1);
+  background: var(--Rotkehlchen-gray);
+  padding-block-end: 13px;
+  justify-self: end;
+}
+
+@media (min-width: 768px) {
+  .menu {
+    width: 200px;
+    margin-top: 0px;
+    flex-direction: column;
+    justify-content: center;
+
+    background: var(--Rotkehlchen-gray);
+    padding-block-end: 13px;
+    border-bottom: 0px solid var(--Rotkehlchen-brown1);
+    /*
+    border-bottom: 3px solid var(--Rotkehlchen-brown1);
+    border-left: 3px solid var(--Rotkehlchen-brown1); */
+  }
+}
+
+.menu-item {
+  width: 80%;
+  text-align: center;
+  align-content: center;
+  padding-block-start: 13px;
+  padding-block-end: 13px;
+  padding-inline-start: 20px;
+  padding-inline-end: 20px;
+}

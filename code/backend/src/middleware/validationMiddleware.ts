@@ -16,10 +16,13 @@ export function validateData(schema: z.ZodObject<any, any>) {
         res
           .status(StatusCodes.BAD_REQUEST)
           .json({ error: "Invalid data", details: errorMessages });
+        return;
       } else {
         res
           .status(StatusCodes.INTERNAL_SERVER_ERROR)
           .json({ error: "Internal Server Error" });
+        console.error("Unexpected error:", error);
+        return;
       }
     }
   };
