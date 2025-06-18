@@ -18,51 +18,115 @@
   );
   align-items: center;
   background-attachment: fixed;
+  padding-top: var(--Header-hight);
   z-index: -1;
 }
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    border-radius: 1rem;
+    background-color: hsla(244, 70%, 13%, 0.71);
+    backdrop-filter: blur(8px);
+    margin-top: 1rem;
+  }
 
 .user {
     display: flex;
     width: fit-content;
     align-items: center;
     gap: 20px;
-    padding: 2rem;
+    margin: 2rem;
+    border-radius: 1rem;
   }
 
-  .post-number {
-    font-size: 20px;
-    font-weight: 500;
-    color: var(--Rotkehlchen-brown-dark);
+  .numeral-data {
+    display: flex;
+    flex-direction: row;
+    font-size: 18px;
+    font-weight: 500;   
+    color: var(--Rotkehlchen-gray-default);
+    border-radius: 1rem;
+  }
+
+  .data {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem;
+  }
+
+  .profile-avatar {
+    width: 40px;
+    height: 40px;
+    background-color: aqua;
   }
 
   .profile-username {
     font-size: 24px;
     font-weight: 700;
-    color: var(--Rotkehlchen-brown-dark);
+    color: var(--Rotkehlchen-orange-default);
   }
 
-  .image-list {
-    width: fit-content;
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
+  .edit-profile {
+    color: var(--Rotkehlchen-orange-default);
+    font-size: 25px;
+  }
+
+  .bio {
+    display: flex;
+    align-content: start;
+    padding: 2px;
+    border: 1px solid var(--Rotkehlchen-brown-light);
+    color: aliceblue;
+  }
+
+  .divider {
+    border-color: var(--Rotkehlchen-brown-light);
   }
 
 @media screen and (min-width: 768px) {
-  .user-info {
+.profile-display {
     display: flex;
     flex-direction: row;
-    margin-top: 2rem;
     justify-content: space-around;
-    align-items: center;
+    align-items: baseline;
+}
+
+  .user-info {
+    display: flex;
+    flex-direction: column;
+    margin-left: 2rem;
+    border-radius: 1rem;
+    background-color: hsla(244, 70%, 13%, 0.71);
+    align-self: top;
+  }
+
+  .button {
+    margin-bottom: 0.5rem;
   }
 
   .user {
-    width: 553px;
+    width: fit-content;
+    padding-left: 1rem;
+    padding-right: 3rem;
   }
 
-  .post-number {
-    font-size: 20px;
+  .numeral-data {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2rem;
+    font-size: 26px;
+    font-weight: 750;
+  }
+
+  .data-label {
     font-weight: 500;
+  }
+
+  .data {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem;
   }
 
   .profile-username {
@@ -70,11 +134,13 @@
     font-weight: 700;
   }
 
-  .image-list {
-    width: fit-content;
-    /* TODO: Fix size of shown list (crop images on bottom of screen */
-    max-height: 600px;
-    margin-left: 1rem;
-    margin-right: 1rem;
+  .profile-avatar {
+    width: 5rem;
+    height: 5rem;
+    background-color: aqua;
+  }
+
+  .edit-profile {
+    font-size: 35px;
   }
 }

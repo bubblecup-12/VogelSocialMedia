@@ -1,3 +1,9 @@
+:root {
+  --Rotkehlchen-gray: #e7ecf2;
+  --Rotkehlchen-brown1: #a28d7a;
+  --Rotkehlchen-orange-default: #e79a0e;
+}
+
 .base-header {
   width: 100vw;
   display: flex;
