@@ -9,13 +9,13 @@ import "./App.css";
 import "./styles/colors.css";
 import "./styles/fonts.css";
 import "./styles/sizes.css";
-import Footer from "./components/Footer";
+import Footer from "./components/footer/Footer";
 import Header from "./components/Header";
 import Profile from "./pages/Profile";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Auth } from "./api/Auth";
 import { NotFound } from "./pages/404Page/NotFoundPage";
-
+import Feed from './components/feed/Feed';
 
 function App() {
   return (
