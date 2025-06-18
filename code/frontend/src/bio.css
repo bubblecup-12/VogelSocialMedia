@@ -1,0 +1,44 @@
+.bio-input {
+    margin: 0.5rem;
+}
+
+/* Root class for the input field */
+.bio-input .MuiOutlinedInput-root {
+  color: var(--Rotkehlchen-gray-default);
+}
+/* Class for the border around the input field */
+.bio-input .MuiOutlinedInput-notchedOutline {
+    border-color: var(--Rotkehlchen-brown-light);
+}
+/* Class for the label of the input field */
+.bio-input .MuiInputLabel-outlined {
+    color: var(--Rotkehlchen-brown-light);
+}
+/* Class for the border in focused state */
+.bio-input .Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: var(--Rotkehlchen-yellow-default);
+}
+/* Disabled input field text and border color */
+.bio-input .css-w4nesw-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled {
+  -webkit-text-fill-color: var(--Rotkehlchen-gray-default);
+}
+.bio-input
+  .MuiInputBase-root.MuiOutlinedInput-root.Mui-disabled
+  .MuiOutlinedInput-notchedOutline {
+  border-color: transparent;
+}
+
+@media screen and (min-width: 768px) {
+  .bio-input {
+    width: 100%;
+    margin: 1rem;
+  }
+  .bio-input .MuiInputLabel-outlined {
+    font-size: 18px;
+  }
+  .bio-input .MuiOutlinedInput-input {
+    font-size: 18px;
+    padding: 10px;
+  }
+    
+}
