@@ -1,0 +1,20 @@
+.create-display{
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Full viewport height */
+    width: 100vw; /* Full viewport width */
+    position: absolute; 
+    background: var(--gradient-blue-backround-mobile, linear-gradient(270deg, rgba(20, 15, 86, 0.27) 0%, rgba(20, 15, 86, 0.58) 24%, rgba(20, 15, 86, 0.74) 43%, rgba(17, 13, 71, 0.82) 56%, rgba(13, 10, 56, 0.90) 68%), url('../public/assets/images/BirdsSky.jpg') lightgray 50% / cover no-repeat);
+    align-items: center;
+    justify-content: center;
+}
+.create-part{
+    display: flex;
+    padding: 29px 40px;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    border-right: 4px solid var(--Rotkehlchen-gray-hover, #D5D7DA);
+    border-left: 4px solid var(--Rotkehlchen-gray-hover, #D5D7DA);
+    background: #FFF;
+}
