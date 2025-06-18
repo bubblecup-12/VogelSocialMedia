@@ -1,3 +1,4 @@
+
 import "./App.css";
 import "./styles/colors.css";
 import "./styles/fonts.css";
@@ -9,6 +10,7 @@ import Profile from "./pages/Profile";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Auth } from "./api/Auth";
 import { NotFound } from "./pages/404Page/NotFoundPage";
+import PostCreation from './PostCreation';
 
 function App() {
   return (
