@@ -5,12 +5,21 @@ import userRouter from "./routes/userRoutes";
 import postRouter from "./routes/postRoutes";
 import { authenticateToken } from "./middleware/authenticateToken";
 import bodyParser from "body-parser";
-
+import cors from "cors";
 dotenv.config();
 
 const app = express();
-const port = 3000;
-
+const port = 3001;
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
+app.use((req, res, next) => {
+  res.header("Access-Control-Expose-Headers", "Authorization");
+  next();
+});
 // minIO config
 export const minioClient = new Client({
   endPoint: "localhost", // Replace with your MinIO server URL
@@ -34,7 +43,7 @@ const options = {
     },
     servers: [
       {
-        url: "http://localhost:3000",
+        url: `http://localhost:${port}`,
       },
     ],
     components: {
@@ -56,7 +65,6 @@ const options = {
 };
 const specs = swaggerJSDoc(options);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
-
 app.use(bodyParser.json());
 app.use("/api/user", userRouter);
 app.use("/api/posts", authenticateToken(), postRouter);

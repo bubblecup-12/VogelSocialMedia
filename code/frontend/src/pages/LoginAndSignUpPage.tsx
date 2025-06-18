@@ -1,23 +1,73 @@
 import "./loginAndSignUpPage.css";
 import { useState } from "react";
+import axios from "axios";
+
+type FormData = {
+  username: string;
+  email: string;
+  password: string;
+};
 
 function LoginAndSignUpPage() {
   const toggleLogin = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
+    setErrorMessages(undefined);
     setSignup(!signup);
   };
-  const [signup, setSignup] = useState(false);
+  const [signup, setSignup] = useState<boolean>(false);
+  const [errorMessages, setErrorMessages] = useState<{
+    error: String;
+    details: { message: string }[];
+  }>();
+  const [formData, setFormData] = useState<FormData>({
+    username: "",
+    email: "",
+    password: "",
+  });
+
+  const onSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setErrorMessages(undefined);
+    try {
+      const response = signup
+        ? await axios.post("http://localhost:3001/api/user/register", {
+            email: formData.email,
+            username: formData.username,
+            password: formData.password,
+          })
+        : await axios.post("http://localhost:3001/api/user/login", {
+            username: formData.username,
+            password: formData.password,
+          });
+      const authHeader = response.headers["authorization"];
+      if (authHeader && authHeader.startsWith("Bearer ")) {
+        const token = authHeader.substring(7);
+        console.log(token, "Hello");
+        localStorage.setItem("token", token);
+      }
+    } catch (err: any) {
+      setErrorMessages(err.response.data);
+      console.error("error:", err.response.data);
+    }
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
   return (
     <div className="background">
       <div className="login-login">
         <div className="login-part">
           <div className={signup ? "signup-image" : "login-image"}></div>
         </div>
-        <div className="login-part">
+        <form onSubmit={onSubmit} className="login-part">
           <div className="login-text small-title">
             {signup ? "Sign Up" : "Login"}
           </div>
-
           <div className="input-fields">
             <div className="login-div-input">
               <img
@@ -28,8 +78,12 @@ function LoginAndSignUpPage() {
               <input
                 type="text"
                 className="login-input"
+                name="username"
                 placeholder="Username"
-              ></input>
+                value={formData.username}
+                onChange={handleChange}
+                required
+              />
             </div>
             {signup ? (
               <div className="login-div-input">
@@ -41,8 +95,12 @@ function LoginAndSignUpPage() {
                 <input
                   type="email"
                   className="login-input"
+                  name="email"
                   placeholder="Email"
-                ></input>
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
               </div>
             ) : (
               ""
@@ -57,22 +115,35 @@ function LoginAndSignUpPage() {
               <input
                 type="password"
                 className="login-input"
+                name="password"
                 placeholder="Password"
-              ></input>
+                value={formData.password}
+                onChange={handleChange}
+                required
+                minLength={signup ? 8 : undefined}
+              />
             </div>
+            {errorMessages && (
+              <div className="error-messages">
+                {errorMessages.details.map((detial, index) => (
+                  <p key={index}>{detial.message}</p>
+                ))}
+              </div>
+            )}
           </div>
-
           <input
-            type="button"
+            type="submit"
             className="login-button body-m"
             value={signup ? "Sign up" : "Login"}
           ></input>
           <div className="login-signup body-m" onClick={toggleLogin}>
-            {signup ? "Already have an account?" : "Don't have an account yet?"}{" "}
-            Click <span className="login-here body-m">here</span>{" "}
-            {signup ? "to login." : "to sign up."}
+            {signup
+              ? "Already have an account? "
+              : "Don't have an account yet? "}
+            Click <span className="login-here">here</span>
+            {signup ? " to login." : " to sign up."}
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );
