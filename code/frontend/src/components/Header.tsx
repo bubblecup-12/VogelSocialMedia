@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import InboxIcon from "@mui/icons-material/Inbox";
 import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
+import { Height } from "@mui/icons-material";
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,7 +22,7 @@ function Header() {
           <ListItem key={text} disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              {React.createElement(iconList[index])}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>
@@ -64,38 +65,6 @@ function Header() {
     </div>
   );
 }
-
-
-function Menu1({isOpen, toggleMenu, setIsOpen, iconRef}: any) {
-  const menuRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node) && !iconRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  return (
-    <div className="menu-container">
-      <Menu
-        
-        open={isOpen}
-        onClose={toggleMenu}
-      >
-        <MenuItem onClick={toggleMenu}>Option 1</MenuItem>
-        <MenuItem onClick={toggleMenu}>Option 2</MenuItem>
-        <MenuItem onClick={toggleMenu}>Option 3</MenuItem>
-      </Menu>
-    </div>
-  );
-};
 
 
 
