@@ -7,7 +7,7 @@ import {
   StyledEngineProvider,
   ThemeProvider,
 } from "@mui/material/styles";
-import './quiltedImageList.css';
+import "./quiltedImageList.css";
 
 export default function StandardImageList() {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -16,7 +16,7 @@ export default function StandardImageList() {
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
-        <ImageList className="image-list" variant="quilted" cols={isSmallScreen ? 3 : isLargeScreen ? 4 : 5} rowHeight={180}>
+        <div className="image-list">
           {itemData.map((item) => (
             <ImageListItem key={item.img}>
               <img
@@ -27,7 +27,7 @@ export default function StandardImageList() {
               />
             </ImageListItem>
           ))}
-        </ImageList>
+        </div>
       </ThemeProvider>
     </StyledEngineProvider>
   );
@@ -47,11 +47,11 @@ const theme = createTheme({
 
 const itemData = [
   { img: "/assets/images/BirdLogin.jpg", title: "Bird" },
-  { img: "/assets/images/BirdsSky.jpg", title: "Bird Sky" },
-  { img: "/assets/images/evening.jpg", title: "Evening" },
-  { img: "/assets/images/PortraitForestAndStreet.jpg", title: "Forest" },
-  { img: "/assets/images/IceBirdLogin.jpg", title: "Ice Bird" },
-  { img: "/assets/images/SummerOwlSignup.jpg", title: "Summer Owl" },
+  { img: "../../assets/images/BirdsSky.jpg", title: "Bird Sky" },
+  { img: "../../assets/images/evening.jpg", title: "Evening" },
+  { img: "../../assets/images/PortraitForestAndStreet.jpg", title: "Forest" },
+  { img: "../../assets/images/IceBirdLogin.jpg", title: "Ice Bird" },
+  { img: "../../assets/images/SummerOwlSignup.jpg", title: "Summer Owl" },
 
   {
     img: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",
