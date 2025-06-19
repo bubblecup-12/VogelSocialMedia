@@ -4,7 +4,7 @@
 
 /* Root class for the input field */
 .bio-input .MuiOutlinedInput-root {
-  color: var(--Rotkehlchen-gray-default);
+  color: var(--Rotkehlchen-gray);
 }
 /* Class for the border around the input field */
 .bio-input .MuiOutlinedInput-notchedOutline {
@@ -20,7 +20,7 @@
 }
 /* Disabled input field text and border color */
 .bio-input .css-w4nesw-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled {
-  -webkit-text-fill-color: var(--Rotkehlchen-gray-default);
+  -webkit-text-fill-color: var(--Rotkehlchen-gray);
 }
 .bio-input
   .MuiInputBase-root.MuiOutlinedInput-root.Mui-disabled
