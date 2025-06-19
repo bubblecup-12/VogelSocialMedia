@@ -54,9 +54,9 @@ if (fs.existsSync(".env")) {
         );
       } while (!input || input.length < setting.minLength);
       process.env[setting.name] = input;
-    } else if (setting.name === "TOKEN_SECRET") {
+    } else if (setting.name === "TOKEN_SECRET" || setting.name === "REFRESH_TOKEN_SECRET") {
       // generating a random JWT secret
-      const jwtSecret: string = crypto.randomBytes(32).toString("hex"); // 64 Zeichen
+      const jwtSecret: string = crypto.randomBytes(32).toString("hex"); // 64 character 
       process.env[setting.name] = jwtSecret;
     }
   }

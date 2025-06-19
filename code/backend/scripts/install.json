@@ -9,6 +9,7 @@
   "requiredKeys": [
     { "name": "DATABASE_URL", "generated": true },
     { "name": "TOKEN_SECRET", "generated": true },
+    { "name": "REFRESH_TOKEN_SECRET", "generated": true },
     {
       "name": "DB_USER",
       "generated": false,
