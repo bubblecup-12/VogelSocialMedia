@@ -1,31 +1,29 @@
 import "./profile.css";
-import "./bio.css";
+import "../components/bio.css";
 import "./loginAndSignUpPage.css";
+import "../styles/sizes.css";
+import "../styles/colors.css";
+import "../styles/fonts.css";
 import { useState } from "react";
 import Avatar from "@mui/material/Avatar";
-import QuiltedImageList from "./QuiltedImageList";
-import { deepOrange } from "@mui/material/colors";
-import Hashtags from "./Hashtags";
+import QuiltedImageList from "../components/QuiltedImageList";
 import TextField from "@mui/material/TextField";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import {
   Box,
-  IconButton,
   StyledEngineProvider,
   createTheme,
   ThemeProvider,
   Divider,
   Button,
 } from "@mui/material";
-import EditIcon from "@mui/icons-material/EditSquare";
+import Bio from "../components/Bio";
 
 function Profile() {
   const toggleEditMode = (event: React.MouseEvent<HTMLElement>) => {
-    event.preventDefault();
     isEditable(!editMode);
   };
-  const [editMode, isEditable] = useState(false);
-  const [text, setText] = useState("");
+  const [editMode, isEditable] = useState(true);
 
   const theme = createTheme({
     breakpoints: {
@@ -53,7 +51,7 @@ function Profile() {
               >
                 U
               </Avatar>
-              <span className="profile-username body-m">Username</span>
+              <span className="profile-username body-l">Username</span>
             </div>
             <div>
               <Box
@@ -75,7 +73,7 @@ function Profile() {
                   multiline
                   maxRows={4}
                   disabled={editMode}
-                  onDoubleClick={toggleEditMode}
+                  onClick={editMode ? toggleEditMode :  undefined}
                 />
               </Box>
               {!editMode && <Button variant="contained" className="button" onClick={toggleEditMode}>Ok</Button>}
@@ -84,15 +82,15 @@ function Profile() {
             <div className="numeral-data">
               <div className="data">
                 <span aria-label="current-post-number">50</span>
-                <span className="data-label">Posts</span>
+                <span className="data-label title-h1">Posts</span>
               </div>
               <div className="data">
                 <span aria-label="current-follower-number">100</span>
-                <span className="data-label">Followers</span>
+                <span className="data-label title-h1">Followers</span>
               </div>
               <div className="data">
                 <span aria-label="current-following-number">50</span>
-                <span className="data-label">Following</span>
+                <span className="data-label title-h1">Following</span>
               </div>
             </div>
           </div>

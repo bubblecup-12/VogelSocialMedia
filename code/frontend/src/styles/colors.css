@@ -17,3 +17,11 @@
     url("../../public/assets/images/BirdsSky.jpg") lightgray 50% / cover
       no-repeat;
 }
+
+body{
+  height: 100vh; /* Full viewport height */
+  width: 100vw; /* Full viewport width */
+  background: var(--gradient-blue-backround-mobile);
+  z-index: -1;
+  background-attachment: fixed;
+}

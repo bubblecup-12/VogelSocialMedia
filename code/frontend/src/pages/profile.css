@@ -1,25 +1,6 @@
 .profile-display {
-  display: flex;
-  flex-direction: column;
-  height: 100vh; /* Full viewport height */
-  width: 100vw; /* Full viewport width */
-  position: absolute;
-  background: var(
-    --gradient-blue-backround-mobile,
-    linear-gradient(
-      270deg,
-      rgba(20, 15, 86, 0.27) 0%,
-      rgba(20, 15, 86, 0.58) 24%,
-      rgba(20, 15, 86, 0.74) 43%,
-      rgba(17, 13, 71, 0.82) 56%,
-      rgba(13, 10, 56, 0.9) 68%
-    ),
-    url("../public/assets/images/BirdsSky.jpg") lightgray 50% / cover no-repeat
-  );
-  align-items: center;
-  background-attachment: fixed;
   padding-top: var(--Header-hight);
-  z-index: -1;
+  flex-direction: column;
 }
 
 .user-info {
@@ -28,7 +9,9 @@
     border-radius: 1rem;
     background-color: hsla(244, 70%, 13%, 0.71);
     backdrop-filter: blur(8px);
-    margin-top: 1rem;
+    margin-top: calc(var(--Header-height) + 1rem);
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 
 .user {
@@ -45,7 +28,7 @@
     flex-direction: row;
     font-size: 18px;
     font-weight: 500;   
-    color: var(--Rotkehlchen-gray-default);
+    color: var(--Rotkehlchen-gray);
     border-radius: 1rem;
   }
 
@@ -62,34 +45,24 @@
   }
 
   .profile-username {
-    font-size: 24px;
     font-weight: 700;
     color: var(--Rotkehlchen-orange-default);
   }
 
-  .edit-profile {
-    color: var(--Rotkehlchen-orange-default);
-    font-size: 25px;
-  }
-
-  .bio {
-    display: flex;
-    align-content: start;
-    padding: 2px;
-    border: 1px solid var(--Rotkehlchen-brown-light);
-    color: aliceblue;
+  .button {
+    margin-bottom: 0.5rem;
   }
 
   .divider {
-    border-color: var(--Rotkehlchen-brown-light);
+    border-color: var(--Rotkehlchen-orange-default);
   }
 
 @media screen and (min-width: 768px) {
 .profile-display {
-    display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: baseline;
+    padding-top: 1rem;
 }
 
   .user-info {
@@ -99,10 +72,7 @@
     border-radius: 1rem;
     background-color: hsla(244, 70%, 13%, 0.71);
     align-self: top;
-  }
-
-  .button {
-    margin-bottom: 0.5rem;
+    padding-bottom: 1rem;
   }
 
   .user {
@@ -115,11 +85,13 @@
     display: flex;
     flex-direction: column;
     margin-top: 2rem;
-    font-size: 26px;
-    font-weight: 750;
+    font-weight: 700;
+    font-size: 2rem;
   }
 
   .data-label {
+    padding-top: 0.5rem;
+    font-size: 1.5rem;
     font-weight: 500;
   }
 
@@ -129,18 +101,9 @@
     margin: 1rem;
   }
 
-  .profile-username {
-    font-size: 24px;
-    font-weight: 700;
-  }
-
   .profile-avatar {
     width: 5rem;
     height: 5rem;
     background-color: aqua;
-  }
-
-  .edit-profile {
-    font-size: 35px;
   }
 }
