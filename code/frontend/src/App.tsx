@@ -5,6 +5,7 @@ import LoginAndSignUpPage from "./pages/LoginAndSignUpPage";
 import Footer from "./components/Footer";
 import Header from "./components/header";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             path="/register"
             element={<LoginAndSignUpPage signupProp={true} />}
           ></Route>
+          <Route path="/profile" element={<Profile />}></Route>
         </Routes>
         <Footer />
       </div>

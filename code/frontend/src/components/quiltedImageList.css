@@ -1,0 +1,17 @@
+.imageList {    
+    height: 100vh;
+    width: fit-content;
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+  
+  @media only screen and (min-width: 768px) {
+    .image-list {
+      height:  90vh;
+      position: relative;
+      width: fit-content;
+      margin-left: 1rem;
+      margin-right: 10ch;
+      flex-direction: column;
+  }
+}
