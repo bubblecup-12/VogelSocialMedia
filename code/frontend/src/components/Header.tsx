@@ -1,11 +1,12 @@
 import "./header.css";
-import React, { useState, useRef, useEffect } from "react";
-import { Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Menu, MenuItem, SwipeableDrawer } from '@mui/material';
+import React, { useState, useRef } from "react";
+import { colors, createTheme, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SwipeableDrawer, ThemeProvider } from '@mui/material';
 import Box from '@mui/material/Box';
-import InboxIcon from "@mui/icons-material/Inbox";
-import MailIcon from '@mui/icons-material/Mail';
-import MenuIcon from '@mui/icons-material/Menu';
-import { Height } from "@mui/icons-material";
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+import DynamicFeedIcon from '@mui/icons-material/DynamicFeed';
+import PersonIcon from '@mui/icons-material/Person';
+import InfoIcon from '@mui/icons-material/Info';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,46 +14,44 @@ function Header() {
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
-  const iconList = [InboxIcon, MailIcon, InboxIcon, MailIcon, InboxIcon, MailIcon];
+  const iconList = [DynamicFeedIcon, AddAPhotoIcon, PersonIcon, InfoIcon, LogoutIcon];
+  const routerLinksList = ["/feed","/app","/app","/app","/app"]
 
   const DrawerList = (
     <Box sx={{ width: 250 }} role="presentation" onClick={() => setIsOpen(false)}>
-      <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
+      <ThemeProvider
+        theme={createTheme({
+          palette: {
+            mode: 'dark',
+            primary: { main: '#FFFF' },
+            background: { paper: 'rgb(5, 30, 52)' },
+          },
+        })}
+      >
+      <List sx={{height:'100vh', bgcolor: 'background.paper'}}>
+        {["Feed", "Create Post", "Profile", "About Us", "Log Out"].map((text, index) => (
+          <ListItem sx={{height: '10vh'}} key={text} disablePadding>
+            <ListItemButton sx={{height: '10vh'}} /*component={RouterLink} to={routerLinksList[index]}*/>
               <ListItemIcon>
               {React.createElement(iconList[index])}
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary={text} slotProps={{primary: {color: 'primary'}}}/>
             </ListItemButton>
           </ListItem>
         ))}
       </List>
-      <Divider />
-      <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+      </ThemeProvider>
     </Box>
   );
 
   return (
     <div className="outest-container" >
       <header className="base-header">
-        <div className="header-icon"> <img src='/assets/icons/feather_orange.svg' alt="featherIcon" /> </div>
+        <div className="header-icon"> <img className="header-icon-feather" src='/assets/icons/BirdIconO.ico' alt="featherIcon" /> </div>
         <p className="header-title">
-          FeatherFeed
+          Feather Feed
         </p>
-        <div className="header-icon"> {isOpen? <img src='/assets/icons/close_orange.svg' alt="close menu" ref={iconRef} onClick={toggleMenu}/> : <img src='/assets/icons/menu_orange.svg' alt="menu" onClick={toggleMenu}  />} </div>
+        <div className="header-icon header-icon-menu"> {isOpen? <img src='/assets/icons/close_orange.svg' alt="close menu" ref={iconRef} onClick={toggleMenu}/> : <img src='/assets/icons/menu_orange.svg' alt="menu" onClick={toggleMenu}  />} </div>
       </header>
       <SwipeableDrawer
       anchor={"right"}
