@@ -7,6 +7,7 @@ import DynamicFeedIcon from '@mui/icons-material/DynamicFeed';
 import PersonIcon from '@mui/icons-material/Person';
 import InfoIcon from '@mui/icons-material/Info';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { Link } from "react-router-dom";
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,7 +16,7 @@ function Header() {
     setIsOpen(!isOpen);
   };
   const iconList = [DynamicFeedIcon, AddAPhotoIcon, PersonIcon, InfoIcon, LogoutIcon];
-  const routerLinksList = ["/feed","/app","/app","/app","/app"]
+  const routerLinksList = ["/","/createpost","/profile","/aboutus","/"]
 
   const DrawerList = (
     <Box sx={{ width: 250 }} role="presentation" onClick={() => setIsOpen(false)}>
@@ -31,7 +32,7 @@ function Header() {
       <List sx={{height:'100vh', bgcolor: 'background.paper'}}>
         {["Feed", "Create Post", "Profile", "About Us", "Log Out"].map((text, index) => (
           <ListItem sx={{height: '10vh'}} key={text} disablePadding>
-            <ListItemButton sx={{height: '10vh'}} /*component={RouterLink} to={routerLinksList[index]}*/>
+            <ListItemButton sx={{height: '10vh'}} component={Link} to={routerLinksList[index]} >
               <ListItemIcon>
               {React.createElement(iconList[index])}
               </ListItemIcon>
