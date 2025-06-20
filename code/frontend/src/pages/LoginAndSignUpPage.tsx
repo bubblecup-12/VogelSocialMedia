@@ -1,5 +1,5 @@
 import "./loginAndSignUpPage.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 type FormData = {
@@ -14,6 +14,9 @@ function LoginAndSignUpPage({ signupProp }: { signupProp: boolean }) {
     error: String;
     details: { message: string }[];
   }>();
+  useEffect(() => {
+    setSignup(signupProp);
+  }, [signupProp]);
   const toggleLogin = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
     setErrorMessages(undefined);
