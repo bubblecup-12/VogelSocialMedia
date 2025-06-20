@@ -16,6 +16,7 @@
     ),
     url("../../public/assets/images/BirdsSky.jpg") lightgray 50% / cover
       no-repeat;
+    --transparent-dark-blue: hsla(244, 70%, 13%, 0.71);
 }
 
 body{
