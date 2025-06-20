@@ -1,17 +1,38 @@
-.imageList {    
-    height: 100vh;
-    width: fit-content;
-    margin-left: 1rem;
-    margin-right: 1rem;
+.image-list {
+  height: fit-content;
+  width: fit-content;
+  justify-content: center;
+}
+
+.box {
+  flex-grow: 1;
+  height: fit-content;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+.css-1row2ej-MuiImageListItem-root .MuiImageListItem-img {
+  object-fit: cover;
+  width: fill-available;
+  height: fill-available;
+}
+
+@media only screen and (min-width: 768px) {
+
+  .box {
+    max-width: 75%;
+    margin-left: 45ch;
+    margin-right: 10ch;
   }
-  
-  @media only screen and (min-width: 768px) {
-    .image-list {
-      height:  90vh;
-      position: relative;
-      width: fit-content;
-      margin-left: 1rem;
-      margin-right: 10ch;
-      flex-direction: column;
+
+  .image-list {
+    position: relative;
+    width: fill-available;
+    margin-bottom: 1rem;
+  }
+
+  .css-1row2ej-MuiImageListItem-root .MuiImageListItem-img {
+    object-fit: cover;
+    width: 15rem;
+    height: 15rem;
   }
 }

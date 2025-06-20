@@ -1,84 +1,95 @@
 .profile-display {
-  padding-top: var(--Header-hight);
+  display: flex;
+  padding-top: calc(var(--Header-height) + 1rem);
   flex-direction: column;
 }
 
 .user-info {
-    display: flex;
-    flex-direction: column;
-    border-radius: 1rem;
-    background-color: hsla(244, 70%, 13%, 0.71);
-    backdrop-filter: blur(8px);
-    margin-top: calc(var(--Header-height) + 1rem);
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  border-radius: 1rem;
+  background-color: var(--transparent-dark-blue);
+  backdrop-filter: blur(8px);
+  padding-left: 1rem;
+  padding-right: 1rem;
+  height: fit-content;
+}
 
 .user {
-    display: flex;
-    width: fit-content;
-    align-items: center;
-    gap: 20px;
-    margin: 2rem;
-    border-radius: 1rem;
-  }
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 20px;
+  padding-bottom: 1rem;
+  margin-top: 1rem;
+  border-radius: 1rem;
+}
 
-  .numeral-data {
-    display: flex;
-    flex-direction: row;
-    font-size: 18px;
-    font-weight: 500;   
-    color: var(--Rotkehlchen-gray);
-    border-radius: 1rem;
-  }
+.numeral-data {
+  display: flex;
+  flex-direction: row;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--Rotkehlchen-gray);
+  border-radius: 1rem;
+}
 
-  .data {
-    display: flex;
-    flex-direction: column;
-    margin: 1rem;
-  }
+.data {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem;
+}
 
-  .profile-avatar {
-    width: 40px;
-    height: 40px;
-    background-color: aqua;
-  }
+.data-label {
+  padding-top: 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 500;
+}
 
-  .profile-username {
-    font-weight: 700;
-    color: var(--Rotkehlchen-orange-default);
-  }
+.profile-avatar {
+  width: 40px;
+  height: 40px;
+  background-color: aqua;
+}
 
-  .button {
-    margin-bottom: 0.5rem;
-  }
+.profile-username {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--Rotkehlchen-orange-default);
+  max-width: 10rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
-  .divider {
-    border-color: var(--Rotkehlchen-orange-default);
-  }
+.button {
+  margin-bottom: 0.5rem;
+}
+
+.divider {
+  border-color: var(--Rotkehlchen-orange-default);
+}
 
 @media screen and (min-width: 768px) {
-.profile-display {
+  .profile-display {
     flex-direction: row;
-    justify-content: space-around;
-    align-items: baseline;
-    padding-top: 1rem;
-}
+  }
 
   .user-info {
     display: flex;
     flex-direction: column;
+    position: fixed;
     margin-left: 2rem;
-    border-radius: 1rem;
-    background-color: hsla(244, 70%, 13%, 0.71);
-    align-self: top;
-    padding-bottom: 1rem;
+    margin-right: 1.5rem;
   }
 
   .user {
     width: fit-content;
     padding-left: 1rem;
     padding-right: 3rem;
+    padding-bottom: 1rem;
   }
 
   .numeral-data {

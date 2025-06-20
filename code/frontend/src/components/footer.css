@@ -1,4 +1,3 @@
-
 /*mobile style first*/
 .footer {
   display: flex;
@@ -10,7 +9,6 @@
   gap: 2rem;
   text-align: center;
   text-decoration: none;
-
 }
 
 .footer-left {
@@ -23,9 +21,9 @@
 .footer-link {
   display: flex;
   align-items: center;
-  gap: 0.5rem;            /*Gap between icon and logo */
-  text-decoration: none;  /*prevents constant underline*/
-  color: black;     
+  gap: 0.5rem; /*Gap between icon and logo */
+  text-decoration: none; /*prevents constant underline*/
+  color: black;
   font-weight: 500;
 }
 
@@ -42,14 +40,14 @@
 }
 
 .footer-link.feather span {
-  color: var(--Rotkehlchen-orange-default); 
+  color: var(--Rotkehlchen-orange-default);
   font-weight: bold;
 }
 
 .footer-right {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;            /*gap between the links*/
+  gap: 0.4rem; /*gap between the links*/
   align-items: flex-end;
 }
 
@@ -59,11 +57,13 @@
   font-weight: 500;
 }
 
-.footer-link:hover, .footer-link:active {
+.footer-link:hover,
+.footer-link:active {
   text-decoration: underline;
 }
-.footer-link.feather:hover, .footer-link.feather:active {
-  text-decoration-color: var(--Rotkehlchen-orange-default) ;
+.footer-link.feather:hover,
+.footer-link.feather:active {
+  text-decoration-color: var(--Rotkehlchen-orange-default);
 }
 
 /*@media adjusts styles for desktop */
