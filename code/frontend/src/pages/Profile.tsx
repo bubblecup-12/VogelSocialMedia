@@ -4,7 +4,7 @@ import "./loginAndSignUpPage.css";
 import "../styles/sizes.css";
 import "../styles/colors.css";
 import "../styles/fonts.css";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import QuiltedImageList from "../components/QuiltedImageList";
 import TextField from "@mui/material/TextField";
@@ -17,6 +17,8 @@ import {
   Divider,
   Button,
   Tooltip,
+  Popover,
+  Typography,
 } from "@mui/material";
 import ProfilePictureDialog from "../components/ChagneAvatarDialog";
 
@@ -39,6 +41,21 @@ function Profile() {
   });
   const matchDownMd = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
+
+  const username = "Username12345678"; /* Get username from database */
+
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
@@ -46,11 +63,26 @@ function Profile() {
           <div className="user-info">
             <div className="user">
               <ProfilePictureDialog />
-              <Tooltip title="Username12345678" placement="top" arrow>
-                <button className="profile-username body-l">
-                  Username12345678
-                </button>
-              </Tooltip>
+              <Popover
+                className="profile-popover"
+                onClose={handleClose}
+                id={id}
+                open={open}
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                transformOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+              >
+                <Typography sx={{p: 1}}>{username}</Typography>
+              </Popover>
+              <span className="profile-username body-l" onClick={handleClick}>
+                {username}
+              </span>
             </div>
             <div>
               <Box
