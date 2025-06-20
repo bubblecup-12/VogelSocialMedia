@@ -8,6 +8,7 @@ import {
   ThemeProvider,
 } from "@mui/material/styles";
 import "./quiltedImageList.css";
+import { Box, Grid } from "@mui/material";
 
 export default function StandardImageList() {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -16,22 +17,27 @@ export default function StandardImageList() {
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
-        <div className="image-list">
-          {itemData.map((item) => (
-            <ImageListItem key={item.img}>
-              <img
-                srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
-                alt={item.title}
-                loading="lazy"
-              />
-            </ImageListItem>
-          ))}
-        </div>
+        <Box className="box">
+          <Grid container spacing={1} className="image-list">
+            {itemData.map((item) => (
+              <ImageListItem key={item.img}>
+                <img
+                  className="list-item"
+                  srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                  src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
+                  alt={item.title}
+                  onClick={() => console.log(item.title)} /* change to onClick => Feed*/
+                  loading="lazy"
+                />
+              </ImageListItem>
+            ))}
+          </Grid>
+        </Box>
       </ThemeProvider>
     </StyledEngineProvider>
   );
 }
+
 
 const theme = createTheme({
   breakpoints: {

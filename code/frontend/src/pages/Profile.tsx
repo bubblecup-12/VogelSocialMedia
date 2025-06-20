@@ -16,8 +16,9 @@ import {
   ThemeProvider,
   Divider,
   Button,
+  Tooltip,
 } from "@mui/material";
-import Bio from "../components/Bio";
+import ProfilePictureDialog from "../components/ChagneAvatarDialog";
 
 function Profile() {
   const toggleEditMode = (event: React.MouseEvent<HTMLElement>) => {
@@ -44,14 +45,12 @@ function Profile() {
         <div className="profile-display">
           <div className="user-info">
             <div className="user">
-              <Avatar
-                alt="Username"
-                src="./assets/images/OwlSignUp.png"
-                className="profile-avatar"
-              >
-                U
-              </Avatar>
-              <span className="profile-username body-l">Username</span>
+              <ProfilePictureDialog />
+              <Tooltip title="Username12345678" placement="top" arrow>
+                <button className="profile-username body-l">
+                  Username12345678
+                </button>
+              </Tooltip>
             </div>
             <div>
               <Box
@@ -65,6 +64,7 @@ function Profile() {
                 }}
                 noValidate
                 autoComplete="off"
+                onClick={editMode ? toggleEditMode : undefined}
               >
                 <TextField
                   className="bio-input"
@@ -73,12 +73,19 @@ function Profile() {
                   multiline
                   maxRows={4}
                   disabled={editMode}
-                  onClick={editMode ? toggleEditMode :  undefined}
                 />
               </Box>
-              {!editMode && <Button variant="contained" className="button" onClick={toggleEditMode}>Ok</Button>}
+              {!editMode && (
+                <Button
+                  variant="contained"
+                  className="button"
+                  onClick={toggleEditMode}
+                >
+                  Ok
+                </Button>
+              )}
             </div>
-            <Divider variant="middle" className="divider"/>
+            <Divider variant="middle" className="divider" />
             <div className="numeral-data">
               <div className="data">
                 <span aria-label="current-post-number">50</span>
