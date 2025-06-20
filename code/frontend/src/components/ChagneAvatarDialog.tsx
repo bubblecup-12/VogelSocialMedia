@@ -1,16 +1,21 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
-import { styled } from "@mui/material/styles";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
-import Typography from "@mui/material/Typography";
-import Avatar from "@mui/material/Avatar";
-import EditSquareIcon from "@mui/icons-material/EditSquare";
 import { useRef, useState } from "react";
+import {
+  Button,
+  styled,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  IconButton,
+  Avatar,
+  Box,
+} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import EditSquareIcon from "@mui/icons-material/EditSquare";
+import "../styles/colors.css";
+import "../styles/fonts.css";
+import "./changeAvatarDialog.css";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -39,7 +44,7 @@ export default function CustomizedDialogs() {
       inputFile.current.click();
     }
   };
-  
+
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
   return (
@@ -47,7 +52,7 @@ export default function CustomizedDialogs() {
       <Button onClick={handleClickOpen}>
         <Avatar
           alt="Username"
-          src="./assets/images/OwlSignUp.png"
+          src={selectedImage ? URL.createObjectURL(selectedImage) : undefined}
           className="profile-avatar"
         >
           U
@@ -55,10 +60,10 @@ export default function CustomizedDialogs() {
       </Button>
       <BootstrapDialog
         onClose={handleClose}
-        aria-labelledby="customized-dialog-title"
+        aria-labelledby="change-profile-picture-dialog"
         open={open}
       >
-        <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
+        <DialogTitle sx={{ m: 0, p: 2 }} id="change-profile-picture-dialog">
           Change Profile Picture
         </DialogTitle>
         <IconButton
@@ -74,16 +79,32 @@ export default function CustomizedDialogs() {
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>
-          {selectedImage && <img className="profile-image-large" src={URL.createObjectURL(selectedImage)} alt="Profile Picture" />}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              objectFit: "cover",
+              maxWidth: "30rem",
+              maxHeight: "30rem",
+            }}
+          >
+            {selectedImage && (
+              <img
+                src={URL.createObjectURL(selectedImage)}
+                alt="Profile Picture"
+                style={{maxWidth: "30rem", maxHeight: "30rem" , width: "100%", height: "100%", objectFit: "cover"}}
+              />
+            )}
+          </Box>
           <IconButton aria-label="upload picture" onClick={openFileExplorer}>
             <EditSquareIcon />
             <input
               type="file"
               id="file"
-              ref={inputFile}
-              style={{ display: "none" }}
               onChange={(event) => {
-                console.log(event.target.files?[0]:undefined); // Log the selected file
+                console.log(event.target.files ? [0] : undefined); // Log the selected file
                 if (event.target.files && event.target.files[0]) {
                   setSelectedImage(event.target.files[0]); // Update the state with the selected file
                 }
