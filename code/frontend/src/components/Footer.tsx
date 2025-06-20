@@ -1,16 +1,16 @@
 import "./footer.css";
-
+import { Link } from "react-router-dom";
 function Footer() {
   return (
     <footer className="footer">
       <div className="footer-left">
-        <a href="" className="footer-link feather">
+        <Link to="/" className="footer-link feather">
           <img src="/assets/icons/feather_black.svg" alt="Feather icon" />
           <span className="small-title">Feather Feed</span>
-        </a>
+        </Link>
         <a
           href="https://github.com/bubblecup-12/VogelSocialMedia"
-          target="_blank "
+          target="_blank"
           className="footer-link github"
         >
           <img src="/assets/icons/github-mark.svg" alt="GitHub mark" />
@@ -20,24 +20,21 @@ function Footer() {
       </div>
 
       <div className="footer-right">
-        <a className="footer-link" href="#">
-          Home
-        </a>
-        <a className="footer-link" href="#">
-          About
-        </a>
-        <a className="footer-link" href="#">
-          Login
-        </a>
-        <a className="footer-link" href="#">
-          Sign up
-        </a>
-        <a className="footer-link" href="#">
-          Create Post
-        </a>
-        <a className="footer-link" href="#">
+        <Link className="footer-link" to="/">
           Feed
-        </a>
+        </Link>
+        <Link className="footer-link" to="login">
+          Login
+        </Link>
+        <Link className="footer-link" to="/register">
+          Sign up
+        </Link>
+        <Link className="footer-link" to="/">
+          Create Post
+        </Link>
+        <Link className="footer-link" to="/about">
+          About
+        </Link>
       </div>
     </footer>
   );

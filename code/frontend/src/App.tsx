@@ -8,9 +8,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-      <Header />
-      <Router>
+    <Router>
+      <div className="App">
+        <Header />
         <Routes>
           <Route
             path="/login"
@@ -21,10 +21,9 @@ function App() {
             element={<LoginAndSignUpPage signupProp={true} />}
           ></Route>
         </Routes>
-      </Router>
-
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </Router>
   );
 }
 
