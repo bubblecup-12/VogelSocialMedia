@@ -1,6 +1,6 @@
 import "./header.css";
 import React, { useState, useRef } from "react";
-import { colors, createTheme, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SwipeableDrawer, ThemeProvider } from '@mui/material';
+import { createTheme, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SwipeableDrawer, ThemeProvider } from '@mui/material';
 import Box from '@mui/material/Box';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import DynamicFeedIcon from '@mui/icons-material/DynamicFeed';
