@@ -9,6 +9,8 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
+import EditSquareIcon from "@mui/icons-material/EditSquare";
+import { useRef, useState } from "react";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -29,6 +31,17 @@ export default function CustomizedDialogs() {
     setOpen(false);
   };
 
+  const inputFile = useRef<HTMLInputElement | null>(null);
+
+  const openFileExplorer = () => {
+    // `current` points to the mounted file input element
+    if (inputFile.current) {
+      inputFile.current.click();
+    }
+  };
+  
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+
   return (
     <React.Fragment>
       <Button onClick={handleClickOpen}>
@@ -46,7 +59,7 @@ export default function CustomizedDialogs() {
         open={open}
       >
         <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-          Modal title
+          Change Profile Picture
         </DialogTitle>
         <IconButton
           aria-label="close"
@@ -61,21 +74,22 @@ export default function CustomizedDialogs() {
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>
-          <Typography gutterBottom>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta
-            ac consectetur ac, vestibulum at eros.
-          </Typography>
-          <Typography gutterBottom>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-            Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor
-            auctor.
-          </Typography>
-          <Typography gutterBottom>
-            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo
-            cursus magna, vel scelerisque nisl consectetur et. Donec sed odio
-            dui. Donec ullamcorper nulla non metus auctor fringilla.
-          </Typography>
+          {selectedImage && <img className="profile-image-large" src={URL.createObjectURL(selectedImage)} alt="Profile Picture" />}
+          <IconButton aria-label="upload picture" onClick={openFileExplorer}>
+            <EditSquareIcon />
+            <input
+              type="file"
+              id="file"
+              ref={inputFile}
+              style={{ display: "none" }}
+              onChange={(event) => {
+                console.log(event.target.files?[0]:undefined); // Log the selected file
+                if (event.target.files && event.target.files[0]) {
+                  setSelectedImage(event.target.files[0]); // Update the state with the selected file
+                }
+              }}
+            />
+          </IconButton>
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose}>
