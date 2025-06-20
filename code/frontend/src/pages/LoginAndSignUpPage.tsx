@@ -8,17 +8,17 @@ type FormData = {
   password: string;
 };
 
-function LoginAndSignUpPage() {
+function LoginAndSignUpPage({ signupProp }: { signupProp: boolean }) {
+  const [signup, setSignup] = useState<boolean>(signupProp);
+  const [errorMessages, setErrorMessages] = useState<{
+    error: String;
+    details: { message: string }[];
+  }>();
   const toggleLogin = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
     setErrorMessages(undefined);
     setSignup(!signup);
   };
-  const [signup, setSignup] = useState<boolean>(false);
-  const [errorMessages, setErrorMessages] = useState<{
-    error: String;
-    details: { message: string }[];
-  }>();
   const [formData, setFormData] = useState<FormData>({
     username: "",
     email: "",
