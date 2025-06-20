@@ -1,24 +1,63 @@
 import express, { Request, Response } from "express";
-import { PrismaClient, User } from "../../prisma/app/generated/prisma/client";
+import {
+  PrismaClient,
+  User,
+  RefreshToken,
+} from "../../prisma/app/generated/prisma/client";
 import { UserLoginDto, UserRegistrationDto } from "../schemas/userSchemas";
-import jwt from "jsonwebtoken";
+import jwt, { TokenExpiredError } from "jsonwebtoken";
 import dotenv from "dotenv";
 import bcrypt from "bcryptjs";
 import { StatusCodes } from "http-status-codes";
-
+import { RefreshTokenPayload } from "../types/tokens";
 const app = express();
 app.use(express.json());
 const prisma = new PrismaClient();
 // load environment variables from .env file
 dotenv.config();
 const JWT_SECRET: string = process.env.TOKEN_SECRET!; // this secret is used to sign the JWT token
+const REFRESH_TOKEN_SECRET: string = process.env.REFRESH_TOKEN_SECRET!;
 
 // Generate a JWT token with the username as payload and a secret from the environment variables which expires in 1800 seconds (30 minutes)
-function generateAccessToken(username: string, userId: string, role: string) {
-  return jwt.sign({ username: username, role: role, sub: userId }, JWT_SECRET, {
-    expiresIn: "1800s",
-    issuer: "VogelApi",
-  });
+function generateAccessToken(
+  username: string,
+  userId: string,
+  role: string,
+  refreshTokenId: string
+) {
+  return jwt.sign(
+    { username: username, role: role, sub: userId, jti: refreshTokenId },
+    JWT_SECRET,
+    {
+      expiresIn: "1800s",
+      issuer: "VogelApi",
+    }
+  );
+}
+
+async function generateRefreshToken(
+  userId: string
+): Promise<{ token: string; id: string }> {
+  const expiresAt = new Date(Date.now() + 100 * 60 * 60 * 1000); // 100 h
+  let refreshToken: RefreshToken;
+  {
+    refreshToken = await prisma.refreshToken.create({
+      data: {
+        expiresAt: expiresAt,
+        user: {
+          connect: {
+            id: userId,
+          },
+        },
+      },
+    });
+  }
+  return {
+    token: jwt.sign({ jti: refreshToken.id }, REFRESH_TOKEN_SECRET, {
+      expiresIn: "100h",
+    }),
+    id: refreshToken.id,
+  };
 }
 
 // Endpoint to register a new user
@@ -78,7 +117,14 @@ export const registerUser = async (req: Request, res: Response) => {
     });
     return;
   }
-  const token: string = generateAccessToken(user.username, user.id, user.role); // generate a JWT token with the username and userId as payload
+  const refreshToken = await generateRefreshToken(user.id);
+  res.set("Refresh-Token", refreshToken.token);
+  const token: string = generateAccessToken(
+    user.username,
+    user.id,
+    user.role,
+    refreshToken.id
+  ); // generate a JWT token with the username and userId as payload
   res.set("Authorization", `Bearer ${token}`); // set the token in the response header
   res.status(StatusCodes.CREATED).json({
     message: "user created",
@@ -113,7 +159,14 @@ export const loginUser = async (req: Request, res: Response) => {
     });
     return;
   }
-  const token: string = generateAccessToken(user.username, user.id, user.role); // generate a JWT token with the username and userId as payload
+  const refreshToken = await generateRefreshToken(user.id);
+  res.set("Refresh-Token", refreshToken.token);
+  const token: string = generateAccessToken(
+    user.username,
+    user.id,
+    user.role,
+    refreshToken.id
+  ); // generate a JWT token with the username and userId as payload
   res.set("Authorization", `Bearer ${token}`); // set the token in the response header
   res.status(StatusCodes.OK).json({ message: "User logged in successfully" });
 };
@@ -149,4 +202,91 @@ export const getUser = async (req: Request, res: Response) => {
       userInfo: user.bio,
     },
   });
+};
+export const refreshToken = async (req: Request, res: Response) => {
+  const refreshToken: string | undefined = req.headers[
+    "refresh-token"
+  ] as string;
+  if (!refreshToken) {
+    res.status(StatusCodes.UNAUTHORIZED).json({
+      error: "Unauthorized",
+      details: [{ message: "No token provided" }],
+    });
+    return;
+  }
+
+  await jwt.verify(
+    refreshToken,
+    REFRESH_TOKEN_SECRET,
+    async (err: any, decoded: any) => {
+      if (err) {
+        if (err instanceof jwt.TokenExpiredError) {
+          res.status(StatusCodes.UNAUTHORIZED).json({
+            error: "Refreshtoken expired",
+            details: [{ message: "Refreshtoken has expired" }],
+          });
+          return;
+        }
+        res.status(StatusCodes.FORBIDDEN).json({
+          error: "Invalid refreshtoken",
+          details: [{ message: "Refreshtoken is invalid" }],
+        });
+        return;
+      }
+
+      const payload = decoded as RefreshTokenPayload;
+      try {
+        const now = new Date();
+        const storedToken = await prisma.refreshToken.findUnique({
+          where: {
+            id: payload.jti,
+            expiresAt: {
+              gt: now, // expiresAt > now
+            },
+          },
+          include: { user: true },
+        });
+        if (!storedToken) {
+          res.status(StatusCodes.UNAUTHORIZED).json({
+            error: "InvalidRefreshToken",
+            details: [
+              { message: "Refresh token is invalid or no longer exists" },
+            ],
+          });
+          return;
+        }
+        await prisma.refreshToken.delete({
+          where: { id: payload.jti },
+        });
+        const refreshToken = await generateRefreshToken(storedToken.user.id);
+        res.set("Refresh-Token", refreshToken.token);
+        const token: string = generateAccessToken(
+          storedToken.user.username,
+          storedToken.user.id,
+          storedToken.user.role,
+          refreshToken.id
+        ); // generate a JWT token with the username and userId as payload
+        res.set("Authorization", `Bearer ${token}`); // set the token in the response header
+        res.status(StatusCodes.OK).send();
+      } catch {
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+          error: "Server error",
+          details: [{ message: "Server Error" }],
+        });
+        return;
+      }
+    }
+  );
+};
+
+export const logout = async (req: Request, res: Response) => {
+  const jti: string = req.query.jti as string;
+  try {
+    await prisma.refreshToken.delete({ where: { id: jti } });
+    res.removeHeader("Authorization");
+    res.removeHeader("Refresh-Token");
+    res.status(StatusCodes.NO_CONTENT).send();
+  } catch {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR);
+  }
 };

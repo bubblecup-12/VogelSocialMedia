@@ -8,7 +8,6 @@ import { upload } from "../middleware/fileUpload";
 
 import { validateData } from "../middleware/validationMiddleware";
 import { uploadPostSchema } from "../schemas/postSchemas";
-import { get } from "http";
 const router = express.Router();
 
 /**
@@ -80,27 +79,20 @@ router.post("/upload", upload, validateData(uploadPostSchema), uploadPost);
  *       401:
  *         description: not authenticated
  */
-router.get("/getPost/:userId", getPost);
+router.get("/getPost/:postId", getPost);
 /**
  * @swagger
- * /api/posts/getUserPosts/{userId}:
+ * /api/posts/getUserPosts/:
  *   get:
  *     summary: Get Post
  *     tags: [posts]
  *     security:
  *       - bearerAuth: []
- *     parameters:
- *       - in: query
- *         name: postId
- *         required: true
- *         schema:
- *           type: string
- *         description: The user id
  *     responses:
  *       200:
  *         description:  Ok
  *       401:
  *         description: not authenticated
  */
-router.get("/getuserposts/:userId", getUserPosts);
+router.get("/getuserposts/", getUserPosts);
 export default router;
