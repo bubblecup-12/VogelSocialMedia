@@ -9,7 +9,7 @@ import Feed from './feed/Feed';
 
 function App() {
   return (
-    <div className="App">
+    <div className="App">   
       <Feed/>
     </div>
   );
