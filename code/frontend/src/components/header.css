@@ -1,10 +1,11 @@
 .outest-container {
-  display: grid;
-  grid-template-rows: auto auto;
-  grid-template-columns: 1fr; /* 1 Spalte */
-  align-content: end;
+  display: flex;
+  flex-direction: row;
+  justify-content: baseline;
+  z-index: 1000000;
 }
 .base-header {
+  z-index: 10;
   width: 100vw;
   display: flex;
   height: var(--header-height);
