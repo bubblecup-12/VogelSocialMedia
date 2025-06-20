@@ -1,23 +1,21 @@
 .image-list {
   height: fit-content;
-  width: fit-content;
+  width: fill-available;
   justify-content: center;
 }
 
 .box {
   flex-grow: 1;
   height: fit-content;
-  margin-left: 1rem;
-  margin-right: 1rem;
 }
 .css-1row2ej-MuiImageListItem-root .MuiImageListItem-img {
   object-fit: cover;
-  width: fill-available;
-  height: fill-available;
+  width: 5rem;
+  height: 5rem;
+  margin: -0.1rem;
 }
 
 @media only screen and (min-width: 768px) {
-
   .box {
     max-width: 75%;
     margin-left: 45ch;
@@ -28,6 +26,8 @@
     position: relative;
     width: fill-available;
     margin-bottom: 1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
   }
 
   .css-1row2ej-MuiImageListItem-root .MuiImageListItem-img {

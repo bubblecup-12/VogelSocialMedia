@@ -1,14 +1,12 @@
 .dialog-content {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .profile-image-large {
-  width: 5rem;
-  height: 5rem;
+  width: 20rem;
+  height: 20rem;
+  object-fit: cover;
+  border-radius: 8px;
 }
 
-#file {
-    max-width: 50rem;
-    max-height: 50rem;
-}
