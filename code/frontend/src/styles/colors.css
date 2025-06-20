@@ -16,4 +16,5 @@
     ),
     url("../../public/assets/images/BirdsSky.jpg") lightgray 50% / cover
       no-repeat;
+  --header-height: 48px;
 }
