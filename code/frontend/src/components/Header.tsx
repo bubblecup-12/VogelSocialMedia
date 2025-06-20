@@ -8,6 +8,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import InfoIcon from '@mui/icons-material/Info';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 // TODO: Dinge so umstrukturieren, dass der State für das offene menü in Header ist und das Menü auch in Header, sodass es mit width 100% die volle breite einnehmen kann
 
@@ -18,8 +19,16 @@ function Header() {
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+  // TODO
+  const logOut = async () => {
+    try {
+    const response = await axios.delete("http://localhost:3001/api/user/delete");
+    } catch (err: any) {
+      console.error("error: ", err.response.data);
+    }
+  };
   const iconList = [DynamicFeedIcon, AddAPhotoIcon, PersonIcon, InfoIcon, LogoutIcon];
-  const routerLinksList = ["/","/createpost","/profile","/aboutus","/"]
+  const routerLinksList = ["/","/createpost","/profile","/about","/"]
 
   const DrawerList = (
     <Box sx={{ width: 250 }} role="presentation" onClick={() => setIsOpen(false)}>
@@ -33,7 +42,7 @@ function Header() {
         })}
       >
       <List sx={{height:'100vh', bgcolor: 'background.paper'}}>
-        {["Feed", "Create Post", "Profile", "About Us", "Log Out"].map((text, index) => (
+        {["Feed", "Create Post", "Profile", "About Us"].map((text, index) => (
           <ListItem sx={{height: '10vh'}} key={text} disablePadding>
             <ListItemButton sx={{height: '10vh'}} component={Link} to={routerLinksList[index]} >
               <ListItemIcon>
@@ -43,6 +52,14 @@ function Header() {
             </ListItemButton>
           </ListItem>
         ))}
+        <ListItem sx={{height: '10vh'}} key={"Log Out"} disablePadding>
+            <ListItemButton sx={{height: '10vh'}} onClick={logOut}>
+              <ListItemIcon>
+              {React.createElement(iconList[4])}
+              </ListItemIcon>
+              <ListItemText primary={"Log Out"} slotProps={{primary: {color: 'primary'}}}/>
+            </ListItemButton>
+          </ListItem>
       </List>
       </ThemeProvider>
     </Box>
