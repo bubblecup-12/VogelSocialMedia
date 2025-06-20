@@ -31,6 +31,7 @@ export const minioClient = new Client({
 //swagger configuration
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
+import { deleteExpiredTokens } from "./tasks/deleteTokens";
 
 const options = {
   definition: {
@@ -65,6 +66,15 @@ const options = {
 };
 const specs = swaggerJSDoc(options);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
+
+// remove old tokens every ten minutes
+setInterval(
+  () => {
+    console.log("Deleting old tokens");
+    deleteExpiredTokens();
+  },
+  10 * 60 * 1000
+);
 app.use(bodyParser.json());
 app.use("/api/user", userRouter);
 app.use("/api/posts", authenticateToken(), postRouter);

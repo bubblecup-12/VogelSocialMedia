@@ -2,20 +2,14 @@ import express, { NextFunction, Request, Response } from "express";
 import jwt, { TokenExpiredError } from "jsonwebtoken";
 import dotenv from "dotenv";
 import { StatusCodes } from "http-status-codes";
+import { JwtPayload } from "../types/tokens";
 dotenv.config();
 
 // Import the JWT secret from environment variables
 const JWT_SECRET: string = process.env.TOKEN_SECRET!;
 if (!JWT_SECRET) console.error("No JWT secret provided");
 
-// Define the structure of the JWT payload
-interface JwtPayload {
-  id: string;
-  username: string;
-  role: string;
-  iat: number;
-  exp: number;
-}
+
 
 // Extend the Express Request interface to include the user property
 declare global {
