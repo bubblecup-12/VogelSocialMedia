@@ -1,0 +1,14 @@
+.dialog-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-image-large {
+  width: 5rem;
+  height: 5rem;
+}
+
+#file {
+    max-width: 50rem;
+    max-height: 50rem;
+}
