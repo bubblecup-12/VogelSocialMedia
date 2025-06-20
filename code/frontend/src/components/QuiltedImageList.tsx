@@ -1,55 +1,31 @@
-import * as React from "react";
-import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import {
-  createTheme,
-  StyledEngineProvider,
-  ThemeProvider,
-} from "@mui/material/styles";
+import { StyledEngineProvider } from "@mui/material/styles";
 import "./quiltedImageList.css";
 import { Box, Grid } from "@mui/material";
 
 export default function StandardImageList() {
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const isLargeScreen = useMediaQuery(theme.breakpoints.down("xl"));
-
   return (
     <StyledEngineProvider injectFirst>
-      <ThemeProvider theme={theme}>
-        <Box className="box">
-          <Grid container spacing={1} className="image-list">
-            {itemData.map((item) => (
-              <ImageListItem key={item.img}>
-                <img
-                  className="list-item"
-                  srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                  src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
-                  alt={item.title}
-                  onClick={() => console.log(item.title)} /* change to onClick => Feed*/
-                  loading="lazy"
-                />
-              </ImageListItem>
-            ))}
-          </Grid>
-        </Box>
-      </ThemeProvider>
+      <Box className="box">
+        <Grid container spacing={1} className="image-list">
+          {itemData.map((item) => (
+            <ImageListItem key={item.img}>
+              <img
+                srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
+                alt={item.title}
+                onClick={() =>
+                  console.log(item.title)
+                } /* change to onClick => Feed*/
+                loading="lazy"
+              />
+            </ImageListItem>
+          ))}
+        </Grid>
+      </Box>
     </StyledEngineProvider>
   );
 }
-
-
-const theme = createTheme({
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 1000,
-      md: 650,
-      lg: 768,
-      xl: 1200,
-    },
-  },
-});
 
 const itemData = [
   { img: "/assets/images/BirdLogin.jpg", title: "Bird" },
