@@ -18,6 +18,12 @@
   left: 0;
   z-index: 1000;
 }
+@media only screen and (min-width: 768px) {
+  .base-header {
+    height: var(--header-height-desktop);
+  }
+}
+
 .header-title {
   display: flex;
   width: 162px;
