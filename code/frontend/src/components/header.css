@@ -2,8 +2,10 @@
   display: flex;
   flex-direction: row;
   justify-content: baseline;
+  z-index: 1000000;
 }
 .base-header {
+  z-index: 10;
   width: 100vw;
   display: flex;
   height: var(--header-height);

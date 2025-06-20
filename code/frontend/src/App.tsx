@@ -3,7 +3,7 @@ import "./styles/colors.css";
 import "./styles/fonts.css";
 import LoginAndSignUpPage from "./pages/LoginAndSignUpPage";
 import Footer from "./components/Footer";
-import Header from "./components/header";
+import Header from "./components/Header";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
