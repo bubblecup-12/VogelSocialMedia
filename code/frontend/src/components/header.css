@@ -1,9 +1,3 @@
-:root {
-  --Rotkehlchen-gray: #e7ecf2;
-  --Rotkehlchen-brown1: #a28d7a;
-  --Rotkehlchen-orange-default: #e79a0e;
-}
-
 .outest-container {
   display: grid;
   grid-template-rows: auto auto;
@@ -13,7 +7,7 @@
 .base-header {
   width: 100vw;
   display: flex;
-  height: 50px;
+  height: var(--header-height);
   justify-content: space-between;
   align-items: center;
   flex-shrink: 0;
@@ -31,18 +25,17 @@
   flex-direction: column;
   justify-content: center;
   flex-shrink: 0;
+  font-weight: bold;
+  font-size: x-large;
 
   color: var(--Rotkehlchen-orange-default);
   text-align: center;
 }
-
-@media (min-width: 768px) {
-  .menu-container {
-    align-items: end;
-    justify-content: end;
-    width: 100%;
-    display: flex;
-  }
+.header-icon-feather {
+  height: 35px;
+}
+.header-icon-menu {
+  cursor: pointer;
 }
 
 .header-icon {
