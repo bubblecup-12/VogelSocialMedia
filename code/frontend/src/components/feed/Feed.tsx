@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import TestPost from "../../TestPost";
-import "./feed.css";
 import Post from "../Post";
+import "./feed.css";
 
 function Feed() {
   const [posts, setPosts] = useState<number[]>([]);
@@ -10,19 +9,25 @@ function Feed() {
   const feedRef = useRef<HTMLDivElement | null>(null);
   const PAGE_SIZE = 10;
 
+  // Dummy fetch function that simulates loading posts by ID
   const fetchPosts = () => {
     if (loading) return;
     setLoading(true);
-//random shit to differentiate test posts
+
     setTimeout(() => {
       setPosts((prev) => {
         const newPosts = [];
         for (let i = 0; i < PAGE_SIZE; i++) {
-          newPosts.push(Math.floor(Math.random() * 100) + 1);
+          newPosts.push(prev.length + i + 1);
         }
         return [...prev, ...newPosts];
       });
       setLoading(false);
+
+      // Stop after 50 posts, just as an example
+      if (posts.length + PAGE_SIZE >= 50) {
+        setHasMore(false);
+      }
     }, 800);
   };
 
@@ -49,13 +54,12 @@ function Feed() {
 
   return (
     <div className="feedContainer">
-        
-      <main className="feedContent" ref={feedRef}>^
-        <Post/>
-        {posts.map((postId, idx) => (
-          <TestPost key={idx} postId={postId} />
+      <main className="feedContent" ref={feedRef}>
+        {posts.map((postId) => (
+          <Post key={postId} postId={postId} />
         ))}
         {loading && <div className="loading">Loading more posts...</div>}
+        {!hasMore && <div>No more posts</div>}
       </main>
     </div>
   );

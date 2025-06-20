@@ -28,7 +28,7 @@
 /* Desktop responsive behavior */
 @media (min-width: 768px) {
   .feedContent {
-    width: 600px;
+    width: 400px;
     margin: 0 auto;
     padding: 2rem 0;
   }
