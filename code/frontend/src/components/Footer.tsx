@@ -11,6 +11,7 @@ function Footer() {
         <a
           href="https://github.com/bubblecup-12/VogelSocialMedia"
           target="_blank"
+          rel="noreferrer"
           className="footer-link github"
         >
           <img src="/assets/icons/github-mark.svg" alt="GitHub mark" />
