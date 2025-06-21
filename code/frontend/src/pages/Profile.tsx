@@ -2,7 +2,6 @@ import "./profile.css";
 import "../components/bio.css";
 import "./loginAndSignUpPage.css";
 import "../styles/sizes.css";
-import "../styles/colors.css";
 import "../styles/fonts.css";
 import { useState } from "react";
 import QuiltedImageList from "../components/QuiltedImageList";
@@ -15,7 +14,7 @@ import {
   Typography,
   TextField
 } from "@mui/material";
-import ChangeAvatarDialog from "../components/ChagneAvatarDialog";
+import ChangeAvatarDialog from "../components/ChangeAvatarDialog";
 
 function Profile() {
   const toggleEditMode = () => {
