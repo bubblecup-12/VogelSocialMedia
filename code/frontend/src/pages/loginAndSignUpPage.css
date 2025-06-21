@@ -58,29 +58,9 @@
 }
 
 .login-button {
-  display: inline-flex;
-  padding: auto;
-  justify-content: center;
-  align-items: center;
   gap: 10px;
   width: 150px;
   height: 32px;
-  cursor: pointer;
-
-  border-radius: 10px;
-  border: 2px solid var(--Rotkehlchen-orange-default);
-  background: var(--Rotkehlchen-yellow-default);
-}
-
-.login-button:hover {
-  border-radius: 10px;
-  border: 2px solid var(--Rotkehlchen-orange-default);
-  background: var(--Rotkehlchen-yellow-hover);
-}
-.login-button:active {
-  border-radius: 10px;
-  border: 2px solid var(--Rotkehlchen-orange-default);
-  background: var(--Rotkehlchen-orange-default);
 }
 
 .login-div-input {
