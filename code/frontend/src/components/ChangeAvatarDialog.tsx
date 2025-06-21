@@ -27,32 +27,45 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 export default function CustomizedDialogs() {
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
-
+  
   const inputFile = useRef<HTMLInputElement | null>(null);
-
+  
   const openFileExplorer = () => {
     // `current` points to the mounted file input element
     if (inputFile.current) {
       inputFile.current.click();
     }
   };
-
+  
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
+
+  const setImageURL = (selectedImage: File | null) => {
+    if (selectedImage !== null) {
+      return URL.createObjectURL(selectedImage);
+    }
+    //TODO: If no image is selected, return the image already in the database or undefined
+    return undefined;
+  }
+  
+  const [open, setOpen] = React.useState(false);
+  
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setSelectedImage(null); // Reset the selected image when closing
+    setOpen(false);
+  };
+  const handleSaveChanges = () => {
+    setOpen(false);
+  }
 
   return (
     <React.Fragment>
       <Button onClick={handleClickOpen}>
         <Avatar
           alt="Username"
-          src={selectedImage ? URL.createObjectURL(selectedImage) : undefined}
+          src={setImageURL(selectedImage)}
           className="profile-avatar"
         >
           U
@@ -113,7 +126,7 @@ export default function CustomizedDialogs() {
           </IconButton>
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={handleClose}>
+          <Button autoFocus onClick={handleSaveChanges}>
             Save changes
           </Button>
         </DialogActions>
