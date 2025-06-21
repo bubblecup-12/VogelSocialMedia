@@ -15,12 +15,9 @@ import {
   TextField
 } from "@mui/material";
 import ChangeAvatarDialog from "../components/ChangeAvatarDialog";
+import Bio from "../components/Bio";
 
 function Profile() {
-  const toggleEditMode = () => {
-    isEditable(!editMode);
-  };
-  const [editMode, isEditable] = useState(true);
 
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
@@ -64,42 +61,9 @@ function Profile() {
               {username}
             </span>
           </div>
-          <div
-          >
-            <Box
-              component="form"
-              sx={{
-                "& .MuiTextField-root": {
-                  m: 1,
-                  width: "30ch",
-                  maxWidth: "100%",
-                },
-              }}
-              noValidate
-              autoComplete="off"
-              onClick={editMode ? toggleEditMode : undefined}
-            >
-              <TextField
-                className="bio-input"
-                id="outlined-multiline-flexible"
-                label="✎ Bio"
-                defaultValue="This is a sample bio. Click to edit."
-                multiline
-                maxRows={4}
-                disabled={editMode}
-              />
-            </Box>
-            {!editMode && (
-              <Button
-                variant="contained"
-                className="button"
-                onClick={toggleEditMode}
-              >
-                Ok
-              </Button>
-            )}
-          </div>
+          <Bio/>
           <Divider variant="middle" className="divider" />
+          {/* TODO: Change data to data from Database */}
           <div className="numeral-data">
             <div className="data">
               <span aria-label="current-post-number">50</span>
