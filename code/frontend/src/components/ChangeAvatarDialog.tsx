@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useRef, useState } from "react";
 import {
   Button,
   styled,
@@ -10,12 +9,15 @@ import {
   IconButton,
   Avatar,
   Box,
+  Divider,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import EditSquareIcon from "@mui/icons-material/EditSquare";
 import "../styles/colors.css";
 import "../styles/fonts.css";
 import "./changeAvatarDialog.css";
+import ButtonPrimary from "./ButtonPrimary";
+import { useFilePicker } from "use-file-picker";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -27,45 +29,46 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 export default function CustomizedDialogs() {
-  
-  const inputFile = useRef<HTMLInputElement | null>(null);
-  
-  const openFileExplorer = () => {
-    // `current` points to the mounted file input element
-    if (inputFile.current) {
-      inputFile.current.click();
-    }
-  };
-  
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const { openFilePicker, filesContent, loading } = useFilePicker({
+    accept: ".png, .jpg, .jpeg",
+    multiple: false,
+    readAs: "DataURL",
+    limitFilesConfig: { max: 1 },
+  });
 
-  const setImageURL = (selectedImage: File | null) => {
-    if (selectedImage !== null) {
-      return URL.createObjectURL(selectedImage);
+  const setImageURL = ({ newImage = false }: { newImage: boolean }) => {
+    if (newImage) {
+      return filesContent[0].content;
     }
-    //TODO: If no image is selected, return the image already in the database or undefined
+    // TODO: If no image is selected, return the image already in the database or undefined
     return undefined;
-  }
-  
+  };
+
   const [open, setOpen] = React.useState(false);
-  
+
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
-    setSelectedImage(null); // Reset the selected image when closing
+    setImageURL({ newImage: false }); // Reset the selected image when closing
     setOpen(false);
   };
   const handleSaveChanges = () => {
     setOpen(false);
-  }
+  };
 
   return (
     <React.Fragment>
       <Button onClick={handleClickOpen}>
         <Avatar
           alt="Username"
-          src={setImageURL(selectedImage)}
+          // current code does not work yet
+          // TODO: If no image is selected, return the image already in the database or undefined
+          src={
+            filesContent.length > 0
+              ? setImageURL({ newImage: true })
+              : undefined
+          }
           className="profile-avatar"
         >
           U
@@ -76,7 +79,11 @@ export default function CustomizedDialogs() {
         aria-labelledby="change-profile-picture-dialog"
         open={open}
       >
-        <DialogTitle sx={{ m: 0, p: 2 }} id="change-profile-picture-dialog">
+        <DialogTitle
+          className="small-title orange-text"
+          sx={{ m: 1.5, p: 2 }}
+          id="change-profile-picture-dialog"
+        >
           Change Profile Picture
         </DialogTitle>
         <IconButton
@@ -91,7 +98,8 @@ export default function CustomizedDialogs() {
         >
           <CloseIcon />
         </IconButton>
-        <DialogContent dividers>
+        <Divider variant="middle" className="divider" />
+        <DialogContent>
           <Box
             sx={{
               display: "flex",
@@ -103,32 +111,32 @@ export default function CustomizedDialogs() {
               maxHeight: "30rem",
             }}
           >
-            {selectedImage && (
+            {filesContent.map((file) => (
               <img
-                src={URL.createObjectURL(selectedImage)}
-                alt="Profile Picture"
-                style={{maxWidth: "30rem", maxHeight: "30rem" , width: "100%", height: "100%", objectFit: "cover"}}
-              />
-            )}
+                alt={file.name}
+                src={file.content}
+                style={{
+                  maxWidth: "30rem",
+                  maxHeight: "30rem",
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                }}
+              ></img>
+            ))}
           </Box>
-          <IconButton aria-label="upload picture" onClick={openFileExplorer}>
-            <EditSquareIcon />
-            <input
-              type="file"
-              id="file"
-              onChange={(event) => {
-                console.log(event.target.files ? [0] : undefined); // Log the selected file
-                if (event.target.files && event.target.files[0]) {
-                  setSelectedImage(event.target.files[0]); // Update the state with the selected file
-                }
-              }}
-            />
-          </IconButton>
+          <div className="change-avatar-button">
+            <IconButton
+              aria-label="upload picture"
+              onClick={() => openFilePicker()}
+            >
+              <EditSquareIcon className="edit-icon" />
+            </IconButton>
+          </div>
         </DialogContent>
+        <Divider variant="middle" className="divider" />
         <DialogActions>
-          <Button autoFocus onClick={handleSaveChanges}>
-            Save changes
-          </Button>
+          <ButtonPrimary value="Save Changes" onClick={handleSaveChanges} />
         </DialogActions>
       </BootstrapDialog>
     </React.Fragment>
