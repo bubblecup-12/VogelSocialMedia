@@ -4,6 +4,7 @@ import "./styles/fonts.css";
 import LoginAndSignUpPage from "./pages/LoginAndSignUpPage";
 import Footer from "./components/Footer";
 import Header from "./components/header";
+import Profile from "./pages/Profile";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
             path="/register"
             element={<LoginAndSignUpPage signupProp={true} />}
           ></Route>
+          <Route path="/profile" element={<Profile />} />
         </Routes>
         <Footer />
       </div>

@@ -16,4 +16,13 @@
     ),
     url("../../public/assets/images/BirdsSky.jpg") lightgray 50% / cover
       no-repeat;
+    --transparent-dark-blue: hsla(244, 70%, 13%, 0.71);
+}
+
+body{
+  height: 100vh; /* Full viewport height */
+  width: 100vw; /* Full viewport width */
+  background: var(--gradient-blue-backround-mobile);
+  z-index: -1;
+  background-attachment: fixed;
 }
