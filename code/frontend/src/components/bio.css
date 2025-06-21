@@ -2,6 +2,10 @@
     margin: 0.5rem;
 }
 
+.css-53g0n7-MuiButtonBase-root-MuiIconButton-root {
+  justify-content: end;
+}
+
 /* Root class for the input field */
 .bio-input .MuiOutlinedInput-root {
   color: var(--Rotkehlchen-gray);
@@ -28,10 +32,10 @@
   border-color: transparent;
 }
 
-@media screen and (min-width: 768px) {
+@media only screen and (min-width: 768px) {
   .bio-input {
     width: 100%;
-    margin: 1rem;
+    margin-bottom: 1rem;
   }
   .bio-input .MuiInputLabel-outlined {
     font-size: 18px;
