@@ -26,3 +26,14 @@ body{
   z-index: -1;
   background-attachment: fixed;
 }
+
+.blue-background {
+  border-radius: 1rem;
+  background-color: var(--transparent-dark-blue);
+  backdrop-filter: blur(8px);
+  height: fit-content;
+}
+
+.edit-icon {
+  color: var(--Rotkehlchen-brown-light)
+}
