@@ -8,8 +8,8 @@ export default function StandardImageList() {
     <StyledEngineProvider injectFirst>
       <Box className="box">
         <Grid container spacing={1} className="image-list">
-          {itemData.map((item) => (
-            <ImageListItem key={item.img}>
+          {itemData.map((item, index) => (
+            <ImageListItem key={index}>
               <img
                 srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
                 src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
