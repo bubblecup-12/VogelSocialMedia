@@ -5,7 +5,7 @@ function Footer() {
     <footer className="footer">
       <div className="footer-left">
         <Link to="/" className="footer-link feather">
-          <img src="/assets/icons/feather_black.svg" alt="Feather icon" />
+          <img src="/assets/icons/BirdIconO.ico" alt="Feather icon" />
           <span className="small-title">Feather Feed</span>
         </Link>
         <a
