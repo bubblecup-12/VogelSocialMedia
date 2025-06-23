@@ -1,8 +1,7 @@
 import "./loginAndSignUpPage.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Button } from "@mui/material";
-import ButtonPrimary from "../components/ButtonPrimary";
+import ButtonPrimary from "../components/ButtonRotkehlchen";
 
 type FormData = {
   username: string;
@@ -136,7 +135,7 @@ function LoginAndSignUpPage({ signupProp }: { signupProp: boolean }) {
               </div>
             )}
           </div>
-          <ButtonPrimary value={signup ? "Sign Up" : "Login"} />
+          <ButtonPrimary style="primary" label={signup ? "Sign Up" : "Login"} />
           <div className="login-signup body-m" onClick={toggleLogin}>
             {signup
               ? "Already have an account? "
