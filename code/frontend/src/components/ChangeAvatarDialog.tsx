@@ -16,7 +16,7 @@ import EditSquareIcon from "@mui/icons-material/EditSquare";
 import "../styles/colors.css";
 import "../styles/fonts.css";
 import "./changeAvatarDialog.css";
-import ButtonPrimary from "./ButtonPrimary";
+import ButtonRotkehlchen from "./ButtonRotkehlchen";
 import { useFilePicker } from "use-file-picker";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -136,7 +136,8 @@ export default function CustomizedDialogs() {
         </DialogContent>
         <Divider variant="middle" className="divider" />
         <DialogActions>
-          <ButtonPrimary value="Save Changes" onClick={handleSaveChanges} />
+          <ButtonRotkehlchen style="primary" label="Save Changes" onClick={handleSaveChanges} />
+          <ButtonRotkehlchen style="secondary" label="Cancel" onClick={handleClose} />
         </DialogActions>
       </BootstrapDialog>
     </React.Fragment>

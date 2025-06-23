@@ -7,7 +7,7 @@ import "./bio.css";
 import "../styles/colors.css";
 import IconButton from "@mui/material/IconButton";
 import EditSquareIcon from "@mui/icons-material/EditSquare";
-import ButtonPrimary from "./ButtonPrimary";
+import ButtonPrimary from "./ButtonRotkehlchen";
 
 export default function MultilineTextFields() {
   const toggleEditMode = () => {
@@ -40,7 +40,7 @@ export default function MultilineTextFields() {
             />
           </IconButton>
         </div>
-        {editMode && <ButtonPrimary value={"Ok"} onClick={toggleEditMode} />}
+        {editMode && <ButtonPrimary style="primary" label={"Ok"} onClick={toggleEditMode} />}
       </Box>
     </StyledEngineProvider>
   );

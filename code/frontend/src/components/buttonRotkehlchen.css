@@ -1,0 +1,55 @@
+.button-primary {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    width: fit-content;
+
+    margin: 1rem;
+    border-radius: 10px;
+    border: 2px solid var(--Rotkehlchen-orange-default);
+    background: var(--Rotkehlchen-yellow-default);
+  }
+  
+  .button-primary:hover {
+    border-radius: 10px;
+    border: 2px solid var(--Rotkehlchen-orange-default);
+    background: var(--Rotkehlchen-yellow-hover);
+  }
+  .button-primary:active {
+    border-radius: 10px;
+    border: 2px solid var(--Rotkehlchen-orange-default);
+    background: var(--Rotkehlchen-orange-default);
+  }
+
+  .button-secondary {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    width: fit-content;
+
+    margin: 1rem;
+    border-radius: 10px;
+    border: 2px solid var(--Rotkehlchen-yellow-default);
+    background: var(--Rotkehlchen-gray);
+  }
+  
+  .button-secondary:hover {
+    border-radius: 10px;
+    border: 2px solid var(--Rotkehlchen-yellow-default);
+    background: var(--Rotkehlchen-gray-hover);
+  }
+  .button-secondary:active {
+    border-radius: 10px;
+    border: 2px solid var(--Rotkehlchen-yellow-default);
+    background: var(--Rotkehlchen-yellow-default);
+  }
