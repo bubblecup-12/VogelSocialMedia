@@ -15,7 +15,6 @@ import ChangeAvatarDialog from "../components/ChangeAvatarDialog";
 import Bio from "../components/Bio";
 
 function Profile() {
-
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const openPopover = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -59,7 +58,7 @@ function Profile() {
               {username}
             </span>
           </div>
-          <Bio ownAccount={ownAccount}/>
+          <Bio ownAccount={ownAccount} />
           <Divider variant="middle" className="divider" />
           {/* TODO: Change data to data from Database */}
           <div className="numeral-data">
