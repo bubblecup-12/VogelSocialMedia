@@ -1,6 +1,6 @@
 import "./header.css";
 import React, { useState, useRef } from "react";
-import { createTheme, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SwipeableDrawer, ThemeProvider } from '@mui/material';
+import { createTheme, List, ListItem, ListItemButton, ListItemIcon, ListItemText, StyledEngineProvider, SwipeableDrawer, ThemeProvider } from '@mui/material';
 import Box from '@mui/material/Box';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import DynamicFeedIcon from '@mui/icons-material/DynamicFeed';
@@ -31,38 +31,30 @@ function Header() {
   const routerLinksList = ["/","/createpost","/profile","/about","/"]
 
   const DrawerList = (
-    <Box sx={{ width: 250 }} role="presentation" onClick={() => setIsOpen(false)}>
-      <ThemeProvider
-        theme={createTheme({
-          palette: {
-            mode: 'dark',
-            primary: { main: '#FFFF' },
-            background: { paper: 'rgb(5, 30, 52)' },
-          },
-        })}
-      >
-      <List sx={{height:'100vh', bgcolor: 'background.paper'}}>
+    <StyledEngineProvider injectFirst>
+    <Box role="menu" onClick={() => setIsOpen(false)}>
+      <List className="drawer-list">
         {["Feed", "Create Post", "Profile", "About Us"].map((text, index) => (
-          <ListItem sx={{height: '10vh'}} key={text} disablePadding>
-            <ListItemButton sx={{height: '10vh'}} component={Link} to={routerLinksList[index]} >
-              <ListItemIcon>
+          <ListItem className="drawer-list-item" key={text} disablePadding>
+            <ListItemButton className="drawer-list-item-button" component={Link} to={routerLinksList[index]} >
+              <ListItemIcon className="drawer-list-item">
               {React.createElement(iconList[index])}
               </ListItemIcon>
-              <ListItemText primary={text} slotProps={{primary: {color: 'primary'}}}/>
+              <ListItemText className="drawer-list-item" primary={text}/>
             </ListItemButton>
           </ListItem>
         ))}
-        <ListItem sx={{height: '10vh'}} key={"Log Out"} disablePadding>
-            <ListItemButton sx={{height: '10vh'}} onClick={logOut}>
-              <ListItemIcon>
+        <ListItem className="drawer-list-item-button" key={"Log Out"} disablePadding>
+            <ListItemButton className="drawer-list-item-button" onClick={logOut}>
+              <ListItemIcon className="drawer-list-item">
               {React.createElement(iconList[4])}
               </ListItemIcon>
-              <ListItemText primary={"Log Out"} slotProps={{primary: {color: 'primary'}}}/>
+              <ListItemText className="drawer-list-item" primary={"Log Out"}/>
             </ListItemButton>
           </ListItem>
       </List>
-      </ThemeProvider>
     </Box>
+    </StyledEngineProvider>
   );
 
   return (
