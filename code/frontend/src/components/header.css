@@ -74,3 +74,19 @@
 .drawer-list-item-button:hover {
   background-color: #555b90;
 }
+
+.drawer-list {
+  background-color: #2f325e;
+  min-height: 100vh;
+}
+
+.drawer-list-item {
+  color: white;
+}
+
+.drawer-list-item-button {
+  height: 10vh;
+}
+.drawer-list-item-button:hover {
+  background-color: #555b90;
+}
