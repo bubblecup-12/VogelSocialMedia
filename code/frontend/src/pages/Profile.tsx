@@ -30,13 +30,14 @@ function Profile() {
   const id = isPopoverOpen ? "simple-popover" : undefined;
 
   const username = "Username12345678"; /* Get username from database */
+  const ownAccount = false;
 
   return (
     <StyledEngineProvider injectFirst>
       <div className="profile-display">
         <div className="user-info">
           <div className="user">
-            <ChangeAvatarDialog />
+            <ChangeAvatarDialog ownAccount={ownAccount} username={username} />
             <Popover
               className="profile-popover"
               onClose={closePopover}
@@ -58,7 +59,7 @@ function Profile() {
               {username}
             </span>
           </div>
-          <Bio/>
+          <Bio ownAccount={ownAccount}/>
           <Divider variant="middle" className="divider" />
           {/* TODO: Change data to data from Database */}
           <div className="numeral-data">

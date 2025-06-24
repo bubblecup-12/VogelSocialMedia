@@ -28,7 +28,13 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function CustomizedDialogs() {
+export default function AvatarDialog({
+  ownAccount,
+  username,
+}: {
+  ownAccount: boolean;
+  username: string;
+}) {
   const { openFilePicker, filesContent, loading } = useFilePicker({
     accept: ".png, .jpg, .jpeg",
     multiple: false,
@@ -83,8 +89,10 @@ export default function CustomizedDialogs() {
           className="small-title orange-text"
           sx={{ m: 1.5, p: 2 }}
           id="change-profile-picture-dialog"
-        >
-          Change Profile Picture
+        > { ownAccount ?
+          "Change Profile Picture" :
+          username
+        }
         </DialogTitle>
         <IconButton
           aria-label="close"
@@ -125,20 +133,36 @@ export default function CustomizedDialogs() {
               ></img>
             ))}
           </Box>
-          <div className="change-avatar-button">
-            <IconButton
-              aria-label="upload picture"
-              onClick={() => openFilePicker()}
-            >
-              <EditSquareIcon className="edit-icon" />
-            </IconButton>
-          </div>
+          {ownAccount && (
+            <div className="change-avatar-button">
+              <IconButton
+                aria-label="upload picture"
+                onClick={() => openFilePicker()}
+              >
+                <EditSquareIcon className="edit-icon" />
+              </IconButton>
+            </div>
+          )}
         </DialogContent>
-        <Divider variant="middle" className="divider" />
-        <DialogActions>
-          <ButtonRotkehlchen style="primary" label="Save Changes" onClick={handleSaveChanges} />
-          <ButtonRotkehlchen style="secondary" label="Cancel" onClick={handleClose} />
-        </DialogActions>
+        {ownAccount && (
+          <div>
+            <Divider variant="middle" className="divider" />
+            <DialogActions>
+              <ButtonRotkehlchen
+                style="primary"
+                label="Save Changes"
+                type="submit"
+                onClick={handleSaveChanges}
+              />
+              <ButtonRotkehlchen
+                style="secondary"
+                label="Cancel"
+                type="reset"
+                onClick={handleClose}
+              />
+            </DialogActions>
+          </div>
+        )}
       </BootstrapDialog>
     </React.Fragment>
   );

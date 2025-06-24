@@ -135,7 +135,7 @@ function LoginAndSignUpPage({ signupProp }: { signupProp: boolean }) {
               </div>
             )}
           </div>
-          <ButtonRotkehlchen style="primary" label={signup ? "Sign Up" : "Login"} />
+          <ButtonRotkehlchen style="primary" label={signup ? "Sign Up" : "Login"} type="submit"/>
           <div className="login-signup body-m" onClick={toggleLogin}>
             {signup
               ? "Already have an account? "
