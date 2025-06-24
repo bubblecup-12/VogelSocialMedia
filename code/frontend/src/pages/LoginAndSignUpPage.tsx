@@ -87,6 +87,7 @@ function LoginAndSignUpPage({ signupProp }: { signupProp: boolean }) {
                 value={formData.username}
                 onChange={handleChange}
                 required
+                autoFocus
               />
             </div>
             {signup ? (
@@ -135,7 +136,11 @@ function LoginAndSignUpPage({ signupProp }: { signupProp: boolean }) {
               </div>
             )}
           </div>
-          <ButtonRotkehlchen style="primary" label={signup ? "Sign Up" : "Login"} type="submit"/>
+          <ButtonRotkehlchen
+            style="primary"
+            label={signup ? "Sign Up" : "Login"}
+            type="submit"
+          />
           <div className="login-signup body-m" onClick={toggleLogin}>
             {signup
               ? "Already have an account? "

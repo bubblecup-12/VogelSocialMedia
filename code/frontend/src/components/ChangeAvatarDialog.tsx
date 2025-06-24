@@ -35,7 +35,7 @@ export default function AvatarDialog({
   ownAccount: boolean;
   username: string;
 }) {
-  const { openFilePicker, filesContent, loading } = useFilePicker({
+  const { openFilePicker, filesContent, loading, clear } = useFilePicker({
     accept: ".png, .jpg, .jpeg",
     multiple: false,
     readAs: "DataURL",
@@ -56,7 +56,7 @@ export default function AvatarDialog({
     setOpen(true);
   };
   const handleClose = () => {
-    setImageURL({ newImage: false }); // Reset the selected image when closing
+    clear(); // Reset the selected image when closing
     setOpen(false);
   };
   const handleSaveChanges = () => {
