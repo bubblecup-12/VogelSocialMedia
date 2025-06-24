@@ -1,4 +1,3 @@
-import { Button } from "@mui/material";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import StyledEngineProvider from "@mui/styled-engine/StyledEngineProvider";
@@ -9,11 +8,20 @@ import IconButton from "@mui/material/IconButton";
 import EditSquareIcon from "@mui/icons-material/EditSquare";
 import ButtonPrimary from "./ButtonRotkehlchen";
 
-export default function MultilineTextFields() {
+export default function BioTextField({ ownAccount }: { ownAccount: boolean }) {
+  const [bio, setBio] = useState<string>("");
+  const [oldBio, setOldbio] = useState<string>("");
+  const [editMode, setEditable] = useState(false);
+
   const toggleEditMode = () => {
-    isEditable(!editMode);
+    !editMode && setOldbio(bio);
+    ownAccount && setEditable(!editMode);
   };
-  const [editMode, isEditable] = useState(false);
+
+  const cancleBio = () => {
+    setBio(oldBio);
+    setEditable(false);
+  };
 
   return (
     <StyledEngineProvider injectFirst>
@@ -31,16 +39,35 @@ export default function MultilineTextFields() {
             multiline
             maxRows={4}
             disabled={!editMode}
+            value={bio}
+            onChange={(e) => setBio(e.target.value)}
           />
-          <IconButton aria-label="edit-bio">
-            <EditSquareIcon
-              className="edit-icon"
-              onClick={toggleEditMode}
-              style={{ display: editMode ? "none" : "block" }}
-            />
-          </IconButton>
+          {ownAccount && (
+            <IconButton aria-label="edit-bio">
+              <EditSquareIcon
+                className="edit-icon"
+                onClick={toggleEditMode}
+                style={{ display: editMode ? "none" : "block" }}
+              />
+            </IconButton>
+          )}
         </div>
-        {editMode && <ButtonPrimary style="primary" label={"Ok"} onClick={toggleEditMode} />}
+        {ownAccount && editMode && (
+          <div>
+            <ButtonPrimary
+              style="primary"
+              label={"Save"}
+              type="submit"
+              onClick={toggleEditMode}
+            />
+            <ButtonPrimary
+              style="secondary"
+              label={"Cancel"}
+              type="reset"
+              onClick={cancleBio}
+            />
+          </div>
+        )}
       </Box>
     </StyledEngineProvider>
   );
