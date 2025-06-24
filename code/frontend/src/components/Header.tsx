@@ -19,7 +19,7 @@ function Header() {
   // TODO
   const logOut = async () => {
     try {
-    const response = await axios.delete("http://localhost:3001/api/user/delete");
+    const response = await axios.delete("http://localhost:3001/api/user/logout");
     } catch (err: any) {
       console.error("error: ", err.response.data);
     }
@@ -63,7 +63,7 @@ function Header() {
   );
 
   return (
-    <div className="outest-container" >
+    <>
       <header className="base-header">
         <div className="header-icon"> <img className="header-icon-feather" src='/assets/icons/BirdIconO.ico' alt="featherIcon" /> </div>
         <p className="header-title">
@@ -79,7 +79,7 @@ function Header() {
     >
       {DrawerList}
     </SwipeableDrawer>
-    </div>
+    </>
   );
 }
 
