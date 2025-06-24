@@ -1,7 +1,7 @@
 import "./loginAndSignUpPage.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import ButtonPrimary from "../components/ButtonRotkehlchen";
+import ButtonRotkehlchen from "../components/ButtonRotkehlchen";
 
 type FormData = {
   username: string;
@@ -135,7 +135,7 @@ function LoginAndSignUpPage({ signupProp }: { signupProp: boolean }) {
               </div>
             )}
           </div>
-          <ButtonPrimary style="primary" label={signup ? "Sign Up" : "Login"} />
+          <ButtonRotkehlchen style="primary" label={signup ? "Sign Up" : "Login"} />
           <div className="login-signup body-m" onClick={toggleLogin}>
             {signup
               ? "Already have an account? "

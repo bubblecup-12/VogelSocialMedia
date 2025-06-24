@@ -6,13 +6,10 @@ import "../styles/fonts.css";
 import { useState } from "react";
 import QuiltedImageList from "../components/QuiltedImageList";
 import {
-  Box,
   StyledEngineProvider,
   Divider,
-  Button,
   Popover,
   Typography,
-  TextField
 } from "@mui/material";
 import ChangeAvatarDialog from "../components/ChangeAvatarDialog";
 import Bio from "../components/Bio";
