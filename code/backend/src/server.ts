@@ -14,12 +14,10 @@ app.use(
   cors({
     origin: "http://localhost:3000",
     credentials: true,
+    exposedHeaders: ["Authorization", "Refresh-Token"],
   })
 );
-app.use((req, res, next) => {
-  res.header("Access-Control-Expose-Headers", "Authorization");
-  next();
-});
+
 // minIO config
 export const minioClient = new Client({
   endPoint: "localhost", // Replace with your MinIO server URL
