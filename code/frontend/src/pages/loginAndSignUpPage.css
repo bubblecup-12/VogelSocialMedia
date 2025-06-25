@@ -57,12 +57,6 @@
   align-self: center;
 }
 
-.login-button {
-  gap: 10px;
-  width: 150px;
-  height: 32px;
-}
-
 .login-div-input {
   display: flex;
   flex-direction: row;
