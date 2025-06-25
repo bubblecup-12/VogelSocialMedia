@@ -96,7 +96,7 @@ userRouter.post("/login", validateData(userLoginSchema), loginUser);
  *     security:
  *       - bearerAuth: []
  *     parameters:
- *       - in: query
+ *       - in: path
  *         name: username
  *         required: true
  *         schema:
