@@ -6,6 +6,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Avatar from '@mui/material/Avatar';
 import Close from '@mui/icons-material/Close';
+import ButtonPrimary from "../components/ButtonRotkehlchen";
 
 import "../styles/sizes.css";
 import "../styles/fonts.css";
@@ -14,6 +15,9 @@ import AspectRatio from '@mui/joy/AspectRatio';
 import Box from '@mui/joy/Box';
 import Card from '@mui/joy/Card';
 import IconButton from '@mui/joy/IconButton';
+
+import axios from "axios";
+
 
 function PostCreation(){
   const startTags = [
@@ -28,20 +32,22 @@ function PostCreation(){
   interface ImageItem {
     src: string;
     title: string;
-    description: string;
   }
-  
-  
-{/*const theme = createTheme({
-    palette: {
-    primary: {
-      main: '#EAC22A'
-    },
-    secondary: {
-      main: '#4C4141'
-    },
-  },
-});*/}
+
+  type FormData = {
+    images: Array<string>;
+    status: string;
+    description: string;
+    tags: Array<string>;
+  }
+
+  const [formData, setFormData] = useState<FormData>({
+      images: [""],
+      status: "PUBLIC",
+      description: "",
+      tags: [""],
+      
+    });
 
   const initialOptions = startTags.map((option) => option.title);
 
@@ -79,20 +85,34 @@ function PostCreation(){
   const handleDelete = (idx: number) =>
     setData((prev) => prev.filter((_, i) => i !== idx));
 
+  const onSubmit = async(event: React.FormEvent) =>{
+    event.preventDefault();
+    try {
+      await axios.post("http://localhost:3001/api/posts/upload", {
+            images: {data},
+            status: "PUBLIC",
+            description: formData.description,
+            tags: formData.tags,
+          })
+    } catch (error:any) {
+      
+    }
+  }
+
   const username = "Username12345678"; 
 
     return(
     <div className="create-display">
         <div className="create-part">
-          <form>
+          <form onSubmit={onSubmit}>
             <h1>Create Post</h1>
             <div className="create-account">
               <Avatar sx={{}}>OP</Avatar>
               <span className="create-username">{username}</span>
             </div>
             <div className="create-post1">
-              <img src={selectedImage} className="create-post-image" alt="Image"></img>
-              <textarea className="create-post-description"></textarea>
+              <img src={selectedImage} className="create-post-image" alt="Add an Image"></img>
+              <textarea className="create-post-description" value={formData.description}></textarea>
             </div>
             <div className="create-post2">
               <Box
@@ -133,7 +153,7 @@ function PostCreation(){
                     size="sm"
                     key={`${item.title}-${idx}`}
                     variant="outlined"
-                    sx={{ position: 'relative' }}
+                    sx={{ position: 'relative'}}
                     onClick={() => setSelectedImage(item.src)}
                   >
                     {/* delete pill */}
@@ -190,7 +210,7 @@ function PostCreation(){
               />            
             </div>
             <div className="create-post3">
-              <input type="submit" value={"Post"} className="login-button"></input>
+              <ButtonPrimary style="primary" label="Post" type="submit" ></ButtonPrimary>
             </div>
           </form>
         </div>
