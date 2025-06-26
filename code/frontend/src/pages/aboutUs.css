@@ -1,0 +1,17 @@
+.mainbox {
+	height: (100vh - var(--Header-height));
+}
+
+@media screen and (min-width: 768px) {
+	.mainbox {
+		height: (100vh - var(--Header-height));
+	}
+}
+
+.test {
+	flex-grow: 1;
+	height: 100vh;
+	width: 100vw;
+	color: aqua;
+	background-color: aquamarine;
+}
