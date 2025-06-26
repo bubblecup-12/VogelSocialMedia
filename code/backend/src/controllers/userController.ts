@@ -171,37 +171,6 @@ export const loginUser = async (req: Request, res: Response) => {
   res.status(StatusCodes.OK).json({ message: "User logged in successfully" });
 };
 
-// Endpoint to get user data
-export const getUser = async (req: Request, res: Response) => {
-  const username: string = req.params.username as string;
-  if (!username) {
-    res.status(StatusCodes.BAD_REQUEST).json({
-      error: "no username",
-      details: [{ message: "Username is required" }],
-    });
-    return;
-  }
-  const user: User | null = await prisma.user.findUnique({
-    where: {
-      username: username,
-    },
-  });
-  if (!user) {
-    res.status(StatusCodes.NOT_FOUND).json({
-      error: "user not found",
-      details: [{ message: `User "${username}" not found` }],
-    });
-    return;
-  }
-  res.json({
-    message: "User found",
-    data: {
-      username: user.username,
-      userId: user.id,
-      bio: user.bio,
-    },
-  });
-};
 export const refreshToken = async (req: Request, res: Response) => {
   const refreshToken: string | undefined = req.headers[
     "refresh-token"

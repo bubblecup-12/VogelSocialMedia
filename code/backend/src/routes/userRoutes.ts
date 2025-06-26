@@ -9,11 +9,7 @@ import { authenticateToken } from "../middleware/authenticateToken";
 import { logout, refreshToken } from "../controllers/userController";
 const userRouter = express.Router();
 
-import {
-  registerUser,
-  loginUser,
-  getUser,
-} from "../controllers/userController";
+import { registerUser, loginUser } from "../controllers/userController";
 /**
  * @swagger
  * components:
@@ -87,28 +83,7 @@ userRouter.post(
  *         description: Ungültige Anmeldedaten
  */
 userRouter.post("/login", validateData(userLoginSchema), loginUser);
-/**
- * @swagger
- * /api/user/getUser/{username}:
- *   get:
- *     summary: Get user data
- *     tags: [User]
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - in: path
- *         name: username
- *         required: true
- *         schema:
- *           type: string
- *         description: Der Benutzername, nach dem gesucht werden soll
- *     responses:
- *       200:
- *         description: Login erfolgreich
- *       401:
- *         description: Ungültige Anmeldedaten
- */
-userRouter.get("/getUser/:username", authenticateToken(), getUser);
+
 /**
  * @swagger
  * /api/user/refreshToken:
@@ -162,4 +137,5 @@ userRouter.get("/refreshToken", refreshToken);
  *         description: not authenticated
  */
 userRouter.delete("/logout", authenticateToken(), logout);
+
 export default userRouter;
