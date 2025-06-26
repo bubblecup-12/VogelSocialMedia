@@ -63,6 +63,12 @@ h1 {
   font-weight: 400;
 }
 
+.body-bold {
+  font-family: "Inter";
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
 p {
   font-family: "Inter";
 }

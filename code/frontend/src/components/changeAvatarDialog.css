@@ -15,20 +15,13 @@
   background-color: var(--transparent-dark-blue);
   backdrop-filter: blur(15px);
   border-radius: 1rem;
-}
-
-.css-10d30g3-MuiPaper-root-MuiDialog-paper {
   color: var(--Rotkehlchen-orange-default);
 }
 
 .profile-avatar {
   width: 40px;
   height: 40px;
-  background-color: aqua;
-}
-
-.css-53g0n7-MuiButtonBase-root-MuiIconButton-root {
-  color: var(--Rotkehlchen-orange-default);
+  background-color: var(--Rotkehlchen-yellow-default);
 }
 
 .change-avatar-button {
@@ -37,10 +30,28 @@
   align-items: end;
 }
 
+.user {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding-bottom: 1rem;
+  margin-top: 1rem;
+  border-radius: 1rem;
+}
+
 @media screen and (min-width: 768px) {
   .profile-avatar {
     width: 5rem;
     height: 5rem;
     background-color: var(--Rotkehlchen-yellow-default);
+  }
+
+  .user {
+    width: fit-content;
+    padding-left: 1rem;
+    padding-right: 3rem;
+    padding-bottom: 1rem;
   }
 }
