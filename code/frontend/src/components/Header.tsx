@@ -14,12 +14,10 @@ import { useAuth } from "../api/Auth";
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
-  const iconRef = useRef<HTMLImageElement>(null);
-  
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
   const iconList = [DynamicFeedIcon, AddAPhotoIcon, PersonIcon, InfoIcon, LogoutIcon];
   const routerLinksList = ["/","/createpost","/profile","/about","/"]
 
@@ -38,14 +36,15 @@ function Header() {
             </ListItemButton>
           </ListItem>
         ))}
-        <ListItem className="drawer-list-item-button" key={"Log Out"} disablePadding>
+        {user && <ListItem className="drawer-list-item-button" key={"Log Out"} disablePadding>
             <ListItemButton className="drawer-list-item-button" onClick={logout}>
               <ListItemIcon className="drawer-list-item">
               {React.createElement(iconList[4])}
               </ListItemIcon>
               <ListItemText className="drawer-list-item" primary={"Log Out"}/>
             </ListItemButton>
-          </ListItem>
+        </ListItem> }
+        
       </List>
     </Box>
   );
