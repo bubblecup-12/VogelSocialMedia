@@ -31,7 +31,6 @@ function Header() {
   const routerLinksList = ["/","/createpost","/profile","/about","/"]
 
   const DrawerList = (
-    <StyledEngineProvider injectFirst>
     <Box role="menu" onClick={() => setIsOpen(false)}>
       <List className="drawer-list">
         {["Feed", "Create Post", "Profile", "About Us"].map((text, index) => (
@@ -54,7 +53,6 @@ function Header() {
           </ListItem>
       </List>
     </Box>
-    </StyledEngineProvider>
   );
 
   return (
