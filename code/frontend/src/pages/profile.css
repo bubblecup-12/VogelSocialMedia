@@ -7,6 +7,7 @@
 .user-info {
   display: flex;
   flex-direction: column;
+  align-items: center;
   margin-bottom: 1rem;
   margin-left: 1rem;
   margin-right: 1rem;

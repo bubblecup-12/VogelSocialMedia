@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import ChangeAvatarDialog from "../components/ChangeAvatarDialog";
 import Bio from "../components/Bio";
+import RotkehlchenButton from "../components/ButtonRotkehlchen";
 
 function Profile() {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -75,6 +76,7 @@ function Profile() {
               <span className="data-label title-h1">Following</span>
             </div>
           </div>
+          <RotkehlchenButton style="primary" label="Follow" type="button" />
         </div>
         <QuiltedImageList />
       </div>
