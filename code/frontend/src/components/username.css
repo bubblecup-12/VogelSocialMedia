@@ -1,0 +1,10 @@
+.profile-username {
+  color: var(--Rotkehlchen-orange-default);
+  max-width: 10rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+.profile-popover {
+  padding: 1rem;
+}
