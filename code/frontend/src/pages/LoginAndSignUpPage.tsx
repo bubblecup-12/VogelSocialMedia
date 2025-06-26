@@ -4,6 +4,7 @@ import api from "../api/axios";
 import ButtonRotkehlchen from "../components/ButtonRotkehlchen";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../api/Auth";
+import { createTheme, useMediaQuery } from "@mui/material";
 
 type FormData = {
   username: string;
@@ -83,9 +84,23 @@ function LoginAndSignUpPage({ signupProp }: { signupProp: boolean }) {
       [name]: value,
     }));
   };
+  
+  const theme = createTheme({
+    breakpoints: {
+      values: {
+        xs: 0,
+        sm: 768,
+        md: 960,
+        lg: 1280,
+        xl: 1920,
+      },
+    },
+  });
+  const matchDownMd = useMediaQuery(theme.breakpoints.down('sm'));
+
   return (
     <div className="background">
-      <div className="login-login">
+      <div className={matchDownMd ? "login-login" : "login-login blue-background"}>
         <div className="login-part">
           <div className={signup ? "signup-image" : "login-image"}></div>
         </div>

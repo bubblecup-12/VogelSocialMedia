@@ -1,17 +1,13 @@
 .image-list {
   height: fit-content;
-  width: fill-available;
   justify-content: center;
+  margin-bottom: 1rem;
 }
 
-.box {
-  flex-grow: 1;
-  height: fit-content;
-}
 .css-1row2ej-MuiImageListItem-root .MuiImageListItem-img {
   object-fit: cover;
-  width: 5rem;
-  height: 5rem;
+  width: 7rem;
+  height: 7rem;
   margin: -0.1rem;
   cursor: pointer;
 }
