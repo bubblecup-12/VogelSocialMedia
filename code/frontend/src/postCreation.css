@@ -1,3 +1,10 @@
+/* put this once, ideally at the very top of your main stylesheet */
+*,
+*::before,
+*::after{
+  box-sizing: border-box;   /* 1️⃣ borders & padding now count
+                                inside the declared width/height */
+}
 .create-display{
     display: flex;
     flex-direction: column;
@@ -11,15 +18,16 @@
 .create-part{
     display: flex;
     height: 100vh;
-    width: 70vw;
+    width: 100%;
     padding: 29px 40px;
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    border-right: 4px solid var(--Rotkehlchen-gray-hover, #D5D7DA);
-    border-left: 4px solid var(--Rotkehlchen-gray-hover, #D5D7DA);
+    border-right: 4px solid var(--Rotkehlchen-gray-hover);
+    border-left: 4px solid var(--Rotkehlchen-gray-hover);
     background: #FFF;
 }
+
 .create-account{
     display: flex;
     flex-direction: row;
@@ -27,27 +35,27 @@
 }
 .create-post1{
     display: flex;
-    flex-direction: row;
-    width:70vw;
-    gap: 10px;
+    flex-direction: column;
+    gap: 9px;
+    width: 90vw;
 }
 .create-post-description{
     width: 100%;
+    accent-color: var(--Rotkehlchen-yellow-default);
 }
 .create-post2{
     display: flex;
-    flex-direction: row;
-    width: 70vw;
+    flex-direction: column;
+    width: 100%;
     gap: 10px;
-    align-items: center;
+    align-items: flex-start;
 }
 .create-tags{
-    width: 100%;
+    width: 90vw;
 }
 .create-post-image{
-    width: 50vw;
-    max-width: 50vw;
     height: 50vh;
+    width: 90vw;
     object-fit: cover;
     overflow: hidden;
     
@@ -59,6 +67,46 @@ input#create-file-upload[type="file"] {
     border: 1px solid #ccc;
     padding: 6px 12px;
     cursor: pointer;
-    width: 300px;
+    width: 90vw;
     height: 100px;
+}
+.create-post3{
+    display: flex;
+    flex-direction: row-reverse;
+    width: 100%;
+    align-items: flex-end;
+}
+
+@media only screen and (min-width: 768px) {
+    .create-part{
+        width: 90vw;
+    }
+    .create-post1{
+        width:70vw;
+        flex-direction: row;
+
+    }
+    .create-post2{
+        display: flex;
+        flex-direction: row;
+        width: 70vw;
+        gap: 10px;
+        align-items: center;
+    }
+    .create-post-image {
+        width: 100%;
+        max-width: 600px;
+        display: block;
+        margin: 0 auto;
+     }
+    .create-file-upload {
+        border: 1px solid #ccc;
+        padding: 6px 12px;
+        cursor: pointer;
+        width: 300px;
+        height: 100px;
+    }
+    .create-tags{
+        width: 100%;
+    }
 }
