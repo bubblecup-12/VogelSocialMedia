@@ -1,13 +1,14 @@
-import Header from "./header";
 import "./postCreation.css";
 import "./loginAndSignUpPage.css";
 import { useState } from 'react';
 import Chip from '@mui/material/Chip';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
 import Close from '@mui/icons-material/Close';
+
+import "../styles/sizes.css";
+import "../styles/fonts.css";
 
 import AspectRatio from '@mui/joy/AspectRatio';
 import Box from '@mui/joy/Box';
@@ -30,7 +31,8 @@ function PostCreation(){
     description: string;
   }
   
-  const theme = createTheme({
+  
+{/*const theme = createTheme({
     palette: {
     primary: {
       main: '#EAC22A'
@@ -39,7 +41,7 @@ function PostCreation(){
       main: '#4C4141'
     },
   },
-});
+});*/}
 
   const initialOptions = startTags.map((option) => option.title);
 
@@ -77,16 +79,16 @@ function PostCreation(){
   const handleDelete = (idx: number) =>
     setData((prev) => prev.filter((_, i) => i !== idx));
 
+  const username = "Username12345678"; 
+
     return(
-    <ThemeProvider theme={theme}>
     <div className="create-display">
-        <Header/>
         <div className="create-part">
           <form>
             <h1>Create Post</h1>
             <div className="create-account">
-              <Avatar alt="Remy Sharp" src="/assets/images/BirdLogin.jpg" />
-              <span className="create-username">Username</span>
+              <Avatar sx={{}}>OP</Avatar>
+              <span className="create-username">{username}</span>
             </div>
             <div className="create-post1">
               <img src={selectedImage} className="create-post-image" alt="Image"></img>
@@ -138,7 +140,7 @@ function PostCreation(){
                     <IconButton
                       size="sm"
                       onClick={(e) => {
-                        e.stopPropagation();          // keep the main onClick from firing
+                        e.stopPropagation();          
                         handleDelete(idx);
                       }}
                       sx={{
@@ -193,6 +195,6 @@ function PostCreation(){
           </form>
         </div>
     </div>
-    </ThemeProvider>);
+    );
 }
 export default PostCreation;
