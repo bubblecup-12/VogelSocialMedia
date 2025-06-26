@@ -1,6 +1,6 @@
 import "./header.css";
 import React, { useState, useRef } from "react";
-import { createTheme, List, ListItem, ListItemButton, ListItemIcon, ListItemText, StyledEngineProvider, SwipeableDrawer, ThemeProvider } from '@mui/material';
+import { List, ListItem, ListItemButton, ListItemIcon, ListItemText, StyledEngineProvider, SwipeableDrawer, ThemeProvider } from '@mui/material';
 import Box from '@mui/material/Box';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import DynamicFeedIcon from '@mui/icons-material/DynamicFeed';
@@ -8,7 +8,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import InfoIcon from '@mui/icons-material/Info';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Link } from "react-router-dom";
-import axios from "axios";
+import { useAuth } from "../api/Auth";
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,16 +16,11 @@ function Header() {
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
-  // TODO
-  const logOut = async () => {
-    try {
-    const response = await axios.delete("http://localhost:3001/api/user/logout");
-    } catch (err: any) {
-      console.error("error: ", err.response.data);
-    }
-  };
+  const { logout } = useAuth();
   const iconList = [DynamicFeedIcon, AddAPhotoIcon, PersonIcon, InfoIcon, LogoutIcon];
   const routerLinksList = ["/","/createpost","/profile","/about","/"]
+
+  // TODO: Logout nur anzeigen wenn user eingeloggt ist
 
   const DrawerList = (
     <Box role="menu" onClick={() => setIsOpen(false)}>
@@ -41,7 +36,7 @@ function Header() {
           </ListItem>
         ))}
         <ListItem className="drawer-list-item-button" key={"Log Out"} disablePadding>
-            <ListItemButton className="drawer-list-item-button" onClick={logOut}>
+            <ListItemButton className="drawer-list-item-button" onClick={logout}>
               <ListItemIcon className="drawer-list-item">
               {React.createElement(iconList[4])}
               </ListItemIcon>
@@ -59,7 +54,7 @@ function Header() {
         <p className="header-title">
           Feather Feed
         </p>
-        <div className="header-icon header-icon-menu"> {isOpen? <img src='/assets/icons/close_orange.svg' alt="close menu" ref={iconRef} onClick={toggleMenu}/> : <img src='/assets/icons/menu_orange.svg' alt="menu" onClick={toggleMenu}  />} </div>
+        <div className="header-icon header-icon-menu"> <img src='/assets/icons/menu_orange.svg' alt="menu" onClick={toggleMenu}  /> </div>
       </header>
       <SwipeableDrawer
       anchor={"right"}
