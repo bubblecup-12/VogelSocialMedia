@@ -17,12 +17,12 @@ export const uploadPost = async (req: Request, res: Response) => {
   try {
     const uploads = await Promise.all(
       files.map(async (file) => {
-        const objectName = `${user.sub}/${Date.now()}-${file.originalname}`;
+        const objectName = `${user.sub}/posts/${Date.now()}-${file.originalname}`;
         await minioClient.putObject(BUCKET, objectName, file.buffer);
         const url = await minioClient.presignedGetObject(
           BUCKET,
           objectName,
-          60 * 5 // 5 Minuten Gültigkeit
+          60 * 10
         );
 
         return {
@@ -76,10 +76,19 @@ export const getPost = async (req: Request, res: Response) => {
   try {
     // get the postId from the request
     const postId: string = req.query.postId as string;
-    const postObject = await prisma.post.findUnique({
+    const user: JwtPayload | undefined = req.user;
+    const postObject = await prisma.post.findFirst({
       // find the post by id
       where: {
         id: postId,
+        ...(user
+          ? {
+              OR: [
+                { status: "PRIVATE", userId: user.id },
+                { status: "PUBLIC" },
+              ],
+            }
+          : { status: "PUBLIC" }),
       },
       include: {
         user: true,
@@ -106,6 +115,20 @@ export const getPost = async (req: Request, res: Response) => {
         ],
       });
       return;
+    }
+    let isFollowing = false;
+    if (user) {
+      const following = await prisma.follow.findUnique({
+        where: {
+          followingUserId_followedUserId: {
+            followingUserId: user.sub!,
+            followedUserId: postObject.userId,
+          },
+        },
+      });
+      if (following) {
+        isFollowing = true;
+      }
     }
     const images = await Promise.all(
       // generate the presigned url for each image
@@ -139,7 +162,9 @@ export const getPost = async (req: Request, res: Response) => {
       createdAt: postObject.createdAt,
       updatedAt: postObject.updatedAt,
       images: images.filter((image) => image !== null), // filter out the null images
+      following: isFollowing,
     });
+    return;
   } catch (err: any) {
     if (err.code === "NotFound") {
       // Handle the case where the object does not exist
@@ -151,22 +176,26 @@ export const getPost = async (req: Request, res: Response) => {
           },
         ],
       });
+      return;
     }
     console.error(err);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       error: "Failed to retrieve post",
       details: [{ message: "Server error" }],
     });
+    return;
   }
 };
 
 // get all posts from a user
 export const getUserPosts = async (req: Request, res: Response) => {
   try {
-    const userId: string = req.query.userId as string; // Get the userId from the request
+    const username: string = req.params.username;
     const posts = await prisma.post.findMany({
       where: {
-        userId: userId,
+        user: {
+          username: username, // hier greifst du auf die relationierte User-Tabelle zu
+        },
       },
     });
     if (!posts || posts.length === 0) {
@@ -190,5 +219,113 @@ export const getUserPosts = async (req: Request, res: Response) => {
       details: [{ message: "Server error" }],
     });
     return;
+  }
+};
+export const like = async (req: Request, res: Response) => {
+  const postId: string = req.params.postId;
+  const user: JwtPayload = req.user!;
+  if (!postId) {
+    res.status(StatusCodes.BAD_REQUEST).json({
+      error: "no username",
+      details: [{ message: "Username is required" }],
+    });
+    return;
+  }
+  try {
+    const post = await prisma.post.findUnique({
+      where: { id: postId },
+    });
+
+    if (!post) {
+      res.status(StatusCodes.NOT_FOUND).json({
+        error: "Post not found",
+        details: [{ message: `Post with PostId '${postId}' does not exist.` }],
+      });
+      return;
+    }
+    const alreadyLiked = await prisma.like.findUnique({
+      where: {
+        postId_userId: {
+          postId: postId,
+          userId: user.sub!,
+        },
+      },
+    });
+    if (alreadyLiked) {
+      res.status(StatusCodes.CONFLICT).json({
+        error: "Already following",
+        details: [{ message: "You are already following this User" }],
+      });
+      return;
+    }
+    const follow = await prisma.like.create({
+      data: {
+        postId: postId,
+        userId: user.sub!,
+      },
+    });
+    res.status(StatusCodes.NO_CONTENT).send();
+    return;
+  } catch (err) {
+    console.error(err);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      error: "Upload failed",
+      details: [{ message: "Internal server error" }],
+    });
+  }
+};
+export const removeLike = async (req: Request, res: Response) => {
+  const postId: string = req.params.postId;
+  const user: JwtPayload = req.user!;
+  if (!postId) {
+    res.status(StatusCodes.BAD_REQUEST).json({
+      error: "no postId",
+      details: [{ message: "postId is required" }],
+    });
+    return;
+  }
+  try {
+    const post = await prisma.post.findUnique({
+      where: { id: postId },
+    });
+
+    if (!post) {
+      res.status(StatusCodes.NOT_FOUND).json({
+        error: "Post not found",
+        details: [{ message: `Post with PostId '${postId}' does not exist.` }],
+      });
+      return;
+    }
+    const alreadyLiked = await prisma.like.findUnique({
+      where: {
+        postId_userId: {
+          postId: postId!,
+          userId: user.sub!,
+        },
+      },
+    });
+    if (!alreadyLiked) {
+      res.status(StatusCodes.CONFLICT).json({
+        error: "Already following",
+        details: [{ message: "You are already following this User" }],
+      });
+      return;
+    }
+    const follow = await prisma.like.delete({
+      where: {
+        postId_userId: {
+          postId: postId,
+          userId: user.sub!,
+        },
+      },
+    });
+    res.status(StatusCodes.NO_CONTENT).send();
+    return;
+  } catch (err) {
+    console.error(err);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      error: "Upload failed",
+      details: [{ message: "Internal server error" }],
+    });
   }
 };

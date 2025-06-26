@@ -3,7 +3,8 @@ import { Client } from "minio";
 import dotenv from "dotenv";
 import userRouter from "./routes/userRoutes";
 import postRouter from "./routes/postRoutes";
-import { authenticateToken } from "./middleware/authenticateToken";
+import profileRouter from "./routes/profileRoutes";
+import followerRouter from "./routes/followerRoutes";
 import bodyParser from "body-parser";
 import cors from "cors";
 dotenv.config();
@@ -14,12 +15,10 @@ app.use(
   cors({
     origin: "http://localhost:3000",
     credentials: true,
+    exposedHeaders: ["Authorization", "Refresh-Token"],
   })
 );
-app.use((req, res, next) => {
-  res.header("Access-Control-Expose-Headers", "Authorization");
-  next();
-});
+
 // minIO config
 export const minioClient = new Client({
   endPoint: "localhost", // Replace with your MinIO server URL
@@ -32,6 +31,7 @@ export const minioClient = new Client({
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import { deleteExpiredTokens } from "./tasks/deleteTokens";
+import feedRouter from "./routes/feedRoutes";
 
 const options = {
   definition: {
@@ -77,8 +77,10 @@ setInterval(
 );
 app.use(bodyParser.json());
 app.use("/api/user", userRouter);
-app.use("/api/posts", authenticateToken(), postRouter);
-
+app.use("/api/posts", postRouter);
+app.use("/api/profile", profileRouter);
+app.use("/api/feed", feedRouter);
+app.use("/api/follower/", followerRouter);
 app.listen(port, () => {
   console.log(`Server läuft auf http://localhost:${port}`);
 });

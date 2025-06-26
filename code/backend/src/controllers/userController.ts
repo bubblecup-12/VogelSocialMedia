@@ -171,38 +171,6 @@ export const loginUser = async (req: Request, res: Response) => {
   res.status(StatusCodes.OK).json({ message: "User logged in successfully" });
 };
 
-// Endpoint to get user data
-export const getUser = async (req: Request, res: Response) => {
-  const username: string = req.query.username as string;
-  if (!username) {
-    res.status(StatusCodes.BAD_REQUEST).json({
-      error: "no username",
-      details: [{ message: "Username is required" }],
-    });
-    return;
-  }
-  const user: User | null = await prisma.user.findUnique({
-    where: {
-      username: username,
-    },
-  });
-  if (!user) {
-    res.status(StatusCodes.NOT_FOUND).json({
-      error: "user not found",
-      details: [{ message: `User "${username}" not found` }],
-    });
-    return;
-  }
-  res.json({
-    message: "User found",
-    data: {
-      username: user.username,
-      email: user.email,
-      userId: user.id,
-      userInfo: user.bio,
-    },
-  });
-};
 export const refreshToken = async (req: Request, res: Response) => {
   const refreshToken: string | undefined = req.headers[
     "refresh-token"
@@ -255,9 +223,15 @@ export const refreshToken = async (req: Request, res: Response) => {
           });
           return;
         }
-        await prisma.refreshToken.delete({
+        const existingToken = await prisma.refreshToken.findUnique({
           where: { id: payload.jti },
         });
+
+        if (existingToken) {
+          await prisma.refreshToken.deleteMany({
+            where: { id: payload.jti },
+          });
+        }
         const refreshToken = await generateRefreshToken(storedToken.user.id);
         res.set("Refresh-Token", refreshToken.token);
         const token: string = generateAccessToken(
@@ -268,7 +242,8 @@ export const refreshToken = async (req: Request, res: Response) => {
         ); // generate a JWT token with the username and userId as payload
         res.set("Authorization", `Bearer ${token}`); // set the token in the response header
         res.status(StatusCodes.OK).send();
-      } catch {
+      } catch (error) {
+        console.log(error);
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
           error: "Server error",
           details: [{ message: "Server Error" }],
@@ -280,13 +255,15 @@ export const refreshToken = async (req: Request, res: Response) => {
 };
 
 export const logout = async (req: Request, res: Response) => {
-  const jti: string = req.query.jti as string;
+  const jti: string = req.user!.jti as string;
   try {
     await prisma.refreshToken.delete({ where: { id: jti } });
-    res.removeHeader("Authorization");
-    res.removeHeader("Refresh-Token");
     res.status(StatusCodes.NO_CONTENT).send();
-  } catch {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR);
+  } catch (err) {
+    console.log(err);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      error: "Server error",
+      details: [{ message: "Server Error" }],
+    });
   }
 };
