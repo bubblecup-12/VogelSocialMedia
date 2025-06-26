@@ -31,7 +31,7 @@ function LoginAndSignUpPage({ signupProp }: { signupProp: boolean }) {
   const toggleLogin = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
     setErrorMessages(undefined);
-    setSignup(!signup);
+    signup ? navigate("/login") : navigate("/register");
   };
   const [formData, setFormData] = useState<FormData>({
     username: "",

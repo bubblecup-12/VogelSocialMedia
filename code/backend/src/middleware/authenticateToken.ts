@@ -9,17 +9,6 @@ dotenv.config();
 const JWT_SECRET: string = process.env.TOKEN_SECRET!;
 if (!JWT_SECRET) console.error("No JWT secret provided");
 
-
-
-// Extend the Express Request interface to include the user property
-declare global {
-  namespace Express {
-    interface Request {
-      user?: JwtPayload;
-    }
-  }
-}
-
 // Middleware function to authenticate the JWT token
 export function authenticateToken() {
   return (req: Request, res: Response, next: NextFunction) => {
