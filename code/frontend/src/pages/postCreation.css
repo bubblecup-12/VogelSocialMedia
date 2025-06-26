@@ -6,10 +6,6 @@
 .create-display{
     display: flex;
     flex-direction: column;
-    height: 100vh; /* Full viewport height */
-    width: 100vw; /* Full viewport width */
-    position: absolute; 
-    background: var(--gradient-blue-backround-mobile, linear-gradient(270deg, rgba(20, 15, 86, 0.27) 0%, rgba(20, 15, 86, 0.58) 24%, rgba(20, 15, 86, 0.74) 43%, rgba(17, 13, 71, 0.82) 56%, rgba(13, 10, 56, 0.90) 68%), url('/public/assets/images/BirdsSky.jpg') lightgray 50% / cover no-repeat);
     align-items: center;
     justify-content: center;
 }
@@ -52,7 +48,7 @@
     width: 90vw;
 }
 .create-post-image{
-    height: 50vh;
+    height: 40vh;
     width: 90vw;
     object-fit: cover;
     overflow: hidden;
@@ -76,8 +72,13 @@ input#create-file-upload[type="file"] {
 }
 
 @media only screen and (min-width: 768px) {
+    .create-display{
+        padding-top: calc(var(--Header-height) + 1rem);
+        padding-bottom: 1rem;
+    }
     .create-part{
         width: 90vw;
+        height: calc(100vh - var(--Header-height));
     }
     .create-post1{
         width:70vw;
