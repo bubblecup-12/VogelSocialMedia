@@ -61,6 +61,7 @@
 .drawer-list {
   background-color: #2f325e;
   min-height: 100vh;
+  min-width: 13rem;
 }
 
 .drawer-list-item {
