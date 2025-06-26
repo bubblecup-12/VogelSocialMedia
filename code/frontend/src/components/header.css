@@ -65,11 +65,11 @@
 }
 
 .drawer-list-item {
-  color: white;
+	color: white;
 }
 
 .drawer-list-item-button {
-  height: 10vh;
+	height: 10vh;
 }
 .drawer-list-item-button:hover {
   background-color: #555b90;
