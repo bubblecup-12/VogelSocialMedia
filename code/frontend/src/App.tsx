@@ -1,16 +1,21 @@
 
+import React, { use } from 'react';
+import logo from './logo.svg';
+import './App.css';
+import { useState, useEffect } from 'react';
+import LoginAndSignUpPage from './pages/LoginAndSignUpPage';
+import PostCreation from './pages/PostCreation';
 import "./App.css";
 import "./styles/colors.css";
 import "./styles/fonts.css";
 import "./styles/sizes.css";
-import LoginAndSignUpPage from "./pages/LoginAndSignUpPage";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Profile from "./pages/Profile";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Auth } from "./api/Auth";
 import { NotFound } from "./pages/404Page/NotFoundPage";
-import PostCreation from './PostCreation';
+
 
 function App() {
   return (
