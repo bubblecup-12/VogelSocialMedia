@@ -1,5 +1,5 @@
 import { StatusCodes } from "http-status-codes";
-import multer, { MulterError } from "multer";
+import multer from "multer";
 import { Request, Response, NextFunction } from "express";
 
 // Configure multer to store files in memory
@@ -35,11 +35,7 @@ export const upload = (req: Request, res: Response, next: NextFunction) => {
     }
     for (const file of files) {
       //check for correct filetypes
-      if (
-        file.mimetype !== "image/jpeg" &&
-        file.mimetype !== "image/png" &&
-        file.mimetype !== "image/webp"
-      ) {
+      if (["jpeg", "png", "webp"].includes(file.mimetype)) {
         return res.status(StatusCodes.BAD_REQUEST).json({
           error: "Invalid file type",
           details: [

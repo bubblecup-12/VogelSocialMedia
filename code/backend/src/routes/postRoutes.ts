@@ -2,13 +2,16 @@ import express from "express";
 import {
   getPost,
   getUserPosts,
+  like,
+  removeLike,
   uploadPost as uploadPost,
 } from "../controllers/postController";
-import { upload } from "../middleware/fileUpload";
+import { upload } from "../middleware/uploadMultiple";
 
 import { validateData } from "../middleware/validationMiddleware";
 import { uploadPostSchema } from "../schemas/postSchemas";
-import { get } from "http";
+import { authenticateToken } from "../middleware/authenticateToken";
+import { optionalAuthenticateToken } from "../middleware/optionalAuthenticateToken";
 const router = express.Router();
 
 /**
@@ -17,7 +20,7 @@ const router = express.Router();
  *   post:
  *     summary: Upload multiple images with metadata
  *     tags:
- *       - posts
+ *       - Posts
  *     requestBody:
  *       required: true
  *       content:
@@ -58,13 +61,19 @@ const router = express.Router();
  *       200:
  *         description: Images uploaded successfully
  */
-router.post("/upload", upload, validateData(uploadPostSchema), uploadPost);
+router.post(
+  "/upload",
+  authenticateToken(),
+  upload,
+  validateData(uploadPostSchema),
+  uploadPost
+);
 /**
  * @swagger
  * /api/posts/getPost/{postId}:
  *   get:
  *     summary: Get Post
- *     tags: [posts]
+ *     tags: [Posts]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -77,30 +86,74 @@ router.post("/upload", upload, validateData(uploadPostSchema), uploadPost);
  *     responses:
  *       200:
  *         description:  Ok
- *       401:
- *         description: not authenticated
+ *       404:
+ *         description: not found
  */
-router.get("/getPost/:userId", getPost);
+router.get("/getPost/:postId", optionalAuthenticateToken, getPost);
 /**
  * @swagger
- * /api/posts/getUserPosts/{userId}:
+ * /api/posts/getUserPosts/{username}:
  *   get:
- *     summary: Get Post
- *     tags: [posts]
+ *     summary: Get Posts from user
+ *     tags: [Posts]
+ *     parameters:
+ *       - in: path
+ *         name: username
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Der Benutzername, nach dem gesucht werden soll
+ *     responses:
+ *       200:
+ *         description:  Ok
+ *       404:
+ *         description: not found
+ */
+router.get("/getuserposts/:username", optionalAuthenticateToken, getUserPosts);
+/**
+ * @swagger
+ * /api/posts/like/{postId}:
+ *   post:
+ *     summary: follow a User
+ *     tags: [Posts]
  *     security:
  *       - bearerAuth: []
  *     parameters:
- *       - in: query
+ *       - in: path
  *         name: postId
  *         required: true
  *         schema:
  *           type: string
- *         description: The user id
+ *         description: Der Benutzername, nach dem gesucht werden soll
  *     responses:
  *       200:
- *         description:  Ok
+ *         description: Login erfolgreich
  *       401:
- *         description: not authenticated
+ *         description: Ungültige Anmeldedaten
  */
-router.get("/getuserposts/:userId", getUserPosts);
+router.post("/like/:postId", authenticateToken(), like);
+
+/**
+ * @swagger
+ * /api/posts/removeLike/{postId}:
+ *   delete:
+ *     summary: follow a User
+ *     tags: [Posts]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: postId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Der Benutzername, nach dem gesucht werden soll
+ *     responses:
+ *       200:
+ *         description: Login erfolgreich
+ *       401:
+ *         description: Ungültige Anmeldedaten
+ */
+router.delete("/removeLike/:postId", authenticateToken(), removeLike);
+
 export default router;

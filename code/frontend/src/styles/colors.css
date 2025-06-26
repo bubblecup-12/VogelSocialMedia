@@ -1,5 +1,6 @@
 :root {
   --Rotkehlchen-gray: #e7ecf2;
+  --Rotkehlchen-gray-hover: #D5D7DA;;
   --Rotkehlchen-brown-light: #a28d7a;
   --Rotkehlchen-brown-middle: #7f6d6d;
   --Rotkehlchen-brown-dark: #4c4141;
@@ -16,4 +17,24 @@
     ),
     url("../../public/assets/images/BirdsSky.jpg") lightgray 50% / cover
       no-repeat;
+    --transparent-dark-blue: hsla(244, 70%, 13%, 0.71);
+}
+
+body{
+  height: 100vh; /* Full viewport height */
+  width: 100vw; /* Full viewport width */
+  background: var(--gradient-blue-backround-mobile);
+  z-index: -1;
+  background-attachment: fixed;
+}
+
+.blue-background {
+  border-radius: 1rem;
+  background-color: var(--transparent-dark-blue);
+  backdrop-filter: blur(8px);
+  height: fit-content;
+}
+
+.edit-icon {
+  color: var(--Rotkehlchen-brown-light)
 }

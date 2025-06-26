@@ -6,14 +6,10 @@ import {
   userLoginSchema,
 } from "../schemas/userSchemas";
 import { authenticateToken } from "../middleware/authenticateToken";
-
+import { logout, refreshToken } from "../controllers/userController";
 const userRouter = express.Router();
 
-import {
-  registerUser,
-  loginUser,
-  getUser,
-} from "../controllers/userController";
+import { registerUser, loginUser } from "../controllers/userController";
 /**
  * @swagger
  * components:
@@ -50,7 +46,7 @@ import {
  * /api/user/register:
  *   post:
  *     summary: Register a new user
- *     tags: [User]
+ *     tags: [Auth]
  *     requestBody:
  *       required: true
  *       content:
@@ -73,7 +69,7 @@ userRouter.post(
  * /api/user/login:
  *   post:
  *     summary: Log in a user
- *     tags: [User]
+ *     tags: [Auth]
  *     requestBody:
  *       required: true
  *       content:
@@ -87,27 +83,59 @@ userRouter.post(
  *         description: Ungültige Anmeldedaten
  */
 userRouter.post("/login", validateData(userLoginSchema), loginUser);
+
 /**
  * @swagger
- * /api/user/getUser/{username}:
+ * /api/user/refreshToken:
  *   get:
- *     summary: Get user data
- *     tags: [User]
- *     security:
- *       - bearerAuth: []
+ *     summary: Refresh JWT tokens
+ *     description: |
+ *       Verifiziert einen bereitgestellten Refresh-Token (im Header) und gibt neue Tokens im Header zurück.
+ *     tags:
+ *       - Auth
  *     parameters:
- *       - in: query
- *         name: username
+ *       - in: header
+ *         name: Refresh-Token
  *         required: true
  *         schema:
  *           type: string
- *         description: Der Benutzername, nach dem gesucht werden soll
+ *         description: Der gültige JWT-Refresh-Token
  *     responses:
  *       200:
- *         description: Login erfolgreich
+ *         description: Tokens erfolgreich erneuert
+ *         headers:
+ *           Authorization:
+ *             description: Neuer Access-Token im Bearer-Format
+ *             schema:
+ *               type: string
+ *           Refresh-Token:
+ *             description: Neuer Refresh-Token
+ *             schema:
+ *               type: string
  *       401:
- *         description: Ungültige Anmeldedaten
+ *         description: Ungültiger oder abgelaufener Refresh-Token
+ *       403:
+ *         description: Fehlerhafte Signatur oder ungültiger Token
+ *       500:
+ *         description: Serverfehler
  */
-userRouter.get("/getUser/:username", authenticateToken(), getUser);
+
+userRouter.get("/refreshToken", refreshToken);
+
+/**
+ * @swagger
+ * /api/user/logout/:
+ *   delete:
+ *     summary: logout
+ *     tags: [Auth]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       204:
+ *         description:  logged out
+ *       401:
+ *         description: not authenticated
+ */
+userRouter.delete("/logout", authenticateToken(), logout);
 
 export default userRouter;

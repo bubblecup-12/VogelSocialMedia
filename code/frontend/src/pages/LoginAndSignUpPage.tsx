@@ -1,6 +1,9 @@
 import "./loginAndSignUpPage.css";
-import { useState } from "react";
-import axios from "axios";
+import { useEffect, useState } from "react";
+import api from "../api/axios";
+import ButtonRotkehlchen from "../components/ButtonRotkehlchen";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../api/Auth";
 
 type FormData = {
   username: string;
@@ -8,17 +11,28 @@ type FormData = {
   password: string;
 };
 
-function LoginAndSignUpPage() {
-  const toggleLogin = (event: React.MouseEvent<HTMLElement>) => {
-    event.preventDefault();
-    setErrorMessages(undefined);
-    setSignup(!signup);
-  };
-  const [signup, setSignup] = useState<boolean>(false);
+function LoginAndSignUpPage({ signupProp }: { signupProp: boolean }) {
+  const [signup, setSignup] = useState<boolean>(signupProp);
   const [errorMessages, setErrorMessages] = useState<{
     error: String;
     details: { message: string }[];
   }>();
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const { setUserState } = useAuth();
+  const returnTo =
+    new URLSearchParams(location.search).get("returnTo") || "/feed";
+
+  useEffect(() => {
+    setSignup(signupProp);
+  }, [signupProp]);
+  const toggleLogin = (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault();
+    setErrorMessages(undefined);
+    signup ? navigate("/login") : navigate("/register");
+  };
   const [formData, setFormData] = useState<FormData>({
     username: "",
     email: "",
@@ -30,24 +44,28 @@ function LoginAndSignUpPage() {
     setErrorMessages(undefined);
     try {
       const response = signup
-        ? await axios.post("http://localhost:3001/api/user/register", {
+        ? await api.post("http://localhost:3001/api/user/register", {
             email: formData.email,
             username: formData.username,
             password: formData.password,
           })
-        : await axios.post("http://localhost:3001/api/user/login", {
+        : await api.post("http://localhost:3001/api/user/login", {
             username: formData.username,
             password: formData.password,
           });
       const authHeader = response.headers["authorization"];
       if (authHeader && authHeader.startsWith("Bearer ")) {
         const token = authHeader.substring(7);
-        console.log(token, "Hello");
         localStorage.setItem("token", token);
       }
+      const refreshToken = response.headers["refresh-token"];
+      if (refreshToken) {
+        localStorage.setItem("refreshToken", refreshToken);
+      }
+      await setUserState();
+      navigate(returnTo, { replace: true });
     } catch (err: any) {
       setErrorMessages(err.response.data);
-      console.error("error:", err.response.data);
     }
   };
 
@@ -83,6 +101,7 @@ function LoginAndSignUpPage() {
                 value={formData.username}
                 onChange={handleChange}
                 required
+                autoFocus
               />
             </div>
             {signup ? (
@@ -131,11 +150,11 @@ function LoginAndSignUpPage() {
               </div>
             )}
           </div>
-          <input
+          <ButtonRotkehlchen
+            style="primary"
+            label={signup ? "Sign Up" : "Login"}
             type="submit"
-            className="login-button body-m"
-            value={signup ? "Sign up" : "Login"}
-          ></input>
+          />
           <div className="login-signup body-m" onClick={toggleLogin}>
             {signup
               ? "Already have an account? "
