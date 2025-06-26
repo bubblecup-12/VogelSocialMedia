@@ -25,6 +25,7 @@
   text-decoration: none; /*prevents constant underline*/
   color: black;
   font-weight: 500;
+  cursor: pointer;
 }
 
 .footer-link.feather img {
