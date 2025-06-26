@@ -1,71 +1,77 @@
+:root {
+	--Rotkehlchen-gray: #e7ecf2;
+	--Rotkehlchen-brown1: #a28d7a;
+	--Rotkehlchen-orange-default: #e79a0e;
+}
+
 .base-header {
-  z-index: 10;
-  width: 100vw;
-  display: flex;
-  height: var(--header-height);
-  justify-content: space-between;
-  align-items: center;
-  flex-shrink: 0;
-  border-bottom: 3px solid var(--Rotkehlchen-brown-light);
-  background: var(--Rotkehlchen-gray);
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000;
+	z-index: 10;
+	width: 100vw;
+	display: flex;
+	height: var(--header-height);
+	justify-content: space-between;
+	align-items: center;
+	flex-shrink: 0;
+	background: hsla(244, 70%, 13%, 0.71);
+	backdrop-filter: blur(8px);
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 1000;
 }
 @media only screen and (min-width: 768px) {
-  .base-header {
-    height: var(--header-height-desktop);
-  }
+	.base-header {
+		height: var(--header-height-desktop);
+	}
 }
 
 .header-title {
-  display: flex;
-  width: 162px;
-  height: 63px;
-  flex-direction: column;
-  justify-content: center;
-  flex-shrink: 0;
-  font-weight: bold;
-  font-size: x-large;
+	display: flex;
+	width: 162px;
+	height: 63px;
+	flex-direction: column;
+	justify-content: center;
+	flex-shrink: 0;
+	font-weight: bold;
+	font-size: x-large;
 
-  color: var(--Rotkehlchen-orange-default);
-  text-align: center;
+	color: var(--Rotkehlchen-orange-default);
+	text-align: center;
 }
 .header-icon-feather {
-  height: 35px;
+	height: 35px;
 }
 .header-icon-menu {
-  cursor: pointer;
+	cursor: pointer;
 }
 
 .header-icon {
-  margin: 40px;
-  display: flex;
-  width: 30px;
-  height: 30px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  flex-shrink: 0;
+	margin: 40px;
+	display: flex;
+	width: 30px;
+	height: 30px;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	flex-shrink: 0;
 
-  background-size: cover;
-  background-repeat: no-repeat;
+	background-size: cover;
+	background-repeat: no-repeat;
 }
 
 .drawer-list {
-  background-color: #2f325e;
-  min-height: 100vh;
-  min-width: 13rem;
+	background-color: #12103d;
+	min-height: 100vh;
+	min-width: 13rem;
 }
 
 .drawer-list-item {
-  color: white;
+	color: white;
 }
 
 .drawer-list-item-button {
-  height: 10vh;
+	height: 10vh;
 }
 .drawer-list-item-button:hover {
-  background-color: #555b90;
+	background-color: #232451;
 }
