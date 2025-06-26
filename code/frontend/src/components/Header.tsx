@@ -17,7 +17,7 @@ function Header() {
   };
   const { logout, user } = useAuth();
   const iconList = [DynamicFeedIcon, AddAPhotoIcon, PersonIcon, InfoIcon, LogoutIcon];
-  const routerLinksList = ["/","/createpost","/profile","/about","/"]
+  const routerLinksList = ["/feed","/createpost","/profile","/about"]
 
   // TODO: Logout nur anzeigen wenn user eingeloggt ist
 
