@@ -7,8 +7,11 @@ import DynamicFeedIcon from '@mui/icons-material/DynamicFeed';
 import PersonIcon from '@mui/icons-material/Person';
 import InfoIcon from '@mui/icons-material/Info';
 import LogoutIcon from '@mui/icons-material/Logout';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import FollowTheSignsIcon from '@mui/icons-material/FollowTheSigns';
 import { Link } from "react-router-dom";
 import { useAuth } from "../api/Auth";
+import { ExitToApp } from "@mui/icons-material";
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,8 +19,8 @@ function Header() {
     setIsOpen(!isOpen);
   };
   const { logout, user } = useAuth();
-  const iconList = [DynamicFeedIcon, AddAPhotoIcon, PersonIcon, InfoIcon, LogoutIcon];
-  const routerLinksList = ["/feed","/createpost","/profile","/about"]
+  const iconList = [DynamicFeedIcon, AddAPhotoIcon, PersonIcon, InfoIcon, LogoutIcon, ExitToAppIcon, FollowTheSignsIcon];
+  const routerLinksList = ["/feed","/createpost","/profile","/about","/login","/register"]
 
   // TODO: Logout nur anzeigen wenn user eingeloggt ist
 
@@ -42,6 +45,22 @@ function Header() {
               <ListItemText className="drawer-list-item" primary={"Log Out"}/>
             </ListItemButton>
         </ListItem> }
+        {!user && <> <ListItem className="drawer-list-item-button" key={"Login"} disablePadding>
+            <ListItemButton className="drawer-list-item-button" component={Link} to={routerLinksList[4]}>
+              <ListItemIcon className="drawer-list-item">
+              {React.createElement(iconList[5])}
+              </ListItemIcon>
+              <ListItemText className="drawer-list-item" primary={"Login"}/>
+            </ListItemButton>
+        </ListItem>
+        <ListItem className="drawer-list-item-button" key={"Sign up"} disablePadding>
+            <ListItemButton className="drawer-list-item-button" component={Link} to={routerLinksList[5]}>
+              <ListItemIcon className="drawer-list-item">
+              {React.createElement(iconList[6])}
+              </ListItemIcon>
+              <ListItemText className="drawer-list-item" primary={"Sign up"}/>
+            </ListItemButton>
+        </ListItem> </> }
         
       </List>
     </Box>
@@ -49,7 +68,7 @@ function Header() {
 
   return (
     <>
-      <header className="base-header">
+      <header className="base-header blue-background">
         <div className="header-icon"> <img className="header-icon-feather" src='/assets/icons/BirdIconO.ico' alt="featherIcon" /> </div>
         <p className="header-title">
           Feather Feed
