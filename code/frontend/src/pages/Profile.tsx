@@ -12,16 +12,7 @@ import api from "../api/axios";
 import { useAuth } from "../api/Auth";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-
-type UserProfile = {
-  id: string;
-  username: string;
-  bio: string | undefined;
-  profilePictureUrl: string | null;
-  followers: number;
-  following: number;
-  // posts: number;
-}
+import { UserProfile } from "../types/UserProfile";
 
 function Profile() {
   const { user } = useAuth();
@@ -88,7 +79,7 @@ const setBio = (bio: string) => {
           </div>
           <RotkehlchenButton style="primary" label="Follow" type="button" />
         </div>
-        <QuiltedImageList />
+        {userData && <QuiltedImageList user={userData} />}
       </div>
     </StyledEngineProvider>
   );
