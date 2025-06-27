@@ -1,9 +1,3 @@
-:root {
-	--Rotkehlchen-gray: #e7ecf2;
-	--Rotkehlchen-brown1: #a28d7a;
-	--Rotkehlchen-orange-default: #e79a0e;
-}
-
 .base-header {
 	z-index: 10;
 	width: 100vw;
@@ -12,12 +6,11 @@
 	justify-content: space-between;
 	align-items: center;
 	flex-shrink: 0;
-	background: hsla(244, 70%, 13%, 0.71);
-	backdrop-filter: blur(8px);
 	position: fixed;
 	top: 0;
 	left: 0;
 	z-index: 1000;
+	border-radius: 0rem !important;
 }
 @media only screen and (min-width: 768px) {
 	.base-header {
@@ -60,7 +53,7 @@
 }
 
 .drawer-list {
-	background-color: #12103d;
+	background-color: var(--dark-blue);
 	min-height: 100vh;
 	min-width: 13rem;
 }
@@ -73,5 +66,5 @@
 	height: 10vh;
 }
 .drawer-list-item-button:hover {
-	background-color: #232451;
+	background-color: var(--dark-blue-hover);
 }
