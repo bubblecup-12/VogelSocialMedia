@@ -1,6 +1,5 @@
 import React, { use } from 'react';
 import logo from './logo.svg';
-import './App.css';
 import { useState, useEffect } from 'react';
 import LoginAndSignUpPage from './pages/LoginAndSignUpPage';
 import PostCreation from './pages/PostCreation';
@@ -16,24 +15,6 @@ import { Auth } from "./api/Auth";
 
 function App() {
   return (
-    <Router>
-      <div className="App">
-        <Header />
-        <Routes>
-          <Route
-            path="/login"
-            element={<LoginAndSignUpPage signupProp={false} />}
-          ></Route>
-          <Route
-            path="/register"
-            element={<LoginAndSignUpPage signupProp={true} />}
-          ></Route>
-          <Route path="/profile" element={<Profile />}></Route>
-          <Route path="/create" element={<PostCreation/>}></Route>
-        </Routes>
-        <Footer />
-      </div>
-    </Router>
     <Auth>
       <Router>
         <div className="App">
@@ -48,6 +29,7 @@ function App() {
               element={<LoginAndSignUpPage signupProp={true} />}
             ></Route>
             <Route path="/profile" element={<Profile />}></Route>
+            <Route path="/createpost" element={<PostCreation/>}></Route>
           </Routes>
           <Footer />
         </div>

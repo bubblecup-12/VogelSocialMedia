@@ -1,6 +1,7 @@
 import "./postCreation.css";
 import "./loginAndSignUpPage.css";
-import { useState } from 'react';
+import { useState, ChangeEvent } from 'react';
+import { useNavigate } from "react-router-dom";
 import Chip from '@mui/material/Chip';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
@@ -16,10 +17,11 @@ import Box from '@mui/joy/Box';
 import Card from '@mui/joy/Card';
 import IconButton from '@mui/joy/IconButton';
 
-import axios from "axios";
-
+import api from "../api/axios";
+import { useAuth } from "../api/Auth";
 
 function PostCreation(){
+  const {user} = useAuth();
   const startTags = [
     { title: 'Bird' },
     { title: 'Birds'},
@@ -28,6 +30,7 @@ function PostCreation(){
     { title: 'Feathers'},
     { title: 'Featherfeed'}
   ];
+  
 
   interface ImageItem {
     src: string;
@@ -41,23 +44,26 @@ function PostCreation(){
     tags: Array<string>;
   }
 
-  const [formData, setFormData] = useState<FormData>({
-      images: [""],
-      status: "PUBLIC",
-      description: "",
-      tags: [""],
-      
-    });
+
 
   const initialOptions = startTags.map((option) => option.title);
 
   const [options, setOptions] = useState(initialOptions);
   const [tags, setTags] = useState<string[]>([initialOptions[1]]);
-  const [selectedImage, setSelectedImage] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [selectedImage, setSelectedImage] = useState<string>();
 
   const [data, setData] = useState<ImageItem[]>([]);
+  const navigate = useNavigate();
 
-  const handleChange = (event: any, newValue: string[]) => {
+
+  const [fileList,setFileList] = useState<FileList|null>(null);
+
+  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setDescription(event.target.value);
+  };
+
+  const handleTags = (event: any, newValue: string[]) => {
     newValue.forEach((val) => {
       if (!options.includes(val)) {
         setOptions((prev) => [...prev, val]);
@@ -69,11 +75,9 @@ function PostCreation(){
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files && files.length > 0) {
-      const fileArray = Array.from(files);
       const newItems: ImageItem[] = Array.from(files).map((file) => ({
         src: URL.createObjectURL(file),
         title: file.name,
-        description: 'Uploaded image',
       }
     ));
       const lastImageUrl = newItems[newItems.length - 1].src;
@@ -81,25 +85,39 @@ function PostCreation(){
       setData((prev) => [...prev, ...newItems]);
       setSelectedImage(lastImageUrl);
     }
+    setFileList(files);
   };
   const handleDelete = (idx: number) =>
     setData((prev) => prev.filter((_, i) => i !== idx));
 
   const onSubmit = async(event: React.FormEvent) =>{
     event.preventDefault();
-    try {
-      await axios.post("http://localhost:3001/api/posts/upload", {
-            images: {data},
-            status: "PUBLIC",
-            description: formData.description,
-            tags: formData.tags,
-          })
-    } catch (error:any) {
-      
+    if (!fileList) {
+      return;
     }
-  }
+    const fData = new FormData();
+    files.forEach((file, i) => {
+      fData.append(`images`, file, file.name);
+    });
+    fData.append('status','PUBLIC');
+    fData.append('description', description);
+    tags.forEach((tag) => {
+      fData.append("tags" ,tag);
+    })
 
-  const username = "Username12345678"; 
+    try {
+      await api.post("/posts/upload", fData)
+      navigate("/profile")
+    } catch (error:any) {
+      console.log(error);
+    }
+    
+  };
+  const onCancel= () => {
+    navigate("/profile")
+  };
+
+  const files = fileList ? [...fileList] : [];
 
     return(
     <div className="create-display">
@@ -108,11 +126,11 @@ function PostCreation(){
             <h1>Create Post</h1>
             <div className="create-account">
               <Avatar sx={{}}>OP</Avatar>
-              <span className="create-username">{username}</span>
+              <span className="create-username">{user?.username}</span>
             </div>
             <div className="create-post1">
               <img src={selectedImage} className="create-post-image" alt="Add an Image"></img>
-              <textarea className="create-post-description" value={formData.description}></textarea>
+              <textarea className="create-post-description" value={description} onChange={handleChange} required></textarea>
             </div>
             <div className="create-post2">
               <Box
@@ -188,7 +206,7 @@ function PostCreation(){
                 defaultValue={[startTags[1].title]}
                 freeSolo
                 value={tags}
-                onChange={handleChange}
+                onChange={handleTags}
                 sx={{ width: "90vw" }}
                 renderValue={(value: readonly string[], getItemProps) =>
                 value.map((option: string, index: number) => {
@@ -211,6 +229,7 @@ function PostCreation(){
             </div>
             <div className="create-post3">
               <ButtonPrimary style="primary" label="Post" type="submit" ></ButtonPrimary>
+              <ButtonPrimary style="secondary" label="Cancel" type="button" onClick={onCancel} ></ButtonPrimary>
             </div>
           </form>
         </div>
