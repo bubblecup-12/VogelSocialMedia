@@ -70,7 +70,7 @@ function Header() {
     <>
       <header className="base-header blue-background">
         <div className="header-icon"> <img className="header-icon-feather" src='/assets/icons/BirdIconO.ico' alt="featherIcon" /> </div>
-        <p className="header-title">
+        <p className="header-title small-title">
           Feather Feed
         </p>
         <div className="header-icon header-icon-menu"> <img src='/assets/icons/menu_orange.svg' alt="menu" onClick={toggleMenu}  /> </div>
