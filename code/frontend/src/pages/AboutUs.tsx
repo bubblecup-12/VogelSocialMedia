@@ -1,9 +1,9 @@
-
+import "./aboutUs.css";
 
 function AboutUs() {
 
     return (
-        <div className="mainbox test">
+        <div className="mainbox">
             <img style={{height: "200px", position: "relative"}} src='/assets/icons/feather_black.svg' alt="featherIcon" />
         </div>
     );
