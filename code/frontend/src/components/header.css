@@ -19,17 +19,7 @@
 }
 
 .header-title {
-	display: flex;
-	width: 162px;
-	height: 63px;
-	flex-direction: column;
-	justify-content: center;
-	flex-shrink: 0;
-	font-weight: bold;
-	font-size: x-large;
-
 	color: var(--Rotkehlchen-orange-default);
-	text-align: center;
 }
 .header-icon-feather {
 	height: 35px;
