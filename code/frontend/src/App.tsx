@@ -8,32 +8,31 @@ import Header from "./components/header";
 import Profile from "./pages/Profile";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Auth } from "./api/Auth";
-import AboutUs from "./pages/AboutUs";
+import AboutUs from "./pages/About";
 
 function App() {
-  return (
-    <Auth>
-      <Router>
-        <div className="App">
-          <Header />
-          <Routes>
-            <Route
-              path="/login"
-              element={<LoginAndSignUpPage signupProp={false} />}
-            ></Route>
-            <Route
-              path="/register"
-              element={<LoginAndSignUpPage signupProp={true} />}
-            ></Route>
-            <Route path="/profile" element={<Profile />}></Route>^
-            <Route path="/aboutus" element={<AboutUs />}></Route>
-            <Route path="/about" element={<AboutUs />}></Route>
-          </Routes>
-          <Footer />
-        </div>
-      </Router>
-    </Auth>
-  );
+	return (
+		<Auth>
+			<Router>
+				<div className="App">
+					<Header />
+					<Routes>
+						<Route
+							path="/login"
+							element={<LoginAndSignUpPage signupProp={false} />}
+						></Route>
+						<Route
+							path="/register"
+							element={<LoginAndSignUpPage signupProp={true} />}
+						></Route>
+						<Route path="/profile" element={<Profile />}></Route>
+						<Route path="/about" element={<AboutUs />}></Route>
+					</Routes>
+					<Footer />
+				</div>
+			</Router>
+		</Auth>
+	);
 }
 
 export default App;
