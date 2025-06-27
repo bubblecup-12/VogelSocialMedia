@@ -5,7 +5,7 @@ import { Request, Response, NextFunction } from "express";
 // Configure multer to store files in memory
 const multerInstance = multer({
   storage: multer.memoryStorage(),
-  limits: { fileSize: 5 * 1024 * 1024 }, // Limit file size to 5 MB
+  limits: { fileSize: 30 * 1024 * 1024 }, // Limit file size to 30 MB
 });
 
 export const upload = (req: Request, res: Response, next: NextFunction) => {
