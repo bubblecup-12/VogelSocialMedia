@@ -4,7 +4,7 @@ import { StatusCodes } from "http-status-codes";
 
 const multerInstance = multer({
   storage: multer.memoryStorage(),
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB
+  limits: { fileSize: 30 * 1024 * 1024 }, // 30 MB
 });
 
 export const upload = (req: Request, res: Response, next: NextFunction) => {

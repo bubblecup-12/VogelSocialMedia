@@ -44,12 +44,12 @@ function LoginAndSignUpPage({ signupProp }: { signupProp: boolean }) {
     setErrorMessages(undefined);
     try {
       const response = signup
-        ? await api.post("http://localhost:3001/api/user/register", {
+        ? await api.post("/user/register", {
             email: formData.email,
             username: formData.username,
             password: formData.password,
           })
-        : await api.post("http://localhost:3001/api/user/login", {
+        : await api.post("/user/login", {
             username: formData.username,
             password: formData.password,
           });
@@ -65,7 +65,14 @@ function LoginAndSignUpPage({ signupProp }: { signupProp: boolean }) {
       await setUserState();
       navigate(returnTo, { replace: true });
     } catch (err: any) {
-      setErrorMessages(err.response.data);
+      if (err.response?.data) {
+        setErrorMessages(err.response.data);
+      } else {
+        setErrorMessages({
+          error: "Error",
+          details: [{ message: err.message || "Something went wrong." }],
+        });
+      }
     }
   };
 
@@ -142,10 +149,10 @@ function LoginAndSignUpPage({ signupProp }: { signupProp: boolean }) {
                 minLength={signup ? 8 : undefined}
               />
             </div>
-            {errorMessages && (
+            {errorMessages && errorMessages?.details?.length > 0 && (
               <div className="error-messages">
-                {errorMessages.details.map((detial, index) => (
-                  <p key={index}>{detial.message}</p>
+                {errorMessages.details.map((detail, index) => (
+                  <p key={index}>{detail.message}</p>
                 ))}
               </div>
             )}
