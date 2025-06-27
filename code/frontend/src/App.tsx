@@ -39,6 +39,7 @@ function App() {
         <Footer />
       </Router>
     </Auth>
+
   );
 }
 
