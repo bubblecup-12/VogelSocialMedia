@@ -27,6 +27,7 @@ function App() {
             ></Route>
             <Route path="/profile" element={<Profile />}></Route>^
             <Route path="/aboutus" element={<AboutUs />}></Route>
+            <Route path="/about" element={<AboutUs />}></Route>
           </Routes>
           <Footer />
         </div>
