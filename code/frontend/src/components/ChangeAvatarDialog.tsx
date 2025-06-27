@@ -13,13 +13,12 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import EditSquareIcon from "@mui/icons-material/EditSquare";
-import "../styles/colors.css";
-import "../styles/fonts.css";
 import "./changeAvatarDialog.css";
 import ButtonRotkehlchen from "./ButtonRotkehlchen";
 import { useFilePicker } from "use-file-picker";
 import Username from "./Username";
-import "./username.css"
+import "./username.css";
+import api from "../api/axios";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -37,6 +36,26 @@ export default function AvatarDialog({
   ownAccount: boolean;
   username: string;
 }) {
+  const [profilePicture, setProfilePicture] = React.useState<string | null>(
+    null
+  );
+
+  const saveProfilePicture = async () => {
+    try {
+      const response = await api.post("/profile/updateProfilePicture", {
+        profilePicture: profilePicture,
+      });
+      setProfilePicture(response.data.data.profilePicture);
+      console.log(
+        "Profile picture saved successfully:",
+        response.data.data.profilePicture
+      );
+      setOpen(false); // Close the dialog after saving
+    } catch (error) {
+      console.error("Error saving profile picture:", error);
+    }
+  };
+
   const { openFilePicker, filesContent, loading, clear } = useFilePicker({
     accept: ".png, .jpg, .jpeg",
     multiple: false,
@@ -59,9 +78,6 @@ export default function AvatarDialog({
   };
   const handleClose = () => {
     clear(); // Reset the selected image when closing
-    setOpen(false);
-  };
-  const handleSaveChanges = () => {
     setOpen(false);
   };
 
@@ -154,7 +170,7 @@ export default function AvatarDialog({
                   style="primary"
                   label="Save Changes"
                   type="submit"
-                  onClick={handleSaveChanges}
+                  onClick={saveProfilePicture}
                 />
                 <ButtonRotkehlchen
                   style="secondary"

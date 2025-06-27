@@ -32,11 +32,10 @@
 
 .user {
   display: inline-flex;
-  width: fit-content;
+  width: 100%;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
   gap: 20px;
-  padding-bottom: 1rem;
   margin-top: 1rem;
   border-radius: 1rem;
 }
@@ -49,9 +48,8 @@
   }
 
   .user {
-    width: fit-content;
     padding-left: 1rem;
-    padding-right: 3rem;
+    padding-right: 1rem;
     padding-bottom: 1rem;
   }
 }
