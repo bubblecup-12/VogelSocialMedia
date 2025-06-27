@@ -1,14 +1,16 @@
 .mainbox {
-	padding-block-start: 1000px;
-	min-height: 100vh;
+	/* TODO header height variablen anpassen sobald PR für header durch ist*/
+	margin-top: var(--Header-height);
+	min-height: calc(100vh - var(--Header-height));
 }
 
 @media screen and (min-width: 768px) {
 	.mainbox {
-		margin-top: 1000px;
-		min-height: 100vh;
+		margin-top: var(--Header-height);
 	}
 }
+
+/* TODO Entfernen vor final*/
 .test {
 	height: 100vh;
 	width: 100vw;
