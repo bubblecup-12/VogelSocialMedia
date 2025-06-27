@@ -1,7 +1,7 @@
 import axios from "axios";
 import { refreshToken } from "./refreshToken";
 
-const excludedUrls: string[] = ["/user/login", "/user/regiser"];
+const excludedUrls: string[] = ["/user/login", "/user/register"];
 
 const api = axios.create({
   baseURL: "http://localhost:3001/api",
