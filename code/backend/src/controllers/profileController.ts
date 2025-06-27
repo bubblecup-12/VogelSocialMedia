@@ -19,6 +19,7 @@ type PublicUser = {
   profilePictureUrl: string | null;
   followers: number;
   following: number;
+  posts: number;
 };
 const getUser: (userId: string) => Promise<PublicUser | undefined> = async (
   userId: string
@@ -47,6 +48,11 @@ const getUser: (userId: string) => Promise<PublicUser | undefined> = async (
         followingUserId: userId,
       },
     });
+    const postCount = await prisma.post.count({
+      where: {
+        userId: userId,
+      },
+    });
     const publicUser: PublicUser = {
       id: user.id,
       username: user.username,
@@ -54,6 +60,7 @@ const getUser: (userId: string) => Promise<PublicUser | undefined> = async (
       profilePictureUrl,
       followers: followerCount,
       following: followingCount,
+      posts: postCount,
     };
     return publicUser;
   }
