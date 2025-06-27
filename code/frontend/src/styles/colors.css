@@ -40,3 +40,7 @@ body {
 .edit-icon {
   color: var(--Rotkehlchen-brown-light);
 }
+
+.color-orange {
+	color: var(--Rotkehlchen-orange-default);
+}
