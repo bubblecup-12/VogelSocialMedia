@@ -9,12 +9,11 @@
 	position: fixed;
 	top: 0;
 	left: 0;
-	z-index: 1000;
 	border-radius: 0rem !important;
 }
 @media only screen and (min-width: 768px) {
 	.base-header {
-		height: var(--header-height-desktop);
+		height: var(--header-height);
 	}
 }
 
@@ -26,20 +25,20 @@
 }
 .header-icon-menu {
 	cursor: pointer;
+	height: 45px;
 }
 
 .header-icon {
-	margin: 40px;
+	margin: 20px;
 	display: flex;
-	width: 30px;
-	height: 30px;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	flex-shrink: 0;
-
-	background-size: cover;
-	background-repeat: no-repeat;
+}
+@media only screen and (min-width: 768px) {
+	.header-icon {
+		margin: 40px;
+	}
 }
 
 .drawer-list {
