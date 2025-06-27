@@ -1,6 +1,7 @@
 import express from "express";
 import {
   getPost,
+  getTags,
   getUserPosts,
   like,
   removeLike,
@@ -155,5 +156,30 @@ router.post("/like/:postId", authenticateToken(), like);
  *         description: Ungültige Anmeldedaten
  */
 router.delete("/removeLike/:postId", authenticateToken(), removeLike);
+
+/**
+ * @swagger
+ * /api/posts/tags:
+ *   get:
+ *     summary: Get posttags
+ *     description: Returns posttags
+ *     tags:
+ *       - Posts
+ *     responses:
+ *       200:
+ *         description: List of tags
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 tags:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *       500:
+ *         description: Server error
+ */
+router.get("/tags", getTags);
 
 export default router;
