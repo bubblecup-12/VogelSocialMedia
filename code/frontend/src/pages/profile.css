@@ -1,5 +1,6 @@
 .profile-display {
   padding-top: calc(var(--Header-height) + 1rem);
+  min-height: 100vh;
 }
 
 .user-info {
