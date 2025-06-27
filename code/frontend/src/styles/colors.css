@@ -21,8 +21,8 @@
 }
 
 body {
-	/* height: 100vh;  Full viewport height */
-	/* width: 100vw;  Full viewport width */
+	height: 100vh; /* Full viewport height */
+	width: 100vw; /* Full viewport width */
 	background: var(--gradient-blue-backround-mobile);
 	z-index: -1;
 	background-attachment: fixed;
