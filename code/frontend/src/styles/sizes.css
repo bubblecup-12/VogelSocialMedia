@@ -1,3 +1,5 @@
 :root {
-    --Header-height: 50px;
+	--header-height: 60px;
+	--header-height-desktop: 48px;
+	--border-radius: 1rem;
 }
