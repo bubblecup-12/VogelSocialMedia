@@ -3,11 +3,9 @@ import "./about.css";
 function About() {
 	return (
 		<div className="mainbox">
-			<img
-				style={{ height: "200px", position: "relative" }}
-				src="/assets/icons/feather_black.svg"
-				alt="featherIcon"
-			/>
+			<h1 className="about-title color-orange">
+				About<br></br>Feather Feed
+			</h1>
 		</div>
 	);
 }
