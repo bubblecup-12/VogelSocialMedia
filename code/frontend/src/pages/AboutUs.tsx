@@ -3,8 +3,8 @@
 function AboutUs() {
 
     return (
-        <div className="body mainbox">
-            <div className="test"> <img style={{height: "200vh"}} src='/assets/icons/feather_black.svg' alt="featherIcon" /> </div>
+        <div className="mainbox test">
+            <img style={{height: "200px", position: "relative"}} src='/assets/icons/feather_black.svg' alt="featherIcon" />
         </div>
     );
 }
