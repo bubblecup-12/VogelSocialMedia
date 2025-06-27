@@ -7,14 +7,14 @@ import "../styles/colors.css";
 import IconButton from "@mui/material/IconButton";
 import EditSquareIcon from "@mui/icons-material/EditSquare";
 import ButtonPrimary from "./ButtonRotkehlchen";
+import api from "../api/axios";
 
-export default function BioTextField({ ownAccount }: { ownAccount: boolean }) {
-  const [bio, setBio] = useState<string>("");
-  const [oldBio, setOldbio] = useState<string>("");
+export default function BioTextField({ ownAccount, bioText, setBio } : { ownAccount: boolean, bioText: string | undefined, setBio: (bio: string) => void }) {
+  const [oldBio, setOldbio] = useState<string>(bioText || "");
   const [editMode, setEditable] = useState(false);
 
   const toggleEditMode = () => {
-    !editMode && setOldbio(bio);
+    !editMode && setOldbio(bioText || "");
     ownAccount && setEditable(!editMode);
   };
 
@@ -22,6 +22,22 @@ export default function BioTextField({ ownAccount }: { ownAccount: boolean }) {
     setBio(oldBio);
     setEditable(false);
   };
+
+  const saveBio = async () => {
+    try {
+      const response = await api.post("http://localhost:3001/api/profile/updateBio", {
+        bio: bioText,
+      });
+      setBio(response.data.data.bio);
+      setEditable(false);
+    } catch (error) {
+      console.error("Error saving bio: ", error);
+    }
+  }
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setBio(event.target.value);
+  }
 
   return (
     <StyledEngineProvider injectFirst>
@@ -39,8 +55,8 @@ export default function BioTextField({ ownAccount }: { ownAccount: boolean }) {
             multiline
             maxRows={4}
             disabled={!editMode}
-            value={bio}
-            onChange={(e) => setBio(e.target.value)}
+            value={bioText}
+            onChange={handleChange}
           />
           {ownAccount && (
             <IconButton aria-label="edit-bio">
@@ -57,8 +73,8 @@ export default function BioTextField({ ownAccount }: { ownAccount: boolean }) {
             <ButtonPrimary
               style="primary"
               label={"Save"}
-              type="submit"
-              onClick={toggleEditMode}
+              type="button"
+              onClick={saveBio}
             />
             <ButtonPrimary
               style="secondary"

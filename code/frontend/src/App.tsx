@@ -24,7 +24,7 @@ function App() {
               path="/register"
               element={<LoginAndSignUpPage signupProp={true} />}
             ></Route>
-            <Route path="/profile" element={<Profile />}></Route>
+            <Route path="/profile/:username" element={<Profile />}></Route>
           </Routes>
           <Footer />
         </div>

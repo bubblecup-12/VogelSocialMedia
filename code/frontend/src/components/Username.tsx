@@ -16,9 +16,6 @@ export default function Username({ username }: { username: string }) {
   const isPopoverOpen = Boolean(anchorEl);
   const id = isPopoverOpen ? "simple-popover" : undefined;
 
-  useEffect(() => {
-    console.log("Username component mounted");
-  }, []);
   return (
     <>
       <Popover
