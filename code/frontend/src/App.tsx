@@ -39,7 +39,6 @@ function App() {
         </div>
       </Router>
     </Auth>
-
   );
 }
 

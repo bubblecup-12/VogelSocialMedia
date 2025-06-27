@@ -70,6 +70,7 @@ function Profile() {
     }
   };
 
+ 
   return (
     <StyledEngineProvider injectFirst>
       <div className="profile-display">

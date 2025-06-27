@@ -6,8 +6,8 @@ import "./bio.css";
 import "../styles/colors.css";
 import IconButton from "@mui/material/IconButton";
 import EditSquareIcon from "@mui/icons-material/EditSquare";
-import ButtonPrimary from "./ButtonRotkehlchen";
-import api from "../api/axios";
+import ButtonPrimary from "../ButtonRotkehlchen";
+import api from "../../api/axios";
 
 export default function BioTextField({ ownAccount, bioText, setBio } : { ownAccount: boolean, bioText: string | undefined, setBio: (bio: string) => void }) {
   const [oldBio, setOldbio] = useState<string>(bioText || "");
