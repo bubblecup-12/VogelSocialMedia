@@ -14,12 +14,12 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import EditSquareIcon from "@mui/icons-material/EditSquare";
 import "./changeAvatarDialog.css";
-import ButtonRotkehlchen from "./ButtonRotkehlchen";
+import ButtonRotkehlchen from "../ButtonRotkehlchen";
 import Username from "./Username";
 import "./username.css";
-import api from "../api/axios";
+import api from "../../api/axios";
 import { ChangeEvent, useState } from "react";
-import { UserProfile } from "../types/UserProfile";
+import { UserProfile } from "../../types/UserProfile";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
