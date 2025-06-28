@@ -4,7 +4,6 @@ import { StatusCodes } from "http-status-codes";
 import { JwtPayload } from "jsonwebtoken";
 import { PrismaClient, Post } from "../../prisma/app/generated/prisma/client";
 import { minioClient } from "../server";
-import { object } from "zod";
 import { uploadPostSchema } from "../schemas/postSchemas";
 dotenv.config();
 const prisma = new PrismaClient();
@@ -190,11 +189,20 @@ export const getPost = async (req: Request, res: Response) => {
 // get all posts from a user
 export const getUserPosts = async (req: Request, res: Response) => {
   try {
+    const user: JwtPayload | undefined = req.user;
     const username: string = req.params.username;
     const posts = await prisma.post.findMany({
       where: {
+        ...(user
+          ? {
+              OR: [
+                { status: "PRIVATE", userId: user.id },
+                { status: "PUBLIC" },
+              ],
+            }
+          : { status: "PUBLIC" }),
         user: {
-          username: username, // hier greifst du auf die relationierte User-Tabelle zu
+          username: username,
         },
       },
     });
@@ -325,6 +333,34 @@ export const removeLike = async (req: Request, res: Response) => {
     console.error(err);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       error: "Upload failed",
+      details: [{ message: "Internal server error" }],
+    });
+  }
+};
+
+export const getTags = async (req: Request, res: Response) => {
+  try {
+    const tags = await prisma.tag.findMany({
+      take: 150,
+      include: {
+        _count: {
+          select: {
+            posts: true,
+          },
+        },
+      },
+      orderBy: {
+        posts: {
+          _count: "desc",
+        },
+      },
+    });
+    const data: string[] = tags.map((tag) => tag.name);
+    res.status(StatusCodes.OK).json(data);
+  } catch (err) {
+    console.error(err);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      error: "Failed to retrieve tags",
       details: [{ message: "Internal server error" }],
     });
   }

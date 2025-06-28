@@ -3,6 +3,7 @@ import express, { Request, Response } from "express";
 import { JwtPayload } from "jsonwebtoken";
 import { PrismaClient, Follow } from "../../prisma/app/generated/prisma/client";
 const prisma = new PrismaClient();
+
 export const followUser = async (req: Request, res: Response) => {
   const username: string = req.params.username;
   const followingUser: JwtPayload = req.user!;
@@ -27,7 +28,7 @@ export const followUser = async (req: Request, res: Response) => {
       });
       return;
     }
-    if (user.username == username) {
+    if (user.id == followingUser.sub) {
       res.status(StatusCodes.BAD_REQUEST).json({
         error: "Bad Request",
         details: [{ message: "You can`t follow yourself" }],
