@@ -14,57 +14,79 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import api from "../api/axios";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
 }
 interface PostProps {
-  postId: number;
+  postId: string;
 }
+interface PostResponse {
+  description: string;
+  status: string;
+  likes: number;
+  tags: string[];
+  user: {
+    id: string;
+    name: string;
+  };
+  createdAt: string;
+  updatedAt: string;
+  images: {
+    originalName: string;
+    mimetype: string;
+    url: string;
+  }[];
+  following: boolean;
+}
+
 const ExpandMore = styled((props: ExpandMoreProps) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
-})(({ theme }) => ({
+})<ExpandMoreProps>(({ theme, expand }) => ({
   marginLeft: 'auto',
   transition: theme.transitions.create('transform', {
     duration: theme.transitions.duration.shortest,
   }),
-  variants: [
-    {
-      props: ({ expand }) => !expand,
-      style: {
-        transform: 'rotate(0deg)',
-      },
-    },
-    {
-      props: ({ expand }) => !!expand,
-      style: {
-        transform: 'rotate(180deg)',
-      },
-    },
-  ],
+  transform: expand ? 'rotate(180deg)' : 'rotate(0deg)',
 }));
 
-export default function Post({postId}: PostProps) {
+export default function Post({ postId }: PostProps) {
   const [expanded, setExpanded] = React.useState(false);
-  const content = "Fetch content here";
-  const expandedContent = "Fetch expanded here"
-  const title = "Fetch heading here";
-  const createdAt = "Fetch created at here";
-  const user = "Fetch user here";
-  const media = "Fetch media here (path)";
+  const [post, setPost] = React.useState<PostResponse | null>(null);
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
+  React.useEffect(() => {
+    getPostbyID();
+    // eslint-disable-next-line
+  }, [postId]);
 
+  async function getPostbyID(): Promise<void> {
+    try {
+      const response = await api.get<PostResponse>(`/posts/getPost/{postId}?postId=${postId}`);
+      //const response = await api.get<PostResponse>(`http://localhost:3001/api/posts/getPost/{postId}?postId=${postId}`);
+      setPost(response.data);
+    } catch (error) {
+      console.error("Failed to fetch post:", error);
+    }
+  }
+
+  if (!post) {
+    return (
+      <Card sx={{ maxWidth: 345, margin: 2 }}>
+        <CardContent>
+          <Typography>Loading...</Typography>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345, margin: 2 }}>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">     
-            {user ? user.charAt(0).toUpperCase() : 'U'}   //Todo: when fetching change to user.name or sth
+          <Avatar sx={{ bgcolor: red[500] }} aria-label="user">
+            {post.user.name.charAt(0).toUpperCase()}
           </Avatar>
         }
         action={
@@ -72,17 +94,32 @@ export default function Post({postId}: PostProps) {
             <MoreVertIcon />
           </IconButton>
         }
-        title={title}
-        subheader= {createdAt}
+        title={post.user.name}
+        subheader={new Date(post.createdAt).toLocaleString()}
       />
-      <CardMedia
-        component="img"
-        height="194"
-        image= {media}
-      />
+      {post.images && post.images.length > 0 && (
+        <CardMedia
+          component="img"
+          height="194"
+          image={post.images[0].url}
+          alt={post.images[0].originalName}
+        />
+      )}
       <CardContent>
-        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          {content}
+        <Typography variant="body1" sx={{ fontWeight: 600 }}>
+          {post.description}
+        </Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+          Status: {post.status}
+        </Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+          Likes: {post.likes}
+        </Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+          Tags: {post.tags.join(", ")}
+        </Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+          Following: {post.following ? "Ja" : "Nein"}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
@@ -94,7 +131,7 @@ export default function Post({postId}: PostProps) {
         </IconButton>
         <ExpandMore
           expand={expanded}
-          onClick={handleExpandClick}
+          onClick={() => setExpanded(!expanded)}
           aria-expanded={expanded}
           aria-label="show more"
         >
@@ -103,7 +140,12 @@ export default function Post({postId}: PostProps) {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography sx={{ marginBottom: 2 }}>{expandedContent}</Typography>
+          <Typography variant="body2" color="text.secondary">
+            Erstellt am: {new Date(post.createdAt).toLocaleString()}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Zuletzt aktualisiert: {new Date(post.updatedAt).toLocaleString()}
+          </Typography>
         </CardContent>
       </Collapse>
     </Card>

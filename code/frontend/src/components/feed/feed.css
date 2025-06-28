@@ -1,9 +1,7 @@
-
 .feedContainer {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  overflow: hidden;
+  min-height: calc(100vh - var(--Header-height)); 
   background-color: #f9f9f9;
 }
 
