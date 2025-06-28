@@ -13,12 +13,19 @@ import "../styles/sizes.css";
 import "../styles/fonts.css";
 
 import AspectRatio from '@mui/joy/AspectRatio';
-import Box from '@mui/joy/Box';
-import Card from '@mui/joy/Card';
-import IconButton from '@mui/joy/IconButton';
 
 import api from "../api/axios";
 import { useAuth } from "../api/Auth";
+import {
+  Box,
+  Card,
+  CardMedia,
+  CardActionArea,
+  IconButton,
+  Skeleton,
+  StyledEngineProvider,
+} from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
 function PostCreation(){
   const {user} = useAuth();
@@ -37,15 +44,6 @@ function PostCreation(){
     title: string;
   }
 
-  type FormData = {
-    images: Array<string>;
-    status: string;
-    description: string;
-    tags: Array<string>;
-  }
-
-
-
   const initialOptions = startTags.map((option) => option.title);
 
   const [options, setOptions] = useState(initialOptions);
@@ -55,7 +53,6 @@ function PostCreation(){
 
   const [data, setData] = useState<ImageItem[]>([]);
   const navigate = useNavigate();
-
 
   const [fileList,setFileList] = useState<FileList|null>(null);
 
@@ -87,8 +84,14 @@ function PostCreation(){
     }
     setFileList(files);
   };
-  const handleDelete = (idx: number) =>
+  const handleDelete = (idx: number) =>{
     setData((prev) => prev.filter((_, i) => i !== idx));
+    if((idx-1)<0){
+      if(data.length == 1){setSelectedImage("");}
+      else{setSelectedImage(data[idx+1].src);}
+    }
+    else {setSelectedImage(data[idx-1].src);}
+  }
 
   const onSubmit = async(event: React.FormEvent) =>{
     event.preventDefault();
@@ -120,16 +123,19 @@ function PostCreation(){
   const files = fileList ? [...fileList] : [];
 
     return(
+    <StyledEngineProvider>
     <div className="create-display">
         <div className="create-part">
           <form onSubmit={onSubmit}>
             <h1>Create Post</h1>
             <div className="create-account">
-              <Avatar sx={{}}>OP</Avatar>
+              <Avatar >OP</Avatar>
               <span className="create-username">{user?.username}</span>
             </div>
             <div className="create-post1">
-              <img src={selectedImage} className="create-post-image" alt="Add an Image"></img>
+              {selectedImage? 
+              <img src={selectedImage} className="create-post-image" alt="Add an Image"></img>: 
+              <Skeleton variant="rectangular" width={'100%'} height={"40vh"} animation= {false}></Skeleton>}
               <textarea className="create-post-description" value={description} onChange={handleChange} required></textarea>
             </div>
             <div className="create-post2">
@@ -141,63 +147,84 @@ function PostCreation(){
                   overflowX: 'auto',
                   overflowY: 'hidden',
                   width: '100%',
-                  maxWidth: {xs:'90vw', sm:'600px'},
-                  mx: 'auto',                      // center the box
+                  maxWidth: { xs: '90vw', sm: '600px' },
+                  mx: 'auto',
                   scrollSnapType: 'x mandatory',
                   '& > *': { scrollSnapAlign: 'center' },
-                  '::-webkit-scrollbar': { display: 'none', flexShrink: '0' },
+                  '::-webkit-scrollbar': { display: 'none' },
                 }}
               >
                 {/* Upload card */}
-                <Card orientation="horizontal" size="sm" key="add" variant="outlined">
-                  <AspectRatio ratio="1" sx={{ minWidth: 60 }}>
-                    <label className="createa-file-upload">
-                      <img src="/assets/icons/add-plus.svg" alt="Upload" />
-                      <input
-                        id="create-file-upload"
-                        type="file"
-                        accept="image/*"
-                        multiple
-                        onChange={handleImageUpload}
-                      />
-                    </label>
-                  </AspectRatio>
+                <Card
+                  key="add"
+                  variant="outlined"
+                  sx={{
+                    minWidth: 60,
+                    width: 60,
+                    height: 60,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                  }}
+                >
+                  <label style={{ cursor: 'pointer', width: '100%', height: '100%' }}>
+                    <img src="/assets/icons/add-plus.svg" alt="Upload" style={{ width: '100%', height: '100%' }}/>
+                    <input
+                      id="create-file-upload"
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      onChange={handleImageUpload}
+                      style={{ display: 'none' }}
+                    />
+                  </label>
                 </Card>
 
                 {/* Image cards */}
                 {data.map((item, idx) => (
                   <Card
-                    orientation="horizontal"
-                    size="sm"
                     key={`${item.title}-${idx}`}
                     variant="outlined"
-                    sx={{ position: 'relative'}}
+                    sx={{
+                      position: 'relative',
+                      minWidth: 60,
+                      width: 60,
+                      height: 60,
+                      flexShrink: 0,
+                    }}
                     onClick={() => setSelectedImage(item.src)}
                   >
-                    {/* delete pill */}
+                    {/* Delete button */}
                     <IconButton
-                      size="sm"
+                      size="small"
                       onClick={(e) => {
-                        e.stopPropagation();          
+                        e.stopPropagation();
                         handleDelete(idx);
                       }}
                       sx={{
                         position: 'absolute',
                         top: 2,
                         right: 2,
-                        bgcolor: 'background.body',
+                        backgroundColor: 'background.paper',
                         zIndex: 1,
                       }}
                     >
-                      <Close fontSize="small" />
+                      <CloseIcon fontSize="small" />
                     </IconButton>
 
-                    <AspectRatio ratio="1" sx={{ minWidth: 60 }}>
-                      <img src={item.src} alt={item.title} />
-                    </AspectRatio>
+                    <CardActionArea sx={{ width: '100%', height: '100%' }}>
+                      <CardMedia
+                        component="img"
+                        image={item.src}
+                        alt={item.title}
+                        sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                    </CardActionArea>
                   </Card>
                 ))}
               </Box>
+
               <Autocomplete
                 className="create-tags"
                 multiple
@@ -234,6 +261,7 @@ function PostCreation(){
           </form>
         </div>
     </div>
+    </StyledEngineProvider>
     );
 }
 export default PostCreation;
