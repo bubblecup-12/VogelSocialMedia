@@ -1,0 +1,27 @@
+.welcome-title {
+  color: var(--Rotkehlchen-orange-default);
+  font-size: 4rem;
+  font-weight: bolder;
+  margin-bottom: 0;
+}
+.welcome-text {
+  text-align: center;
+  color: var(  --Rotkehlchen-gray);
+
+}
+.desktop-welcome-text{
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .welcome-text{
+        display: none;
+    }
+    .desktop-welcome-text {
+        display: block;
+        text-align: center;
+        color: var(--Rotkehlchen-gray);
+        font-size: 1.5rem;
+        margin-top: 1rem;
+    }
+}
