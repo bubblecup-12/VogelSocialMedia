@@ -5,5 +5,5 @@ export type UserProfile = {
     profilePictureUrl: string | null;
     followers: number;
     following: number;
-    // posts: number;
+    posts: number;
   }
