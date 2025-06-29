@@ -10,6 +10,7 @@ const profileRouter = express.Router();
 import { upload } from "../middleware/uploadSingle";
 import { updateBioSchema } from "../schemas/profileSchemas";
 import { validateData } from "../middleware/validationMiddleware";
+import { optionalAuthenticateToken } from "../middleware/optionalAuthenticateToken";
 /**
  * @swagger
  * /api/profile/uploadProfilePicture:
@@ -124,5 +125,5 @@ profileRouter.put(
  *       401:
  *         description: Ungültige Anmeldedaten
  */
-profileRouter.get("/:username", getProfile);
+profileRouter.get("/:username", optionalAuthenticateToken, getProfile);
 export default profileRouter;

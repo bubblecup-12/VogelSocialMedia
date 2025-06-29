@@ -87,11 +87,9 @@ export default function AvatarDialog({
           <Avatar
             className="profile-avatar"
             alt="Username"
-            // current code does not work yet
-            // TODO: If no image is selected, return the image already in the database or undefined
             src={imageUrl ? imageUrl : undefined}
           >
-            U
+            {username && username[0].toUpperCase() || ""}
           </Avatar>
         </Button>
         <Username username={username} />

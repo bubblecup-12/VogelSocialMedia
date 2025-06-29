@@ -8,7 +8,7 @@ import { StyledEngineProvider, Divider } from "@mui/material";
 import ChangeAvatarDialog from "../components/ChangeAvatarDialog";
 import Bio from "../components/Bio";
 import RotkehlchenButton from "../components/ButtonRotkehlchen";
-import api from "../api/axios";
+import api, { redirectToLogin } from "../api/axios";
 import { useAuth } from "../api/Auth";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -27,11 +27,12 @@ function Profile() {
     followers: 0,
     following: 0,
     posts: 0,
+    isFollowing: false,
   });
 
   const userProfile = async () => {
     try {
-      const response = await api.get(`/profile/get/${username}`);
+      const response = await api.get(`/profile/${username}`);
       setUserData(response.data.data);
       return;
     } catch (error) {
@@ -54,12 +55,20 @@ function Profile() {
       return prevData;
     });
   };
-  function handleFollowUser() {
-    // TODO: implement follow user functionality
-    if (user) {
-      api.post(`follower/follow/${username}`)
+  const handleFollowUser = async () => {
+    try {
+      if (userData?.isFollowing === false) {
+        await api.post(`/follower/follow/${username}`);
+      } else if (userData?.isFollowing === true) {
+        await api.delete(`/follower/unfollow/${username}`);
+      } else {
+        redirectToLogin();
+      }
+      userProfile(); // Refresh user data after unfollowing
+    } catch (error) {
+      console.error("Error following/unfollowing user:", error);
     }
-  }
+  };
 
   return (
     <StyledEngineProvider injectFirst>
@@ -97,7 +106,12 @@ function Profile() {
             </div>
           </div>
           {!ownAccount && (
-            <RotkehlchenButton style="primary" label="Follow" type="button" onClick={handleFollowUser} />
+            <RotkehlchenButton
+              style={!userData?.isFollowing ? "primary" : "secondary"}
+              label={!userData?.isFollowing ? "Follow" : "Unfollow"}
+              type="button"
+              onClick={handleFollowUser}
+            />
           )}
         </div>
         {userData && <QuiltedImageList user={userData} />}

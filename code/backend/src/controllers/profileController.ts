@@ -202,6 +202,7 @@ export const updateBio = async (req: Request, res: Response) => {
 // Endpoint to get user data
 export const getProfile = async (req: Request, res: Response) => {
   const username: string = req.params.username as string;
+  const requestingUser: JwtPayload | undefined = req.user;
   if (!username) {
     res.status(StatusCodes.BAD_REQUEST).json({
       error: "no username",
@@ -227,9 +228,22 @@ export const getProfile = async (req: Request, res: Response) => {
 
     const publicUser: PublicUser | undefined = await getUser(user.id);
 
+    let isFollowing : boolean = false; 
+    if(requestingUser) {
+      const followingData = await prisma.follow.findFirst({
+        where: {
+          followedUserId: user.id,
+          followingUserId: requestingUser.id,
+        }
+      })
+      if(followingData) {
+        isFollowing = true; 
+      } 
+    }
+
     res.status(StatusCodes.OK).json({
       message: "User found",
-      data: publicUser,
+      data: {...publicUser, isFollowing},
     });
   } catch (err) {
     console.error(err);
