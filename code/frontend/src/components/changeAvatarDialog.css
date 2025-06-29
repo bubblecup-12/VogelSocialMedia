@@ -19,8 +19,8 @@
 }
 
 .profile-avatar {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   background-color: var(--Rotkehlchen-yellow-default);
 }
 
@@ -46,8 +46,8 @@
 
 @media screen and (min-width: 768px) {
   .profile-avatar {
-    width: 5rem;
-    height: 5rem;
+    width: 4.5rem;
+    height: 4.5rem;
     background-color: var(--Rotkehlchen-yellow-default);
   }
 
