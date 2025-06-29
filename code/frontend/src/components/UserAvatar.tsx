@@ -23,7 +23,7 @@ export default function UserAvatar({ username, size = 40 }: UserAvatarProps) {
   }, [username]);
 
   return (
-    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+    <Box sx={{ display: "flex", alignItems: "center", gap: 1, maxWidth: "600px"}}>
       <Avatar
         src={pb}
         sx={{
