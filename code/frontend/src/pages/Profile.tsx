@@ -21,7 +21,7 @@ function Profile() {
 
   const [userData, setUserData] = useState<UserProfile | null>({
     id: "",
-    username: "",
+    username: undefined,
     bio: "",
     profilePictureUrl: null,
     followers: 0,
