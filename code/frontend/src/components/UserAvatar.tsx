@@ -45,7 +45,3 @@ export default function UserAvatar({ username, size = 40 }: UserAvatarProps) {
     </Box>
   );
 }
-
-// ---------------- Exemplarische Verwendung ----------------
-// <UserAvatar username={user?.username ?? "Unknown User"} src={user?.avatarUrl} />
-// ---------------------------------------------------------
