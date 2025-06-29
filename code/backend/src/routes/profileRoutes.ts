@@ -8,7 +8,7 @@ import {
 } from "../controllers/profileController";
 const profileRouter = express.Router();
 import { upload } from "../middleware/uploadSingle";
-import { updateBioSchema } from "../schemas/feedSchemas";
+import { updateBioSchema } from "../schemas/profileSchemas";
 import { validateData } from "../middleware/validationMiddleware";
 /**
  * @swagger
@@ -97,7 +97,7 @@ profileRouter.get("/getProfilePicture/:username", getProfilePicture);
  *       401:
  *         description: Unauthorized
  */
-profileRouter.post(
+profileRouter.put(
   "/updateBio",
   authenticateToken(),
   validateData(updateBioSchema),
@@ -105,7 +105,7 @@ profileRouter.post(
 );
 /**
  * @swagger
- * /api/profile/get/{username}:
+ * /api/profile/{username}:
  *   get:
  *     summary: Get user data
  *     tags: [Profile]
@@ -124,5 +124,5 @@ profileRouter.post(
  *       401:
  *         description: Ungültige Anmeldedaten
  */
-profileRouter.get("/get/:username", getProfile);
+profileRouter.get("/:username", getProfile);
 export default profileRouter;
