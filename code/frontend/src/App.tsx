@@ -2,10 +2,10 @@ import "./App.css";
 import "./styles/colors.css";
 import "./styles/fonts.css";
 import "./styles/sizes.css";
-import LoginAndSignUpPage from "./pages/LoginAndSignUpPage";
-import Footer from "./components/Footer";
-import Header from "./components/header";
-import Profile from "./pages/Profile";
+import LoginAndSignUpPage from "./pages/loginAndSignUpPage/LoginAndSignUpPage";
+import Footer from "./components/footer/Footer";
+import Header from "./components/header/header";
+import Profile from "./pages/profile/Profile";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Auth } from "./api/Auth";
 

@@ -1,6 +1,6 @@
 import "./footer.css";
 import { Link } from "react-router-dom";
-import { useAuth } from "../api/Auth";
+import { useAuth } from "../../api/Auth";
 function Footer() {
   const { user } = useAuth();
   const { logout } = useAuth();
