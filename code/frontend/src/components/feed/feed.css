@@ -13,6 +13,7 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 1rem;
+  height: 80vh;
 }
 .loading {
   width: 100%;
