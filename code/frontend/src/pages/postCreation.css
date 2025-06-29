@@ -21,7 +21,10 @@
     border-left: 4px solid var(--Rotkehlchen-gray-hover);
     background: #FFF;
 }
-
+.create-layout{
+    display: grid;
+    grid-template-columns: auto auto auto;
+}
 .create-account{
     display: flex;
     flex-direction: row;
