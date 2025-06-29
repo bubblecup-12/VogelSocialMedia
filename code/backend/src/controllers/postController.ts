@@ -13,7 +13,6 @@ export const uploadPost = async (req: Request, res: Response) => {
   const user: JwtPayload = req.user!; // Get the user from the request
   const { description, status, tags } = uploadPostSchema.parse(req.body);
   const BUCKET = "images"; // Name of the bucket where the images are stored
-  
   try {
     const uploads = await Promise.all(
       files.map(async (file) => {
@@ -58,15 +57,16 @@ export const uploadPost = async (req: Request, res: Response) => {
           })),
         },
       },
-    }); 
-    // create a new post in the database
+    }); // create a new post in the database
     res.status(StatusCodes.CREATED).json({
       message: "Upload successful",
       post: post,
     });
   } catch (err) {
     console.error(err);
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: "Upload failed" });
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ error: "Upload failed" });
   }
 };
 
@@ -104,6 +104,20 @@ export const getPost = async (req: Request, res: Response) => {
         postId: postId,
       },
     });
+    let hasLiked = false;
+    if (user) {
+      const like = await prisma.like.findUnique({
+        where: {
+          postId_userId: {
+            postId: postId,
+            userId: user.sub!,
+          },
+        },
+      });
+      if (like) {
+        hasLiked = true;
+      }
+    }
     if (!postObject) {
       res.status(StatusCodes.NOT_FOUND).json({
         error: "Post not found",
@@ -162,6 +176,7 @@ export const getPost = async (req: Request, res: Response) => {
       updatedAt: postObject.updatedAt,
       images: images.filter((image) => image !== null), // filter out the null images
       following: isFollowing,
+      hasLiked,
     });
     return;
   } catch (err: any) {
@@ -262,8 +277,8 @@ export const like = async (req: Request, res: Response) => {
     });
     if (alreadyLiked) {
       res.status(StatusCodes.CONFLICT).json({
-        error: "Already following",
-        details: [{ message: "You are already following this User" }],
+        error: "Already liked",
+        details: [{ message: "You already liked this User" }],
       });
       return;
     }
