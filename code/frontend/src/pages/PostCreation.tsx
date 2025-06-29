@@ -1,35 +1,30 @@
 import "./postCreation.css";
 import "./loginAndSignUpPage.css";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from "react-router-dom";
 import Chip from '@mui/material/Chip';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Avatar from '@mui/material/Avatar';
-import Close from '@mui/icons-material/Close';
 import ButtonPrimary from "../components/ButtonRotkehlchen";
-
-import "../styles/sizes.css";
-import "../styles/fonts.css";
-
-import AspectRatio from '@mui/joy/AspectRatio';
 
 import api from "../api/axios";
 import { useAuth } from "../api/Auth";
-import {
-  Box,
-  Card,
-  CardMedia,
-  CardActionArea,
-  IconButton,
-  Skeleton,
-  StyledEngineProvider,
-} from '@mui/material';
+import {Box,Card,CardMedia,CardActionArea,IconButton} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import UserAvatar from "../components/UserAvatar";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main:'#e79a0e;'
+    }
+  }
+});
 
 function PostCreation(){
   const {user} = useAuth();
-  
   interface ImageItem {
     src: string;
     title: string;
@@ -43,6 +38,7 @@ function PostCreation(){
   const navigate = useNavigate();
 
   const [fileList,setFileList] = useState<FileList|null>(null);
+  const inputFile = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -85,6 +81,11 @@ function PostCreation(){
     }
     setFileList(files);
   };
+  const onEmptyImgClick = () =>{
+    if(inputFile.current){
+      inputFile.current?.click();
+    }
+  }
   const handleDelete = (idx: number) =>{
     setData((prev) => prev.filter((_, i) => i !== idx));
     if((idx-1)<0){
@@ -123,23 +124,24 @@ function PostCreation(){
   const files = fileList ? [...fileList] : [];
 
     return(
-    <StyledEngineProvider>
+      <ThemeProvider theme={theme}>
     <div className="create-display">
         <div className="create-part">
           <form onSubmit={onSubmit}>
             <h1>Create Post</h1>
             <div className="create-layout">
-            <div className="create-account">
-              <Avatar >OP</Avatar>
-              <span className="create-username">{user?.username}</span>
+              <div className="create-post-desc">
+            <UserAvatar username={user? user.username: ""}/>
+            {selectedImage? 
+            <img src={selectedImage} className="create-post-image" alt="Add an Image"></img>: 
+            <label className="create-post-img-layer" onClick={onEmptyImgClick}>
+              <strong>Add Picture</strong>
+            </label>}
             </div>
-            <div className="create-post1">
-              {selectedImage? 
-              <img src={selectedImage} className="create-post-image" alt="Add an Image"></img>: 
-              <Skeleton variant="rectangular" width={'100%'} height={"40vh"} animation= {false}></Skeleton>}
+            <div className="create-post-desc">
+              <h2>Description</h2>
               <textarea className="create-post-description" value={description} onChange={handleChange} required></textarea>
-            </div>
-            <div className="create-post2">
+              </div>
               <Box
                 sx={{
                   display: 'flex',
@@ -178,6 +180,7 @@ function PostCreation(){
                       multiple
                       onChange={handleImageUpload}
                       style={{ display: 'none' }}
+                      ref={inputFile}
                     />
                   </label>
                 </Card>
@@ -234,7 +237,7 @@ function PostCreation(){
                 freeSolo
                 value={tags}
                 onChange={handleTags}
-                sx={{ width: "90vw" }}
+                sx={{ width: "100%" }}
                 renderValue={(value: readonly string[], getItemProps) =>
                 value.map((tags: string, index: number) => {
                   const { key, ...itemProps } = getItemProps({ index });
@@ -252,17 +255,14 @@ function PostCreation(){
                   placeholder="Add Tags"
                 />
                 )}
-              />            
-            </div>
-            <div className="create-post3">
-              <ButtonPrimary style="primary" label="Post" type="submit" ></ButtonPrimary>
+              />  
+              </div>          
               <ButtonPrimary style="secondary" label="Cancel" type="button" onClick={onCancel} ></ButtonPrimary>
-            </div>
-            </div>
+              <ButtonPrimary style="primary" label="Post" type="submit" ></ButtonPrimary>
           </form>
         </div>
     </div>
-    </StyledEngineProvider>
+    </ThemeProvider>
     );
 }
 export default PostCreation;
