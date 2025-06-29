@@ -205,6 +205,7 @@ export const getUserPosts = async (req: Request, res: Response) => {
           username: username,
         },
       },
+      orderBy: { createdAt: "desc" },
     });
     if (!posts || posts.length === 0) {
       res.status(StatusCodes.NOT_FOUND).json({
