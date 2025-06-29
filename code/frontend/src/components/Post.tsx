@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
+import { styled, StyledEngineProvider } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
@@ -15,6 +15,10 @@ import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import api from "../api/axios";
+import { Url } from 'url';
+import { LogLevel } from 'vite';
+import "./post.css" 
+
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -30,6 +34,7 @@ interface PostResponse {
   user: {
     id: string;
     name: string;
+    profilePicture: Url;
   };
   createdAt: string;
   updatedAt: string;
@@ -39,6 +44,7 @@ interface PostResponse {
     url: string;
   }[];
   following: boolean;
+  hasLiked: boolean; // <-- add this
 }
 
 const ExpandMore = styled((props: ExpandMoreProps) => {
@@ -55,17 +61,19 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 export default function Post({ postId }: PostProps) {
   const [expanded, setExpanded] = React.useState(false);
   const [post, setPost] = React.useState<PostResponse | null>(null);
+  const [currentImage, setCurrentImage] = React.useState(0);
+  const [like, setLike] = React.useState(false);
 
   React.useEffect(() => {
     getPostbyID();
-    // eslint-disable-next-line
   }, [postId]);
 
   async function getPostbyID(): Promise<void> {
     try {
       const response = await api.get<PostResponse>(`/posts/getPost/{postId}?postId=${postId}`);
-      //const response = await api.get<PostResponse>(`http://localhost:3001/api/posts/getPost/{postId}?postId=${postId}`);
       setPost(response.data);
+      setLike(response.data.hasLiked); // <-- initialize like state
+      setCurrentImage(0);
     } catch (error) {
       console.error("Failed to fetch post:", error);
     }
@@ -73,7 +81,7 @@ export default function Post({ postId }: PostProps) {
 
   if (!post) {
     return (
-      <Card sx={{ maxWidth: 365, margin: 2, width:'100%'}}>
+      <Card sx={{ maxWidth: 400, width: '100%', margin: 2 }}>
         <CardContent>
           <Typography>Loading...</Typography>
         </CardContent>
@@ -81,8 +89,42 @@ export default function Post({ postId }: PostProps) {
     );
   }
 
+  const images = post.images || [];
+  const hasMultipleImages = images.length > 1;
+
+  const handlePrev = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCurrentImage((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  };
+
+  const handleNext = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCurrentImage((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+  };
+
+  const handleLike = async () => {
+    try {
+      if (!like) {
+        await api.post(`/posts/like/${postId}`);
+        setLike(true);
+        setPost((prev) =>
+          prev ? { ...prev, likes: prev.likes + 1 } : prev
+        );
+      } else {
+        await api.delete(`/posts/removeLike/${postId}`);
+        setLike(false);
+        setPost((prev) =>
+          prev ? { ...prev, likes: prev.likes - 1 } : prev
+        );
+      }
+    } catch (error) {
+      console.error("Failed to update like:", error);
+    }
+  };
+
   return (
-    <Card sx={{ maxWidth: 345, margin: 2 }}>
+    <StyledEngineProvider injectFirst>
+    <Card className="body-l" sx={{ maxWidth: 600, width: '100%', margin: 2 }}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="user">
@@ -95,39 +137,59 @@ export default function Post({ postId }: PostProps) {
           </IconButton>
         }
         title={post.user.name}
-        subheader={new Date(post.createdAt).toLocaleString()}
       />
-      {post.images && post.images.length > 0 && (
-        <CardMedia
-          component="img"
-          height="194"
-          image={post.images[0].url}
-          alt={post.images[0].originalName}
-        />
+      {images.length > 0 && (
+        <div className="post-image-carousel">
+          <CardMedia
+            component="img"
+            image={images[currentImage].url}
+            alt={images[currentImage].originalName}
+            className="post-image"
+          />
+          {hasMultipleImages && (
+            <>
+              <IconButton
+                aria-label="previous image"
+                onClick={handlePrev}
+                className="post-carousel-arrow left"
+                size="small"
+              >
+                {"<"}
+              </IconButton>
+              <IconButton
+                aria-label="next image"
+                onClick={handleNext}
+                className="post-carousel-arrow right"
+                size="small"
+              >
+                {">"}
+              </IconButton>
+              <div className="post-image-counter">
+                {currentImage + 1} / {images.length}
+              </div>
+            </>
+          )}
+        </div>
       )}
       <CardContent>
         <Typography variant="body1" sx={{ fontWeight: 600 }}>
           {post.description}
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-          Status: {post.status}
-        </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-          Likes: {post.likes}
-        </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
           Tags: {post.tags.join(", ")}
-        </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-          Following: {post.following ? "Ja" : "Nein"}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
+        <IconButton aria-label="like" onClick={handleLike}>
+          <FavoriteIcon
+            className="post-like-icon"
+            sx={{
+              color: like ? "#d32f2f" : "#fff",
+              stroke: !like ? "grey" : "none",
+              strokeWidth: !like ? 2 : 0
+            }}
+          />
+          <span className="post-like-count">{post.likes}</span>
         </IconButton>
         <ExpandMore
           expand={expanded}
@@ -140,14 +202,22 @@ export default function Post({ postId }: PostProps) {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
+                  <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+          Following: {post.following ? "Ja" : "Nein"}
+        </Typography>
+                <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+          Status: {post.status}
+        </Typography>
           <Typography variant="body2" color="text.secondary">
             Erstellt am: {new Date(post.createdAt).toLocaleString()}
           </Typography>
           <Typography variant="body2" color="text.secondary">
             Zuletzt aktualisiert: {new Date(post.updatedAt).toLocaleString()}
           </Typography>
+
         </CardContent>
       </Collapse>
     </Card>
+    </StyledEngineProvider>
   );
 }

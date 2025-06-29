@@ -1,0 +1,54 @@
+.css-izap9d-MuiTypography-root {
+    font-family: "Inter"
+}
+
+.post-image-carousel {
+  position: relative;
+  width: 100%;
+}
+
+.post-image {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  max-height: 700px;
+}
+
+.post-carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--Rotkehlchen-gray);
+}
+
+
+.post-carousel-arrow.left {
+  left: 8px;
+}
+
+
+.post-carousel-arrow.right {
+  right: 8px;
+}
+
+.post-image-counter {
+  position: absolute;
+  bottom: 8px;
+  right: 16px;
+  background: rgba(0,0,0,0.5);
+  color: white;
+  border-radius: 8px;
+  padding: 2px 8px;
+  font-size: 0.9rem;
+}
+
+.post-like-icon {
+  font-size: 44px;
+
+}
+
+.post-like-count {
+  margin-left: 8px;
+  font-family: "Inter", sans-serif;
+  color: grey;
+}
