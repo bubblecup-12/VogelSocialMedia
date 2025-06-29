@@ -10,7 +10,6 @@ const api = axios.create({
 
 // get token from local storage
 const getAccessToken = () => localStorage.getItem("token");
-const getRefreshToken = () => localStorage.getItem("refreshToken");
 
 //redirects the page to the login and back
 export const redirectToLogin = (returnToPage = true) => {
