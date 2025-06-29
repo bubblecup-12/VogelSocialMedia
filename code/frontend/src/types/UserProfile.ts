@@ -6,4 +6,5 @@ export type UserProfile = {
     followers: number;
     following: number;
     posts: number;
+    isFollowing: boolean;
   }
