@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Post from "../Post";
 import "./feed.css";
 import api from "../../api/axios";
+import { create } from "axios";
 
 interface PostListItem {
   id: string;
@@ -21,15 +22,15 @@ function Feed() {
     if (loading || !hasMore) return;
     setLoading(true);
     try {
-      const params: any = { limit: PAGE_SIZE };
-      if (nextCursor) params.createdAt = nextCursor;
+      let url = `/feed?limit=${PAGE_SIZE}`;
+      if (nextCursor) {
+        url = `/feed?createdAt=${encodeURIComponent(nextCursor)}&limit=${PAGE_SIZE}`;
+      }
       interface FeedResponse {
-        posts: PostListItem[];  
-
+        posts: PostListItem[];
         nextCursor: string | null;
       }
-      const response = await api.get<FeedResponse>("/feed?limit=10");
-      //const response = await api.get<FeedResponse>("http://localhost:3001/api/feed?limit=10");
+      const response = await api.get<FeedResponse>(url);
       console.log("Feed response:", response.data);
       const { posts: newPosts, nextCursor: newCursor } = response.data;
       setPosts((prev) => [...prev, ...newPosts]);
@@ -48,16 +49,17 @@ function Feed() {
 
   useEffect(() => {
     const onScroll = () => {
-      const feed = feedRef.current;
-      if (!feed || loading || !hasMore) return;
-      if (feed.scrollTop + feed.clientHeight >= feed.scrollHeight - 100) {
+      if (loading || !hasMore) return;
+      if (
+        window.innerHeight + window.scrollY >=
+        document.body.offsetHeight - 100
+      ) {
         fetchPosts();
       }
     };
-    const feed = feedRef.current;
-    feed?.addEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll);
     return () => {
-      feed?.removeEventListener("scroll", onScroll);
+      window.removeEventListener("scroll", onScroll);
     };
   }, [loading, hasMore, nextCursor]);
 

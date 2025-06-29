@@ -73,7 +73,7 @@ export default function Post({ postId }: PostProps) {
 
   if (!post) {
     return (
-      <Card sx={{ maxWidth: 345, margin: 2 }}>
+      <Card sx={{ maxWidth: 365, margin: 2, width:'100%'}}>
         <CardContent>
           <Typography>Loading...</Typography>
         </CardContent>
