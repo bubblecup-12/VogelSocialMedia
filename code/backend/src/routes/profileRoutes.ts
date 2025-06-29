@@ -72,7 +72,7 @@ profileRouter.get("/getProfilePicture/:username", getProfilePicture);
 /**
  * @swagger
  * /api/profile/updateBio:
- *   post:
+ *   put:
  *     summary: Update user bio
  *     description: Updates the bio (short description) of the currently authenticated user.
  *     tags:

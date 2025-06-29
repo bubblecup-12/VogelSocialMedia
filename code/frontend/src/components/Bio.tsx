@@ -25,10 +25,9 @@ export default function BioTextField({ ownAccount, bioText, setBio } : { ownAcco
 
   const saveBio = async () => {
     try {
-      const response = await api.post("http://localhost:3001/api/profile/updateBio", {
+      await api.put("/profile/updateBio", {
         bio: bioText,
       });
-      setBio(response.data.data.bio);
       setEditable(false);
     } catch (error) {
       console.error("Error saving bio: ", error);
