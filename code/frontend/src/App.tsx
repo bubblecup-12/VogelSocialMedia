@@ -11,27 +11,27 @@ import { Auth } from "./api/Auth";
 
 
 function App() {
-  return (
-    <Auth>
-      <Router>
-        <div className="App">
-          <Header />
-          <Routes>
-            <Route
-              path="/login"
-              element={<LoginAndSignUpPage signupProp={false} />}
-            ></Route>
-            <Route
-              path="/register"
-              element={<LoginAndSignUpPage signupProp={true} />}
-            ></Route>
-            <Route path="/profile" element={<Profile />}></Route>
-          </Routes>
-          <Footer />
-        </div>
-      </Router>
-    </Auth>
-  );
+	return (
+		<Auth>
+			<Router>
+				<div className="App">
+					<Header />
+					<Routes>
+						<Route
+							path="/login"
+							element={<LoginAndSignUpPage signupProp={false} />}
+						></Route>
+						<Route
+							path="/register"
+							element={<LoginAndSignUpPage signupProp={true} />}
+						></Route>
+						<Route path="/profile" element={<Profile />}></Route>
+					</Routes>
+					<Footer />
+				</div>
+			</Router>
+		</Auth>
+	);
 }
 
 export default App;
