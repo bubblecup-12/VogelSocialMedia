@@ -22,18 +22,18 @@ function Profile() {
   const [userData, setUserData] = useState<UserProfile | null>({
     id: "",
     username: "",
-    bio: "default",
+    bio: "",
     profilePictureUrl: null,
     followers: 0,
     following: 0,
-    // posts: 0,
+    posts: 0,
   });
 
   const userProfile = async () => {
     try {
       const response = await api.get(`/profile/get/${username}`);
       setUserData(response.data.data);
-      return
+      return;
     } catch (error) {
       navigate("/", { replace: true }); /* replace to 404 page */
       console.error("Error fetching user profile:", error);
@@ -42,42 +42,63 @@ function Profile() {
   };
 
   const ownAccount = username === user?.username;
-useEffect(() => {
+  useEffect(() => {
+    userProfile();
+  }, []);
 
-  userProfile();
-}, []);
-
-const setBio = (bio: string) => {
-  setUserData((prevData) => {
-    if (prevData) {
-      return { ...prevData, bio: bio };
+  const setBio = (bio: string) => {
+    setUserData((prevData) => {
+      if (prevData) {
+        return { ...prevData, bio: bio };
+      }
+      return prevData;
+    });
+  };
+  function handleFollowUser() {
+    // TODO: implement follow user functionality
+    if (user) {
+      api.post(`follower/follow/${username}`)
     }
-    return prevData;
-  });
-}
+  }
+
   return (
     <StyledEngineProvider injectFirst>
       <div className="profile-display">
         <div className="user-info blue-background">
-          <ChangeAvatarDialog ownAccount={ownAccount} username={userData?.username || ""} />
-          <Bio ownAccount={ownAccount} bioText={userData?.bio} setBio={setBio} />
+          <ChangeAvatarDialog
+            ownAccount={ownAccount}
+            username={userData?.username || ""}
+            setUserData={setUserData}
+            imageUrl={userData?.profilePictureUrl}
+          />
+          <Bio
+            ownAccount={ownAccount}
+            bioText={userData?.bio}
+            setBio={setBio}
+          />
           <Divider variant="middle" className="divider" />
           {/* TODO: Change data to data from Database */}
           <div className="numeral-data body-bold">
             <div className="data">
-              <span aria-label="current-post-number">{userData?.following}</span>
+              <span aria-label="current-post-number">{userData?.posts}</span>
               <span className="data-label title-h1">Posts</span>
             </div>
             <div className="data">
-              <span aria-label="current-follower-number">{userData?.followers}</span>
+              <span aria-label="current-follower-number">
+                {userData?.followers}
+              </span>
               <span className="data-label title-h1">Followers</span>
             </div>
             <div className="data">
-              <span aria-label="current-following-number">{userData?.following}</span>
+              <span aria-label="current-following-number">
+                {userData?.following}
+              </span>
               <span className="data-label title-h1">Following</span>
             </div>
           </div>
-          <RotkehlchenButton style="primary" label="Follow" type="button" />
+          {!ownAccount && (
+            <RotkehlchenButton style="primary" label="Follow" type="button" onClick={handleFollowUser} />
+          )}
         </div>
         {userData && <QuiltedImageList user={userData} />}
       </div>
