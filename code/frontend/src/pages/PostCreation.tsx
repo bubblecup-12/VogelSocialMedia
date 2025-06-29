@@ -130,8 +130,7 @@ function PostCreation(){
           <form onSubmit={onSubmit}>
             <h1>Create Post</h1>
             <div className="create-layout">
-              <div className="create-post-desc">
-            <UserAvatar username={user? user.username: ""}/>
+              <div className="create-preview">
             {selectedImage? 
             <img src={selectedImage} className="create-post-image" alt="Add an Image"></img>: 
             <label className="create-post-img-layer" onClick={onEmptyImgClick}>
@@ -143,6 +142,7 @@ function PostCreation(){
               <textarea className="create-post-description" value={description} onChange={handleChange} required></textarea>
               </div>
               <Box
+              className="strip"
                 sx={{
                   display: 'flex',
                   gap: 1,
@@ -256,9 +256,11 @@ function PostCreation(){
                 />
                 )}
               />  
-              </div>          
+              <div className="create-buttons">
               <ButtonPrimary style="secondary" label="Cancel" type="button" onClick={onCancel} ></ButtonPrimary>
               <ButtonPrimary style="primary" label="Post" type="submit" ></ButtonPrimary>
+              </div>
+              </div>          
           </form>
         </div>
     </div>

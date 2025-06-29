@@ -13,7 +13,7 @@
 .create-part{
     display: flex;
     width: 100vw;
-    height: calc(100vh - var(--Header-height));
+    height: fit-content;
     padding: 29px 40px;
     flex-direction: column;
     align-items: center;
@@ -29,6 +29,14 @@
     grid-auto-rows: auto;    
     width: 90vw;
     gap: 0.5rem;
+    align-items: center;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "preview"
+      "strip"
+      "desc"
+      "tags"
+      "buttons";
 }
 .create-account{
     display: flex;
@@ -40,18 +48,24 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+    grid-area: desc;
 }
 .create-post-description{
     width: 100%;
     accent-color: var(--Rotkehlchen-yellow-default);
     resize: none;
     height: 100%;
+    max-height: 8vh;
+    font-size: 0.9rem;
 }
 .create-post-image{
     height: 40vh;
     width: 100%;
     object-fit: cover;
     overflow: hidden;
+    max-width: 600px;
+    display: block;
+    margin: 0 auto;
 }
 .create-post-img-layer{
     display: flex;
@@ -65,6 +79,10 @@
     overflow: hidden;
     background-image: url("../../public/assets/images/BirdLogin.jpg");
     filter: grayscale();
+    width: 100%;
+    max-width: 600px;
+    height: 40vh;
+    margin: 0 auto;
 }
 input#create-file-upload[type="file"] {
     display: none;
@@ -77,6 +95,19 @@ input#create-file-upload[type="file"] {
     height: 100px;
 }
 
+.create-preview  { grid-area: preview; }
+.strip    { grid-area: strip; }
+.create-buttons  {
+  grid-area: buttons;
+  display: flex;
+  gap: var(--gap);
+  justify-content: flex-end;
+}
+.create-tags { 
+    width: 100%;
+    grid-area: tags;
+}
+
 @media only screen and (min-width: 768px) {
     .create-display{
         padding-top: calc(var(--Header-height) + 1rem);
@@ -85,7 +116,7 @@ input#create-file-upload[type="file"] {
    .create-part{
         display: flex;
         width: 90vw;
-        height: calc(100vh - var(--Header-height));
+        height: 100vh;
         padding: 29px 40px;
         flex-direction: column;
         align-items: center;
@@ -95,10 +126,12 @@ input#create-file-upload[type="file"] {
         background: #FFF;
     }
     .create-post-image {
-        width: 100%s;
+        width: 100%;
         max-width: 600px;
         display: block;
         margin: 0 auto;
+        height: 40vh;
+        align-self: flex-start;
      }
      .create-post-img-layer{
         max-width: 600px;
@@ -113,14 +146,28 @@ input#create-file-upload[type="file"] {
     .create-tags{
         width: 100%;
     }
-    .create-layout{                  
+    .create-layout {
+        --gap: 1rem;                           /* einfacher Abstandschalter */
         display: grid;
-        grid-template-columns: 50% auto; 
-        grid-auto-rows: auto;    
-        margin: 0 ;   
-        width: 88vw;
-    }
+        gap: var(--gap);
+        width: 88vw;      
+
+        grid-template-columns: 40% 1fr;        /* 40 % links, Rest rechts */
+
+        /* Bereiche benennen (Desktop/Tablet) */
+        grid-template-areas:
+            "preview desc"
+            "preview desc"
+            "preview desc"
+            "preview desc"
+            "strip tags"
+            "buttons buttons";
+        }
     .create-post-desc{
         height: 40vh;
+    }
+    .create-post-description {
+        min-height: 20vh;
+        max-height: 40vh;
     }
 }
