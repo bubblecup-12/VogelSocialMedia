@@ -1,6 +1,6 @@
 export type UserProfile = {
     id: string;
-    username: string;
+    username: string | undefined;
     bio: string | undefined;
     profilePictureUrl: string | null;
     followers: number;
