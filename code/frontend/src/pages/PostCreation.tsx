@@ -1,6 +1,6 @@
 import "./postCreation.css";
 import "./loginAndSignUpPage.css";
-import { useState, ChangeEvent } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import Chip from '@mui/material/Chip';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -29,25 +29,13 @@ import CloseIcon from '@mui/icons-material/Close';
 
 function PostCreation(){
   const {user} = useAuth();
-  const startTags = [
-    { title: 'Bird' },
-    { title: 'Birds'},
-    { title: 'Feather'},
-    { title: 'Bird Feather'},
-    { title: 'Feathers'},
-    { title: 'Featherfeed'}
-  ];
   
-
   interface ImageItem {
     src: string;
     title: string;
   }
-
-  const initialOptions = startTags.map((option) => option.title);
-
-  const [options, setOptions] = useState(initialOptions);
-  const [tags, setTags] = useState<string[]>([initialOptions[1]]);
+  const [options, setOptions] = useState<string[]>([]);
+  const [tags, setTags] = useState<string[]>([]);
   const [description, setDescription] = useState<string>("");
   const [selectedImage, setSelectedImage] = useState<string>();
 
@@ -55,6 +43,19 @@ function PostCreation(){
   const navigate = useNavigate();
 
   const [fileList,setFileList] = useState<FileList|null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await api.get<string[]>("/posts/tags"); // GET /api/posts/tags
+        if (!cancelled) setOptions(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setDescription(event.target.value);
@@ -114,7 +115,6 @@ function PostCreation(){
     } catch (error:any) {
       console.log(error);
     }
-    
   };
   const onCancel= () => {
     navigate("/profile")
@@ -128,6 +128,7 @@ function PostCreation(){
         <div className="create-part">
           <form onSubmit={onSubmit}>
             <h1>Create Post</h1>
+            <div className="create-layout">
             <div className="create-account">
               <Avatar >OP</Avatar>
               <span className="create-username">{user?.username}</span>
@@ -230,16 +231,15 @@ function PostCreation(){
                 multiple
                 id="tags-filled"
                 options={options}
-                defaultValue={[startTags[1].title]}
                 freeSolo
                 value={tags}
                 onChange={handleTags}
                 sx={{ width: "90vw" }}
                 renderValue={(value: readonly string[], getItemProps) =>
-                value.map((option: string, index: number) => {
+                value.map((tags: string, index: number) => {
                   const { key, ...itemProps } = getItemProps({ index });
                   return (
-                  <Chip variant="outlined" label={option} key={key} {...itemProps} />
+                  <Chip variant="outlined" label={tags} key={key} {...itemProps} />
                   );
                 })
                 }
@@ -257,6 +257,7 @@ function PostCreation(){
             <div className="create-post3">
               <ButtonPrimary style="primary" label="Post" type="submit" ></ButtonPrimary>
               <ButtonPrimary style="secondary" label="Cancel" type="button" onClick={onCancel} ></ButtonPrimary>
+            </div>
             </div>
           </form>
         </div>
