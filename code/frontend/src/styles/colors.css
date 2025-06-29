@@ -1,42 +1,42 @@
 :root {
-	--Rotkehlchen-gray: #e7ecf2;
-	--Rotkehlchen-gray-hover: #d5d7da;
-	--Rotkehlchen-brown-light: #a28d7a;
-	--Rotkehlchen-brown-middle: #7f6d6d;
-	--Rotkehlchen-brown-dark: #4c4141;
-	--Rotkehlchen-yellow-default: #fed640;
-	--Rotkehlchen-yellow-hover: #eac22a;
-	--Rotkehlchen-orange-default: #e79a0e;
-	--gradient-blue-backround-mobile: linear-gradient(
-			270deg,
-			rgba(20, 15, 86, 0.27) 0%,
-			rgba(20, 15, 86, 0.58) 24%,
-			rgba(20, 15, 86, 0.74) 43%,
-			rgba(17, 13, 71, 0.82) 56%,
-			rgba(13, 10, 56, 0.9) 68%
-		),
-		url("../../public/assets/images/BirdsSky.jpg") lightgray 50% / cover
-			no-repeat;
-	--transparent-dark-blue: hsla(244, 70%, 13%, 0.71);
-	--dark-blue: hsl(244, 70%, 13%);
-	--dark-blue-hover: #232451;
+  --Rotkehlchen-gray: #e7ecf2;
+  --Rotkehlchen-gray-hover: #d5d7da;
+  --Rotkehlchen-brown-light: #a28d7a;
+  --Rotkehlchen-brown-middle: #7f6d6d;
+  --Rotkehlchen-brown-dark: #4c4141;
+  --Rotkehlchen-yellow-default: #fed640;
+  --Rotkehlchen-yellow-hover: #eac22a;
+  --Rotkehlchen-orange-default: #e79a0e;
+  --gradient-blue-backround-mobile: linear-gradient(
+      270deg,
+      rgba(20, 15, 86, 0.27) 0%,
+      rgba(20, 15, 86, 0.58) 24%,
+      rgba(20, 15, 86, 0.74) 43%,
+      rgba(17, 13, 71, 0.82) 56%,
+      rgba(13, 10, 56, 0.9) 68%
+    ),
+    url("../../public/assets/images/BirdsSky.jpg") lightgray 50% / cover
+      no-repeat;
+  --transparent-dark-blue: hsla(244, 70%, 13%, 0.71);
+  --dark-blue: hsl(244, 70%, 13%);
+  --dark-blue-hover: #232451;
 }
 
 body {
-	height: 100vh; /* Full viewport height */
-	width: 100vw; /* Full viewport width */
-	background: var(--gradient-blue-backround-mobile);
-	z-index: -1;
-	background-attachment: fixed;
+  height: 100vh; /* Full viewport height */
+  width: 100vw; /* Full viewport width */
+  background: var(--gradient-blue-backround-mobile);
+  z-index: -1;
+  background-attachment: fixed;
 }
 
 .blue-background {
-	border-radius: var(--border-radius);
-	background-color: var(--transparent-dark-blue);
-	backdrop-filter: blur(8px);
-	height: fit-content;
+  border-radius: var(--border-radius);
+  background-color: var(--transparent-dark-blue);
+  backdrop-filter: blur(8px);
+  height: fit-content;
 }
 
 .edit-icon {
-	color: var(--Rotkehlchen-brown-light);
+  color: var(--Rotkehlchen-brown-light);
 }
