@@ -15,10 +15,11 @@ import CloseIcon from "@mui/icons-material/Close";
 import EditSquareIcon from "@mui/icons-material/EditSquare";
 import "./changeAvatarDialog.css";
 import ButtonRotkehlchen from "./ButtonRotkehlchen";
-import { useFilePicker } from "use-file-picker";
 import Username from "./Username";
 import "./username.css";
 import api from "../api/axios";
+import { ChangeEvent, useState } from "react";
+import { UserProfile } from "../types/UserProfile";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -32,43 +33,42 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 export default function AvatarDialog({
   ownAccount,
   username,
+  setUserData,
+  imageUrl,
 }: {
   ownAccount: boolean;
   username: string;
+  setUserData: React.Dispatch<React.SetStateAction<UserProfile | null>>;
+  imageUrl?: string | null;
 }) {
-  const [profilePicture, setProfilePicture] = React.useState<string | null>(
-    null
-  );
+  const [file, setFile] = useState<File>();
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setFile(e.target.files[0]);
+    }
+  };
 
   const saveProfilePicture = async () => {
     try {
-      const response = await api.post("/profile/updateProfilePicture", {
-        profilePicture: profilePicture,
-      });
-      setProfilePicture(response.data.data.profilePicture);
-      console.log(
-        "Profile picture saved successfully:",
-        response.data.data.profilePicture
-      );
+      const formData = new FormData();
+      console.log("Saving profile picture:", file);
+      if (file) {
+        formData.append("image", file);
+        const response = await api.post(
+          "/profile/uploadProfilePicture",
+          formData
+        );
+        console.log("Profile picture saved:", response.data);
+        setUserData((prevData) => (prevData ?{
+          ...prevData, 
+          profilePictureUrl: response.data.url
+        } : null));
+      }
       setOpen(false); // Close the dialog after saving
     } catch (error) {
       console.error("Error saving profile picture:", error);
     }
-  };
-
-  const { openFilePicker, filesContent, loading, clear } = useFilePicker({
-    accept: ".png, .jpg, .jpeg",
-    multiple: false,
-    readAs: "DataURL",
-    limitFilesConfig: { max: 1 },
-  });
-
-  const setImageURL = ({ newImage = false }: { newImage: boolean }) => {
-    if (newImage) {
-      return filesContent[0].content;
-    }
-    // TODO: If no image is selected, return the image already in the database or undefined
-    return undefined;
   };
 
   const [open, setOpen] = React.useState(false);
@@ -77,7 +77,6 @@ export default function AvatarDialog({
     setOpen(true);
   };
   const handleClose = () => {
-    clear(); // Reset the selected image when closing
     setOpen(false);
   };
 
@@ -90,11 +89,7 @@ export default function AvatarDialog({
             alt="Username"
             // current code does not work yet
             // TODO: If no image is selected, return the image already in the database or undefined
-            src={
-              filesContent.length > 0
-                ? setImageURL({ newImage: true })
-                : undefined
-            }
+            src={imageUrl ? imageUrl : undefined}
           >
             U
           </Avatar>
@@ -135,30 +130,34 @@ export default function AvatarDialog({
                 objectFit: "cover",
                 maxWidth: "30rem",
                 maxHeight: "30rem",
+                marginBottom: "1rem",
               }}
             >
-              {filesContent.map((file) => (
-                <img
-                  alt={file.name}
-                  src={file.content}
-                  style={{
-                    maxWidth: "30rem",
-                    maxHeight: "30rem",
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                  }}
-                ></img>
-              ))}
+              <img
+                alt={file ? file.name : "Profile Picture"}
+                src={file ? URL.createObjectURL(file) : imageUrl || ""}
+                style={{
+                  maxWidth: "30rem",
+                  maxHeight: "30rem",
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                }}
+              ></img>
             </Box>
             {ownAccount && (
               <div className="change-avatar-button">
-                <IconButton
-                  aria-label="upload picture"
-                  onClick={() => openFilePicker()}
-                >
-                  <EditSquareIcon className="edit-icon" />
-                </IconButton>
+                <label htmlFor="profile-picture">
+                    <EditSquareIcon className="edit-icon" />
+                    <input
+                      type="file"
+                      id="profile-picture"
+                      name="profile-picture"
+                      accept=".png, .jpg, .jpeg"
+                      onChange={handleFileChange}
+                      style={{ display: "none" }}
+                    />
+                </label>
               </div>
             )}
           </DialogContent>
