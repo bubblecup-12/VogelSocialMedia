@@ -83,6 +83,7 @@
     max-width: 600px;
     height: 40vh;
     margin: 0 auto;
+    cursor: pointer;
 }
 input#create-file-upload[type="file"] {
     display: none;
@@ -109,10 +110,7 @@ input#create-file-upload[type="file"] {
 }
 
 @media only screen and (min-width: 768px) {
-    .create-display{
-        padding-top: calc(var(--Header-height) + 1rem);
-        padding-bottom: 1rem;
-    }
+
    .create-part{
         display: flex;
         width: 90vw;
