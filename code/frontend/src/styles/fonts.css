@@ -26,6 +26,11 @@
 	}
 }
 
+.generic-title {
+	font-family: "Lora";
+	font-weight: 700;
+}
+
 h1 {
 	font-family: "Lora";
 }
