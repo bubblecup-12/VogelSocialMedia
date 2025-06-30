@@ -69,7 +69,7 @@ export default function StandardImageList({ user }: { user: UserProfile }) {
                     src={item.imageUrl}
                     alt={item.description}
                     onClick={
-                      () => navigate("/feed", { replace: true })
+                      () => navigate("/feed")
                       // anchor to post that was clicked
                     }
                     loading="lazy"

@@ -64,7 +64,7 @@ function LoginAndSignUpPage({ signupProp }: { signupProp: boolean }) {
         localStorage.setItem("refreshToken", refreshToken);
       }
       await setUserState();
-      navigate(returnTo, { replace: true });
+      navigate(returnTo);
     } catch (err: any) {
       if (err.response?.data) {
         setErrorMessages(err.response.data);
@@ -84,7 +84,7 @@ function LoginAndSignUpPage({ signupProp }: { signupProp: boolean }) {
       [name]: value,
     }));
   };
-  
+
   const theme = createTheme({
     breakpoints: {
       values: {
@@ -96,11 +96,13 @@ function LoginAndSignUpPage({ signupProp }: { signupProp: boolean }) {
       },
     },
   });
-  const matchDownMd = useMediaQuery(theme.breakpoints.down('sm'));
+  const matchDownMd = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <div className="background">
-      <div className={matchDownMd ? "login-login" : "login-login blue-background"}>
+      <div
+        className={matchDownMd ? "login-login" : "login-login blue-background"}
+      >
         <div className="login-part">
           <div className={signup ? "signup-image" : "login-image"}></div>
         </div>

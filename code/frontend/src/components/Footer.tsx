@@ -41,7 +41,7 @@ function Footer() {
             </Link>
           </>
         )}
-        <Link className="footer-link" to="/">
+        <Link className="footer-link" to="/createPost">
           Create Post
         </Link>
         <Link className="footer-link" to="/about">
