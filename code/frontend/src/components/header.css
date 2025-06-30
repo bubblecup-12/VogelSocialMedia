@@ -19,12 +19,12 @@
 
 .header-title {
   color: var(--Rotkehlchen-orange-default);
+  cursor: pointer;
 }
 .header-icon-feather {
   height: 35px;
 }
 .header-icon-menu {
-  cursor: pointer;
   height: 45px;
 }
 
@@ -34,6 +34,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 @media only screen and (min-width: 768px) {
   .header-icon {
