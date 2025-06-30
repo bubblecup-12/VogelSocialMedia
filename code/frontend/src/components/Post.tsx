@@ -1,24 +1,24 @@
-import * as React from 'react';
-import { styled, StyledEngineProvider } from '@mui/material/styles';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
-import Avatar from '@mui/material/Avatar';
-import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import * as React from "react";
+import { styled, StyledEngineProvider } from "@mui/material/styles";
+import Card from "@mui/material/Card";
+import CardHeader from "@mui/material/CardHeader";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
+import CardActions from "@mui/material/CardActions";
+import Collapse from "@mui/material/Collapse";
+import Avatar from "@mui/material/Avatar";
+import IconButton, { IconButtonProps } from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import { red } from "@mui/material/colors";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ShareIcon from "@mui/icons-material/Share";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import api from "../api/axios";
-import { Url } from 'url';
-import { LogLevel } from 'vite';
-import "./post.css" 
-
+import { Url } from "url";
+import { LogLevel } from "vite";
+import "./post.css";
+import UserAvatar from "./UserAvatar";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -44,18 +44,18 @@ interface PostResponse {
     url: string;
   }[];
   following: boolean;
-  hasLiked: boolean; // <-- add this
+  hasLiked: boolean;
 }
 
 const ExpandMore = styled((props: ExpandMoreProps) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
 })<ExpandMoreProps>(({ theme, expand }) => ({
-  marginLeft: 'auto',
-  transition: theme.transitions.create('transform', {
+  marginLeft: "auto",
+  transition: theme.transitions.create("transform", {
     duration: theme.transitions.duration.shortest,
   }),
-  transform: expand ? 'rotate(180deg)' : 'rotate(0deg)',
+  transform: expand ? "rotate(180deg)" : "rotate(0deg)",
 }));
 
 export default function Post({ postId }: PostProps) {
@@ -70,9 +70,11 @@ export default function Post({ postId }: PostProps) {
 
   async function getPostbyID(): Promise<void> {
     try {
-      const response = await api.get<PostResponse>(`/posts/getPost/{postId}?postId=${postId}`);
+      const response = await api.get<PostResponse>(
+        `/posts/getPost/{postId}?postId=${postId}`
+      );
       setPost(response.data);
-      setLike(response.data.hasLiked); // <-- initialize like state
+      setLike(response.data.hasLiked);
       setCurrentImage(0);
     } catch (error) {
       console.error("Failed to fetch post:", error);
@@ -81,7 +83,7 @@ export default function Post({ postId }: PostProps) {
 
   if (!post) {
     return (
-      <Card sx={{ maxWidth: 400, width: '100%', margin: 2 }}>
+      <Card sx={{ maxWidth: 400, width: "100%", margin: 2 }}>
         <CardContent>
           <Typography>Loading...</Typography>
         </CardContent>
@@ -107,15 +109,11 @@ export default function Post({ postId }: PostProps) {
       if (!like) {
         await api.post(`/posts/like/${postId}`);
         setLike(true);
-        setPost((prev) =>
-          prev ? { ...prev, likes: prev.likes + 1 } : prev
-        );
+        setPost((prev) => (prev ? { ...prev, likes: prev.likes + 1 } : prev));
       } else {
         await api.delete(`/posts/removeLike/${postId}`);
         setLike(false);
-        setPost((prev) =>
-          prev ? { ...prev, likes: prev.likes - 1 } : prev
-        );
+        setPost((prev) => (prev ? { ...prev, likes: prev.likes - 1 } : prev));
       }
     } catch (error) {
       console.error("Failed to update like:", error);
@@ -124,100 +122,89 @@ export default function Post({ postId }: PostProps) {
 
   return (
     <StyledEngineProvider injectFirst>
-    <Card className="body-l" sx={{ maxWidth: 600, width: '100%', margin: 2 }}>
-      <CardHeader
-        avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="user">
-            {post.user.name.charAt(0).toUpperCase()}
-          </Avatar>
-        }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title={post.user.name}
-      />
-      {images.length > 0 && (
-        <div className="post-image-carousel">
-          <CardMedia
-            component="img"
-            image={images[currentImage].url}
-            alt={images[currentImage].originalName}
-            className="post-image"
-          />
-          {hasMultipleImages && (
-            <>
-              <IconButton
-                aria-label="previous image"
-                onClick={handlePrev}
-                className="post-carousel-arrow left"
-                size="small"
-              >
-                {"<"}
-              </IconButton>
-              <IconButton
-                aria-label="next image"
-                onClick={handleNext}
-                className="post-carousel-arrow right"
-                size="small"
-              >
-                {">"}
-              </IconButton>
-              <div className="post-image-counter">
-                {currentImage + 1} / {images.length}
-              </div>
-            </>
-          )}
-        </div>
-      )}
-      <CardContent>
-        <Typography variant="body1" sx={{ fontWeight: 600 }}>
-          {post.description}
-        </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-          Tags: {post.tags.join(", ")}
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <IconButton aria-label="like" onClick={handleLike}>
-          <FavoriteIcon
-            className="post-like-icon"
-            sx={{
-              color: like ? "#d32f2f" : "#fff",
-              stroke: !like ? "grey" : "none",
-              strokeWidth: !like ? 2 : 0
-            }}
-          />
-          <span className="post-like-count">{post.likes}</span>
-        </IconButton>
-        <ExpandMore
-          expand={expanded}
-          onClick={() => setExpanded(!expanded)}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </ExpandMore>
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
+      <Card className="body-l" sx={{ maxWidth: 600, width: "100%", margin: 2 }}>
+        <CardHeader
+          avatar={<UserAvatar username={post.user.name} size={60} />}
+        />
+        {images.length > 0 && (
+          <div className="post-image-carousel">
+            <CardMedia
+              component="img"
+              image={images[currentImage].url}
+              alt={images[currentImage].originalName}
+              className="post-image"
+            />
+            {hasMultipleImages && (
+              <>
+                <IconButton
+                  aria-label="previous image"
+                  onClick={handlePrev}
+                  className="post-carousel-arrow left"
+                  size="small"
+                >
+                  {"<"}
+                </IconButton>
+                <IconButton
+                  aria-label="next image"
+                  onClick={handleNext}
+                  className="post-carousel-arrow right"
+                  size="small"
+                >
+                  {">"}
+                </IconButton>
+                <div className="post-image-counter">
+                  {currentImage + 1} / {images.length}
+                </div>
+              </>
+            )}
+          </div>
+        )}
         <CardContent>
-                  <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-          Following: {post.following ? "Ja" : "Nein"}
-        </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-          Status: {post.status}
-        </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Erstellt am: {new Date(post.createdAt).toLocaleString()}
+          <Typography variant="body1" sx={{ fontWeight: 600 }}>
+            {post.description}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Zuletzt aktualisiert: {new Date(post.updatedAt).toLocaleString()}
-          </Typography>
-
         </CardContent>
-      </Collapse>
-    </Card>
+        <CardActions disableSpacing>
+          <IconButton aria-label="like" onClick={handleLike}>
+            <FavoriteIcon
+              className="post-like-icon"
+              sx={{
+                color: like ? "#d32f2f" : "#fff",
+                stroke: !like ? "grey" : "none",
+                strokeWidth: !like ? 2 : 0,
+              }}
+            />
+            <span className="post-like-count">{post.likes}</span>
+          </IconButton>
+          <ExpandMore
+            expand={expanded}
+            onClick={() => setExpanded(!expanded)}
+            aria-expanded={expanded}
+            aria-label="show more"
+          >
+            <ExpandMoreIcon />
+          </ExpandMore>
+        </CardActions>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <CardContent>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+              Tags: {post.tags.join(", ")}
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+              Following: {post.following ? "Ja" : "Nein"}
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+              Status: {post.status}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Erstellt am: {new Date(post.createdAt).toLocaleString()}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Zuletzt aktualisiert: {new Date(post.updatedAt).toLocaleString()}
+            </Typography>
+          </CardContent>
+        </Collapse>
+      </Card>
     </StyledEngineProvider>
   );
 }

@@ -31,12 +31,13 @@
     display: grid;
     grid-template-columns: 40% 60%;
   }
-  .loggedInfeedContainer {
 
-  }
   .welcome-for-logged-out {
     position: sticky;
-    top: 2rem; 
+    top: 5rem; 
+    left: 5rem;
+    right: 1rem;
+    align-self: center;
     align-self: flex-start;
   }
   .feedContent {
