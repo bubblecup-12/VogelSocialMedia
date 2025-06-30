@@ -3,9 +3,36 @@ import "./about.css";
 function About() {
 	return (
 		<div className="mainbox">
-			<h1 className="about-title color-orange">
-				About<br></br>Feather Feed
-			</h1>
+			<div className="intro">
+				<div className="block">
+					<div className="item text1 text-start">
+						Bringing Birds closer to you
+					</div>
+					<img
+						className="item item-end pic pic-justify"
+						src="/assets/images/BirdOnCam.jpg"
+						alt="A bird sitting on a camera"
+					/>
+				</div>
+				<div className="block block2">
+					<img
+						className="item item-end grid-end pic2 pic"
+						src="/assets/images/birdVeryInterestedFace.jpg"
+						alt="A curious-interested looking cute bird"
+					/>
+					<div className="item text1 text-end grid-start text1">
+						And the Birds you love
+					</div>
+				</div>
+				<div className="block">
+					<div className="item text1 text-start">Enhance your day</div>
+					<img
+						className="item item-end pic pic-justify"
+						src="/assets/images/owlFancyFace.jpg"
+						alt="A very confident looking owl"
+					/>
+				</div>
+			</div>
 		</div>
 	);
 }
