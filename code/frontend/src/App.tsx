@@ -16,7 +16,8 @@ import {
 	Navigate,
 } from "react-router-dom";
 import { Auth } from "./api/Auth";
-import AboutUs from "./pages/About";
+import About from "./pages/About";
+import { NotFound } from "./pages/404Page/NotFoundPage";
 
 function App() {
 	return (
