@@ -20,13 +20,6 @@ export default function StandardImageList({ user }: { user: UserProfile }) {
     }
   }, [user.username]);
 
-  useEffect(() => {
-    images.sort(
-      (a, b) =>
-        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-    );
-  }, [user]);
-
   const fetchUserPosts = async () => {
     try {
       const response = await api.get(`/posts/getUserPosts/${user.username}`);
