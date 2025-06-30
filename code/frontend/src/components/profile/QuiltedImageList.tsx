@@ -2,9 +2,9 @@ import ImageListItem from "@mui/material/ImageListItem";
 import { StyledEngineProvider } from "@mui/material/styles";
 import "./quiltedImageList.css";
 import { Box, Grid, Skeleton } from "@mui/material";
-import api from "../api/axios";
+import api from "../../api/axios";
 import { useEffect, useState } from "react";
-import { UserProfile } from "../types/UserProfile";
+import { UserProfile } from "../../types/UserProfile";
 import { useNavigate } from "react-router-dom";
 
 export default function StandardImageList({ user }: { user: UserProfile }) {
