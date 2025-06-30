@@ -32,7 +32,7 @@ function Profile() {
       setUserData(response.data.data);
       return;
     } catch (error) {
-      navigate("/", { replace: true }); /* replace to 404 page */
+      navigate("/"); /* replace to 404 page */
       console.error("Error fetching user profile:", error);
       return null;
     }
@@ -40,8 +40,9 @@ function Profile() {
 
   const ownAccount = username === user?.username;
   useEffect(() => {
+    setUserData(null);
     userProfile();
-  }, []);
+  }, [username]);
 
   const setBio = (bio: string) => {
     setUserData((prevData) => {
@@ -66,7 +67,6 @@ function Profile() {
     }
   };
 
- 
   return (
     <StyledEngineProvider injectFirst>
       <div className="profile-display">

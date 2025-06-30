@@ -61,7 +61,7 @@
 .create-post-image{
     height: 40vh;
     width: 100%;
-    object-fit: cover;
+    object-fit: contain;
     overflow: hidden;
     max-width: 600px;
     display: block;
