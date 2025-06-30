@@ -27,20 +27,23 @@ const config: json_config = JSON.parse(raw); // Parse the JSON file
 
 //check if there is a .env and if it has the correct settings
 let missingConfigs: env_config[] = [];
-if (fs.existsSync(".env")) {
+if (fs.existsSync("../docker/.env")) {
   dotenv.config();
   for (const setting of config.requiredKeys) {
-    if (!process.env[setting.name] || process.env[setting.name]!.length <= setting.minLength) {
+    if (
+      !process.env[setting.name] ||
+      process.env[setting.name]!.length <= setting.minLength
+    ) {
       missingConfigs.push(setting);
     }
   }
 } else {
   missingConfigs = config.requiredKeys;
 }
-  
-  if (missingConfigs.length < 1 ) {
-    // if it`s all set abort the installation
-    console.log("All required settings are already set in .env.");
+
+if (missingConfigs.length < 1) {
+  // if it`s all set abort the installation
+  console.log("All required settings are already set in .env.");
 } else {
   // getting user input for the PostgreSQL username and password
   console.log("generrating .env file");
@@ -54,9 +57,12 @@ if (fs.existsSync(".env")) {
         );
       } while (!input || input.length < setting.minLength);
       process.env[setting.name] = input;
-    } else if (setting.name === "TOKEN_SECRET" || setting.name === "REFRESH_TOKEN_SECRET") {
+    } else if (
+      setting.name === "TOKEN_SECRET" ||
+      setting.name === "REFRESH_TOKEN_SECRET"
+    ) {
       // generating a random JWT secret
-      const jwtSecret: string = crypto.randomBytes(32).toString("hex"); // 64 character 
+      const jwtSecret: string = crypto.randomBytes(32).toString("hex"); // 64 character
       process.env[setting.name] = jwtSecret;
     }
   }
@@ -69,7 +75,7 @@ if (fs.existsSync(".env")) {
 
   // writing the .env file
   try {
-    fs.writeFileSync(".env", env);
+    fs.writeFileSync("../docker/.env", env);
     console.log("File has been written successfully.");
   } catch (err) {
     console.error("Error writing to file:", err);
@@ -106,6 +112,6 @@ let failed: boolean = false;
     console.log("Bucket 'images' created successfully.");
   }
 
-  console.log(failed?"installation failed":"Installation complete");
+  console.log(failed ? "installation failed" : "Installation complete");
   process.exit(0); // Exit the process after all commands are executed
 })();

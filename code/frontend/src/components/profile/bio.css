@@ -1,35 +1,41 @@
 .bio-input {
-    margin: 0.5rem;
+  margin: 0.5rem;
 }
 
-.css-53g0n7-MuiButtonBase-root-MuiIconButton-root {
-  justify-content: end;
+/* Wichtiger: Verwende wichtige Basis-Selektoren, die sich nicht ändern */
+.bio-input.MuiTextField-root .MuiOutlinedInput-root {
+  color: var(--Rotkehlchen-gray) !important;
+  background-color: transparent !important; /* Expliziter Hintergrund */
 }
 
-/* Root class for the input field */
-.bio-input .MuiOutlinedInput-root {
-  color: var(--Rotkehlchen-gray);
+/* Für Textfarbe innerhalb des Inputs */
+.bio-input.MuiTextField-root .MuiOutlinedInput-input {
+  color: var(--Rotkehlchen-gray) !important;
+  -webkit-text-fill-color: var(--Rotkehlchen-gray) !important;
 }
-/* Class for the border around the input field */
-.bio-input .MuiOutlinedInput-notchedOutline {
-    border-color: var(--Rotkehlchen-brown-light);
+
+/* Rahmen */
+.bio-input.MuiTextField-root .MuiOutlinedInput-notchedOutline {
+  border-color: var(--Rotkehlchen-brown-light) !important;
 }
-/* Class for the label of the input field */
-.bio-input .MuiInputLabel-outlined {
-    color: var(--Rotkehlchen-brown-light);
+
+/* Label */
+.bio-input.MuiTextField-root .MuiInputLabel-root {
+  color: var(--Rotkehlchen-brown-light) !important;
 }
-/* Class for the border in focused state */
-.bio-input .Mui-focused .MuiOutlinedInput-notchedOutline {
-    border-color: var(--Rotkehlchen-yellow-default);
+
+/* Fokus-Zustand */
+.bio-input.MuiTextField-root .Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: var(--Rotkehlchen-yellow-default) !important;
 }
-/* Disabled input field text and border color */
-.bio-input .css-w4nesw-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled {
-  -webkit-text-fill-color: var(--Rotkehlchen-gray);
+
+/* Deaktivierter Zustand */
+.bio-input.MuiTextField-root .Mui-disabled .MuiOutlinedInput-input {
+  -webkit-text-fill-color: var(--Rotkehlchen-gray) !important;
 }
-.bio-input
-  .MuiInputBase-root.MuiOutlinedInput-root.Mui-disabled
-  .MuiOutlinedInput-notchedOutline {
-  border-color: transparent;
+
+.bio-input.MuiTextField-root .Mui-disabled .MuiOutlinedInput-notchedOutline {
+  border-color: transparent !important;
 }
 
 @media only screen and (min-width: 768px) {
@@ -37,12 +43,13 @@
     width: 100%;
     margin-bottom: 1rem;
   }
-  .bio-input .MuiInputLabel-outlined {
-    font-size: 18px;
+
+  .bio-input.MuiTextField-root .MuiInputLabel-root {
+    font-size: 18px !important;
   }
-  .bio-input .MuiOutlinedInput-input {
-    font-size: 18px;
-    padding: 10px;
+
+  .bio-input.MuiTextField-root .MuiOutlinedInput-input {
+    font-size: 18px !important;
+    padding: 10px !important;
   }
-    
 }

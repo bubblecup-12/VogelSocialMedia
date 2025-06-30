@@ -7,7 +7,7 @@ import {
 import { UserLoginDto, UserRegistrationDto } from "../schemas/userSchemas";
 import jwt, { TokenExpiredError } from "jsonwebtoken";
 import dotenv from "dotenv";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 import { StatusCodes } from "http-status-codes";
 import { RefreshTokenPayload } from "../types/tokens";
 const app = express();

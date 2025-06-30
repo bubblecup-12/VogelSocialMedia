@@ -58,3 +58,20 @@
   }
 
 }
+.MuiImageListItem-root {
+  height: auto !important;
+  width: auto !important;
+}
+
+.MuiImageListItem-img {
+  height: 5rem !important;
+  width: 5rem !important;
+  object-fit: cover !important;
+}
+
+@media only screen and (min-width: 768px) {
+  .MuiImageListItem-img {
+    height: 15rem !important;
+    width: 15rem !important;
+  }
+}

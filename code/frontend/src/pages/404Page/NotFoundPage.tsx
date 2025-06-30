@@ -75,7 +75,6 @@ export const NotFound = () => {
   }, []);
 
   useEffect(() => {
-    let lastBlockTime = Date.now();
     let animationId: number;
 
     function loop() {
@@ -87,7 +86,7 @@ export const NotFound = () => {
 
       velocityRef.current += GRAVITY;
       birdPosRef.current.y += velocityRef.current;
-      setRotation(Math.max(Math.min(velocityRef.current * 2, 90), -15));
+      setRotation(Math.max(Math.min(velocityRef.current * 4, 90), -15));
 
       textPosRef.current -= speedRef.current;
       setTextPos(textPosRef.current);

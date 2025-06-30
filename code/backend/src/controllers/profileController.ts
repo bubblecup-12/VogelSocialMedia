@@ -3,8 +3,8 @@ import { JwtPayload } from "jsonwebtoken";
 import { PrismaClient } from "../../prisma/app/generated/prisma/client";
 import dotenv from "dotenv";
 import { StatusCodes } from "http-status-codes";
-import multer from "multer";
 import { minioClient } from "../server";
+import { getPublicPresignedUrl } from "./getPublicPresignedUrl";
 
 const app = express();
 app.use(express.json());
@@ -31,10 +31,9 @@ const getUser: (userId: string) => Promise<PublicUser | undefined> = async (
   if (user) {
     let profilePictureUrl: string | null = null;
     if (user.profilePicture) {
-      profilePictureUrl = await minioClient.presignedGetObject(
+      profilePictureUrl = await getPublicPresignedUrl(
         user.profilePicture.bucket,
-        user.profilePicture.objectName,
-        60 * 10
+        user.profilePicture.objectName
       );
     }
     const followerCount = await prisma.follow.count({
@@ -74,11 +73,7 @@ export const uploadProfilePicture = async (req: Request, res: Response) => {
   try {
     const objectName = `${user.sub}/profile.${file.mimetype.split("/")[1]}`;
     await minioClient.putObject(BUCKET, objectName, file.buffer);
-    const url = await minioClient.presignedGetObject(
-      BUCKET,
-      objectName,
-      60 * 10
-    );
+    const url = await getPublicPresignedUrl(BUCKET, objectName);
     const oldImage = await prisma.user.findUnique({
       where: { id: user.sub },
       select: { profilePictureId: true },
@@ -159,10 +154,9 @@ export const getProfilePicture = async (req: Request, res: Response) => {
       return;
     }
 
-    const profilePictureUrl = await minioClient.presignedGetObject(
+    const profilePictureUrl = await getPublicPresignedUrl(
       user.profilePicture.bucket,
-      user.profilePicture.objectName,
-      60 * 10 // 10 minutes expiration
+      user.profilePicture.objectName
     );
 
     res.status(StatusCodes.OK).json({ url: profilePictureUrl });
@@ -228,22 +222,22 @@ export const getProfile = async (req: Request, res: Response) => {
 
     const publicUser: PublicUser | undefined = await getUser(user.id);
 
-    let isFollowing : boolean = false; 
-    if(requestingUser) {
+    let isFollowing: boolean = false;
+    if (requestingUser) {
       const followingData = await prisma.follow.findFirst({
         where: {
           followedUserId: user.id,
           followingUserId: requestingUser.id,
-        }
-      })
-      if(followingData) {
-        isFollowing = true; 
-      } 
+        },
+      });
+      if (followingData) {
+        isFollowing = true;
+      }
     }
 
     res.status(StatusCodes.OK).json({
       message: "User found",
-      data: {...publicUser, isFollowing},
+      data: { ...publicUser, isFollowing },
     });
   } catch (err) {
     console.error(err);

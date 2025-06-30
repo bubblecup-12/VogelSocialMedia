@@ -34,7 +34,43 @@
       "name": "MINIO_PASSWORD",
       "generated": false,
       "hide": true,
-      "minLength":8
+      "minLength": 8
+    },
+    {
+      "name": "MINIO_ENDPOINT",
+      "generated": false,
+      "default": "localhost",
+      "hide": false
+    },
+    {
+      "name": "MINIO_PORT",
+      "generated": false,
+      "default": "9000",
+      "hide": false
+    },
+    {
+      "name": "MINIO_USE_SSL",
+      "generated": false,
+      "default": "false",
+      "hide": false
+    },
+    {
+      "name": "PORT",
+      "generated": false,
+      "default": "3000",
+      "hide": false
+    },
+    {
+      "name": "HOST",
+      "generated": false,
+      "default": "0.0.0.0",
+      "hide": false
+    },
+    {
+      "name": "CORS_ORIGIN",
+      "generated": false,
+      "default": "http://localhost:3000",
+      "hide": false
     }
   ]
 }

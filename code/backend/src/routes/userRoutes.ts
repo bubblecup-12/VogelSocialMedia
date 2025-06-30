@@ -124,7 +124,7 @@ userRouter.get("/refreshToken", refreshToken);
 
 /**
  * @swagger
- * /api/user/logout/:
+ * /api/user/logout:
  *   delete:
  *     summary: logout
  *     tags: [Auth]

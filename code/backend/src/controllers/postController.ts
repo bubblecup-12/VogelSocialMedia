@@ -5,6 +5,7 @@ import { JwtPayload } from "jsonwebtoken";
 import { PrismaClient, Post } from "../../prisma/app/generated/prisma/client";
 import { minioClient } from "../server";
 import { uploadPostSchema } from "../schemas/postSchemas";
+import { getPublicPresignedUrl } from "./getPublicPresignedUrl";
 dotenv.config();
 const prisma = new PrismaClient();
 
@@ -18,11 +19,7 @@ export const uploadPost = async (req: Request, res: Response) => {
       files.map(async (file) => {
         const objectName = `${user.sub}/posts/${Date.now()}-${file.originalname}`;
         await minioClient.putObject(BUCKET, objectName, file.buffer);
-        const url = await minioClient.presignedGetObject(
-          BUCKET,
-          objectName,
-          60 * 10
-        );
+        const url = await getPublicPresignedUrl(BUCKET, objectName);
 
         return {
           originalName: file.originalname,
@@ -152,11 +149,7 @@ export const getPost = async (req: Request, res: Response) => {
           return {
             originalName: image.originalFilename,
             mimetype: image.mimeType,
-            url: await minioClient.presignedGetObject(
-              image.bucket,
-              image.objectName,
-              60 * 5
-            ),
+            url: await getPublicPresignedUrl(image.bucket, image.objectName),
           };
         } catch (err) {
           return null;

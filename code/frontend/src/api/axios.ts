@@ -3,8 +3,18 @@ import { refreshToken } from "./refreshToken";
 
 const excludedUrls: string[] = ["/user/login", "/user/register"];
 
+const getBaseUrl: () => string = () => {
+  // In production builds, NODE_ENV will be "production"
+  if (process.env.NODE_ENV === "production") {
+    // Use relative path when deployed with Express backend
+    return "/api";
+  } else {
+    // Use full URL in development
+    return "http://localhost:3001/api";
+  }
+};
 const api = axios.create({
-  baseURL: "http://localhost:3001/api",
+  baseURL: getBaseUrl(),
   withCredentials: true,
 });
 

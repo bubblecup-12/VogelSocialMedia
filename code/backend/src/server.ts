@@ -7,31 +7,41 @@ import profileRouter from "./routes/profileRoutes";
 import followerRouter from "./routes/followerRoutes";
 import bodyParser from "body-parser";
 import cors from "cors";
-dotenv.config();
+import fs from "fs";
+import { createProxyMiddleware, Options } from "http-proxy-middleware";
 
+dotenv.config();
+export const NODE_ENV = process.env.NODE_ENV || "dev";
 const app = express();
-const port = 3001;
+const port = process.env.PORT;
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: process.env.CORS_ORIGIN,
     credentials: true,
     exposedHeaders: ["Authorization", "Refresh-Token"],
   })
 );
 
 // minIO config
+const minioEndpoint = process.env.MINIO_ENDPOINT || "localhost";
+const minioPort = parseInt(process.env.MINIO_PORT || "9000");
+export const minIOUrl = `http://${minioEndpoint}:${minioPort}`;
+
+console.log(`Connecting to MinIO at ${minioEndpoint}:${minioPort}`);
+
 export const minioClient = new Client({
-  endPoint: "localhost", // Replace with your MinIO server URL
-  port: 9000, // Default MinIO port
-  useSSL: false, // Set to true if using HTTPS
-  accessKey: process.env.MINIO_USER, // minIO username/access key
-  secretKey: process.env.MINIO_PASSWORD, // MinIO password/secret key
+  endPoint: minioEndpoint,
+  port: minioPort,
+  useSSL: false,
+  accessKey: process.env.MINIO_USER || "",
+  secretKey: process.env.MINIO_PASSWORD || "",
 });
 //swagger configuration
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import { deleteExpiredTokens } from "./tasks/deleteTokens";
 import feedRouter from "./routes/feedRoutes";
+import path from "path";
 
 const options = {
   definition: {
@@ -81,6 +91,32 @@ app.use("/api/posts", postRouter);
 app.use("/api/profile", profileRouter);
 app.use("/api/feed", feedRouter);
 app.use("/api/follower/", followerRouter);
+const minioProxyOptions: Options = {
+  target: minIOUrl,
+  changeOrigin: true,
+  pathRewrite: {
+    "^/media": "/",
+  },
+};
+app.use("/media/", createProxyMiddleware(minioProxyOptions));
+// In production builds, NODE_ENV will be "production"
+console.log(NODE_ENV);
+if (process.env.NODE_ENV === "production") {
+  // serve frontend
+  const publicDir = path.join(__dirname, "../public/");
+  console.log(publicDir);
+  app.use(express.static(publicDir));
+
+  app.get(/.*/, (req, res) => {
+    const indexPath = path.join(publicDir, "index.html");
+    if (fs.existsSync(indexPath)) {
+      res.sendFile(indexPath); // Using absolute path created with path.join
+    } else {
+      res.status(404).send("Frontend build not found");
+    }
+  });
+}
+
 app.listen(port, () => {
   console.log(`Server läuft auf http://localhost:${port}`);
 });

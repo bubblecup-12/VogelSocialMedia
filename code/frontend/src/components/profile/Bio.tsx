@@ -8,7 +8,15 @@ import EditSquareIcon from "@mui/icons-material/EditSquare";
 import ButtonPrimary from "../buttons/buttonRotkehlchen/ButtonRotkehlchen";
 import api from "../../api/axios";
 
-export default function BioTextField({ ownAccount, bioText, setBio } : { ownAccount: boolean, bioText: string | undefined, setBio: (bio: string) => void }) {
+export default function BioTextField({
+  ownAccount,
+  bioText,
+  setBio,
+}: {
+  ownAccount: boolean;
+  bioText: string | undefined;
+  setBio: (bio: string) => void;
+}) {
   const [oldBio, setOldbio] = useState<string>(bioText || "");
   const [editMode, setEditable] = useState(false);
 
@@ -31,11 +39,11 @@ export default function BioTextField({ ownAccount, bioText, setBio } : { ownAcco
     } catch (error) {
       console.error("Error saving bio: ", error);
     }
-  }
+  };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setBio(event.target.value);
-  }
+  };
 
   return (
     <StyledEngineProvider injectFirst>
