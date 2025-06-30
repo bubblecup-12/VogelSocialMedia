@@ -3,7 +3,6 @@ import TextField from "@mui/material/TextField";
 import StyledEngineProvider from "@mui/styled-engine/StyledEngineProvider";
 import { useState } from "react";
 import "./bio.css";
-import "../styles/colors.css";
 import IconButton from "@mui/material/IconButton";
 import EditSquareIcon from "@mui/icons-material/EditSquare";
 import ButtonPrimary from "../ButtonRotkehlchen";

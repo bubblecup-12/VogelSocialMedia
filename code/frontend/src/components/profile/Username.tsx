@@ -1,5 +1,5 @@
 import { Popover, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./username.css";
 
 export default function Username({ username }: { username: string }) {
