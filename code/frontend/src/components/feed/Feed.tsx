@@ -6,9 +6,7 @@ import { create } from "axios";
 import WelcomeMessage from "./welcomeMessage/welcomeMessage";
 import { useAuth } from "../../api/Auth";
 import ButtonRotkehlchen from "../ButtonRotkehlchen";
-import { useNavigate } from "react-router-dom";
-
-
+import { useNavigate, useParams } from "react-router-dom";
 
 interface PostListItem {
   id: string;
@@ -16,7 +14,11 @@ interface PostListItem {
   description: string;
 }
 
-function Feed() {
+interface FeedProps {
+  username?: string;
+}
+
+function Feed({ username }: FeedProps) {
   const [posts, setPosts] = useState<PostListItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
@@ -30,23 +32,27 @@ function Feed() {
     if (loading || !hasMore) return;
     setLoading(true);
     try {
-      let url = `/feed?limit=${PAGE_SIZE}`;
-      if (nextCursor) {
-        url = `/feed?createdAt=${encodeURIComponent(
-          nextCursor
-        )}&limit=${PAGE_SIZE}`;
+      let url: string;
+      if (username) {
+        url = `/posts/getUserPosts/${encodeURIComponent(username)}`;
+        const response = await api.get<{ posts: PostListItem[] }>(url);
+        setPosts(response.data.posts);
+        setHasMore(false); 
+      } else {
+        url = `/feed?limit=${PAGE_SIZE}`;
+        if (nextCursor) {
+          url = `/feed?createdAt=${encodeURIComponent(nextCursor)}&limit=${PAGE_SIZE}`;
+        }
+        interface FeedResponse {
+          posts: PostListItem[];
+          nextCursor: string | null;
+        }
+        const response = await api.get<FeedResponse>(url);
+        const { posts: newPosts, nextCursor: newCursor } = response.data;
+        setPosts((prev) => [...prev, ...newPosts]);
+        setNextCursor(newCursor);
+        setHasMore(!!newCursor && newPosts.length > 0);
       }
-
-      interface FeedResponse {
-        posts: PostListItem[];
-        nextCursor: string | null;
-      }
-      const response = await api.get<FeedResponse>(url);
-      console.log("Feed response:", response.data);
-      const { posts: newPosts, nextCursor: newCursor } = response.data;
-      setPosts((prev) => [...prev, ...newPosts]);
-      setNextCursor(newCursor);
-      setHasMore(!!newCursor && newPosts.length > 0);
     } catch (error) {
       console.error("Error fetching posts:", error);
     } finally {
@@ -59,6 +65,8 @@ function Feed() {
   }, []);
 
   useEffect(() => {
+    if (username) return;
+
     const onScroll = () => {
       if (loading || !hasMore) return;
       if (
@@ -72,7 +80,14 @@ function Feed() {
     return () => {
       window.removeEventListener("scroll", onScroll);
     };
-  }, [loading, hasMore, nextCursor]);
+  }, [loading, hasMore, nextCursor, username]);
+
+  useEffect(() => {
+    setPosts([]);
+    setNextCursor(null);
+    setHasMore(true);
+    fetchPosts();
+  }, [username]);
 
   return (
     <div className={user ? "loggedInfeedContainer" : "feedContainer"}>
@@ -96,13 +111,20 @@ function Feed() {
       <main className="feedContent" ref={feedRef}>
         {posts.length === 0 && !loading && <div>Keine Posts gefunden.</div>}
         {posts.map((post) => (
-          <Post key={post.id} postId={post.id} />
+          <div id={post.id} key={post.id}>
+            <Post postId={post.id} />
+          </div>
         ))}
         {loading && <div className="loading">Loading more posts...</div>}
         {!hasMore && <div>No more posts</div>}
       </main>
     </div>
   );
+}
+
+export function UserFeedRoute() {
+  const { user } = useParams<{ user: string }>();
+  return <Feed username={user} />;
 }
 
 export default Feed;
