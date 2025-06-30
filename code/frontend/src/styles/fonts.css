@@ -1,66 +1,66 @@
 @font-face {
-  font-family: "Lora";
-  font-style: normal;
-  font-weight: 400;
-  src: url(../../public/assets/fonts/Lora/Lora-VariableFont_wght.ttf);
-  unicode-range: U+00-52F, U+1E00-1FFF, U+2200-22FF;
+	font-family: "Lora";
+	font-style: normal;
+	font-weight: 400;
+	src: url(../../public/assets/fonts/Lora/Lora-VariableFont_wght.ttf);
+	unicode-range: U+00-52F, U+1E00-1FFF, U+2200-22FF;
 }
 .title-h1 {
-  font-family: "Lora";
-  font-size: 2.5rem;
-  line-height: 130%;
-  letter-spacing: 3.2px;
+	font-family: "Lora";
+	font-size: 2.5rem;
+	line-height: 130%;
+	letter-spacing: 3.2px;
 }
 
 .small-title {
-  font-family: "Lora";
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 40px;
+	font-family: "Lora";
+	font-size: 24px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: 40px;
 }
 
 @media (width >= 768px) {
-  .title-h1 {
-    font-size: 4rem;
-  }
+	.title-h1 {
+		font-size: 4rem;
+	}
 }
 
 h1 {
-  font-family: "Lora";
+	font-family: "Lora";
 }
 @font-face {
-  font-family: "Inter";
-  font-style: normal;
-  src: url(../../public/assets/fonts/Inter/Inter-VariableFont_opsz\,wght.ttf);
+	font-family: "Inter";
+	font-style: normal;
+	src: url("../../public/assets/fonts/Inter/Inter-VariableFont_opsz\,wght.ttf");
 }
 .body-l,
 .body-m {
-  font-family: "Inter";
+	font-family: "Inter";
 }
 .body-l {
-  font-size: 1.5rem;
-  line-height: 110%;
-  letter-spacing: 1.2px;
+	font-size: 1.5rem;
+	line-height: 110%;
+	letter-spacing: 1.2px;
 }
 .body-m {
-  font-size: 1rem;
-  line-height: 100%;
-  letter-spacing: 0.8px;
+	font-size: 1rem;
+	line-height: 100%;
+	letter-spacing: 0.8px;
 }
 .footer-link {
-  font-family: "Inter";
-  font-size: 1rem;
-  line-height: 100%;
-  letter-spacing: 0.8px;
+	font-family: "Inter";
+	font-size: 1rem;
+	line-height: 100%;
+	letter-spacing: 0.8px;
 }
 
 .login-input {
-  font-family: 'Inter';
-  font-size: 1rem;
-  letter-spacing: 0.5px;
-  line-height: 24px;
-  font-weight: 400;
+	font-family: "Inter";
+	font-size: 1rem;
+	letter-spacing: 0.5px;
+	line-height: 24px;
+	font-weight: 400;
 }
 
 .body-bold {
@@ -70,5 +70,5 @@ h1 {
 }
 
 p {
-  font-family: "Inter";
+	font-family: "Inter";
 }
