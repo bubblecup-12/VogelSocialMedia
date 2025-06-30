@@ -7,6 +7,16 @@ import { useEffect, useState } from "react";
 import { UserProfile } from "../../types/UserProfile";
 import { useNavigate } from "react-router-dom";
 
+type Post = {
+  id: string;
+  description: string;
+  createdAt: string;
+};
+
+type PostImagesResponse = {
+  images: { url: string }[];
+};
+
 export default function StandardImageList({ user }: { user: UserProfile }) {
   const navigate = useNavigate();
   const [images, setImages] = useState<
@@ -22,17 +32,15 @@ export default function StandardImageList({ user }: { user: UserProfile }) {
 
   const fetchUserPosts = async () => {
     try {
-      const response = await api.get(`/posts/getUserPosts/${user.username}`);
+      const response = await api.get<{ posts: Post[] }>(
+        `/posts/getUserPosts/${user.username}`
+      );
       const posts = response.data.posts;
       const fetchedImages = await Promise.all(
         posts.map(
-          async (post: {
-            id: string;
-            description: string;
-            createdAt: string;
-          }) => {
+          async (post: Post) => {
             try {
-              const response = await api.get(
+              const response = await api.get<PostImagesResponse>(
                 `/posts/getPost/{postId}?postId=${post.id}`
               );
               if (response.data && response.data.images.length > 0) {
@@ -42,6 +50,7 @@ export default function StandardImageList({ user }: { user: UserProfile }) {
                   id: post.id,
                   description: post.description || "",
                   createdAt: post.createdAt,
+                  
                 };
               }
             } catch (error) {
@@ -51,7 +60,12 @@ export default function StandardImageList({ user }: { user: UserProfile }) {
         )
       );
       console.log("Fetched images:", fetchedImages);
-      setImages(fetchedImages.filter((image) => image !== undefined));
+      setImages(
+        fetchedImages.filter(
+          (image): image is { imageUrl: string; id: string; description: string; createdAt: string } =>
+            image !== undefined
+        )
+      );
     } catch (error) {
       console.error("Error fetching user posts:", error);
     }
@@ -68,10 +82,7 @@ export default function StandardImageList({ user }: { user: UserProfile }) {
                   <img
                     src={item.imageUrl}
                     alt={item.description}
-                    onClick={
-                      () => navigate("/feed")
-                      // anchor to post that was clicked
-                    }
+                    onClick={() => navigate(`/feed/${user.username}#${item.id}`)}
                     loading="lazy"
                   />
                 ) : (

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./notFound.css";
-import ButtonPrimary from "../../components/ButtonRotkehlchen";
+import ButtonPrimary from "../../components/buttons/buttonRotkehlchen/ButtonRotkehlchen";
 
 type Block = {
   x: number;
