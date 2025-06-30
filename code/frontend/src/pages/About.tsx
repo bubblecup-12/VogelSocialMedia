@@ -36,7 +36,6 @@ function About() {
 				</div>
 			</div>
 			<div className="explain">
-				<div className="explain-announce">This is</div>
 				<div
 					className="explain-title generic-title cursor-pointer"
 					onClick={() => navigate("/feed")}
