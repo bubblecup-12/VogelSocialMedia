@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Chip from '@mui/material/Chip';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import ButtonPrimary from "../components/ButtonRotkehlchen";
+import ButtonPrimary from "../components/buttons/buttonRotkehlchen/ButtonRotkehlchen";
 
 import api from "../api/axios";
 import { useAuth } from "../api/Auth";

@@ -1,29 +1,45 @@
 import { Avatar, Box, Typography } from "@mui/material";
 import api from "../api/axios";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 
 interface UserAvatarProps {
-  username: string|null;
+  username: string | null;
   src?: string;
   size?: number | string;
+  onClick?: () => void;
 }
 
-export default function UserAvatar({ username, size = 40 }: UserAvatarProps) {
-    const[pb, setPb] = useState<string>();
+export default function UserAvatar({
+  username,
+  size = 40,
+  onClick,
+}: UserAvatarProps) {
+  const [pb, setPb] = useState<string>();
 
-    useEffect(() => {
+  useEffect(() => {
     (async () => {
       try {
-        const res = await api.get(`/profile/getProfilePicture/${username}`)
-            setPb((res.data as { url: string }).url);
-        } catch (error) {
-            console.log(error);
+        const res = await api.get(`/profile/getProfilePicture/${username}`);
+        setPb((res.data as { url: string }).url);
+      } catch (error: any) {
+        if (error.status !== 404) {
+          console.log(error);
+        }
       }
     })();
   }, [username]);
 
   return (
-    <Box sx={{ display: "flex", alignItems: "center", gap: 1, maxWidth: "600px"}}>
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        gap: 1,
+        maxWidth: "600px",
+        cursor: onClick ? "pointer" : "default",
+      }}
+      onClick={onClick}
+    >
       <Avatar
         src={pb}
         alt={username || "avatar"}
@@ -39,7 +55,11 @@ export default function UserAvatar({ username, size = 40 }: UserAvatarProps) {
       <Typography
         component="span"
         fontWeight={500}
-        sx={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}
+        sx={{
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+        }}
       >
         {username}
       </Typography>

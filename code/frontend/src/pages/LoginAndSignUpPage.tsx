@@ -1,7 +1,7 @@
 import "./loginAndSignUpPage.css";
 import { useEffect, useState } from "react";
 import api from "../api/axios";
-import ButtonRotkehlchen from "../components/ButtonRotkehlchen";
+import ButtonRotkehlchen from "../components/buttons/buttonRotkehlchen/ButtonRotkehlchen";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../api/Auth";
 import { createTheme, useMediaQuery } from "@mui/material";

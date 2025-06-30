@@ -6,25 +6,23 @@ import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Collapse from "@mui/material/Collapse";
-import Avatar from "@mui/material/Avatar";
 import IconButton, { IconButtonProps } from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import api from "../api/axios";
+import api from "../../api/axios";
 import { Url } from "url";
-import { LogLevel } from "vite";
 import "./post.css";
-import UserAvatar from "./UserAvatar";
+import UserAvatar from "../UserAvatar";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useRef, useCallback } from "react";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
 }
 interface PostProps {
   postId: string;
+  autoScroll?: boolean;
 }
 interface PostResponse {
   description: string;
@@ -58,17 +56,17 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
   transform: expand ? "rotate(180deg)" : "rotate(0deg)",
 }));
 
-export default function Post({ postId }: PostProps) {
+export default function Post({ postId, autoScroll }: PostProps) {
   const [expanded, setExpanded] = React.useState(false);
   const [post, setPost] = React.useState<PostResponse | null>(null);
   const [currentImage, setCurrentImage] = React.useState(0);
   const [like, setLike] = React.useState(false);
+  const navigate = useNavigate();
+  const postRef = useRef<HTMLDivElement>(null);
+  const scrollTimeoutsRef = useRef<number[]>([]);
 
-  React.useEffect(() => {
-    getPostbyID();
-  }, [postId]);
-
-  async function getPostbyID(): Promise<void> {
+  // Using useCallback to memoize the function and avoid dependency issues
+  const getPostbyID = useCallback(async (): Promise<void> => {
     try {
       const response = await api.get<PostResponse>(
         `/posts/getPost/{postId}?postId=${postId}`
@@ -79,7 +77,43 @@ export default function Post({ postId }: PostProps) {
     } catch (error) {
       console.error("Failed to fetch post:", error);
     }
-  }
+  }, [postId]);
+
+  // Auto-scroll effect with cleanup for timeouts
+  useEffect(() => {
+    if (autoScroll && post) {
+      console.log("Preparing to scroll to post:", postId);
+
+      // Clear any existing timeouts first
+      scrollTimeoutsRef.current.forEach(clearTimeout);
+      scrollTimeoutsRef.current = [];
+
+      // Using forEach instead of map since we don't need to return values
+      [50, 100, 300, 500, 1000, 1500].forEach((delay) => {
+        const timeoutId = window.setTimeout(() => {
+          if (postRef.current) {
+            console.log(`Scrolling attempt at ${delay}ms`);
+            postRef.current.scrollIntoView({
+              behavior: "auto",
+              block: "start",
+            });
+          }
+        }, delay);
+        scrollTimeoutsRef.current.push(timeoutId);
+      });
+    }
+
+    // Clean up timeouts when component unmounts or dependencies change
+    return () => {
+      scrollTimeoutsRef.current.forEach(clearTimeout);
+      scrollTimeoutsRef.current = [];
+    };
+  }, [autoScroll, post, postId]);
+
+  // Fetch post data when postId changes
+  useEffect(() => {
+    getPostbyID();
+  }, [getPostbyID]); // Now getPostbyID is a dependency
 
   if (!post) {
     return (
@@ -122,9 +156,19 @@ export default function Post({ postId }: PostProps) {
 
   return (
     <StyledEngineProvider injectFirst>
-      <Card className="body-l" sx={{ maxWidth: 600, width: "100%", margin: 2 }}>
+      <Card
+        ref={postRef}
+        className="body-l"
+        sx={{ maxWidth: 600, width: "100%", margin: 2 }}
+      >
         <CardHeader
-          avatar={<UserAvatar username={post.user.name} size={60} />}
+          avatar={
+            <UserAvatar
+              username={post.user.name}
+              size={60}
+              onClick={() => navigate(`/profile/${post.user.name}`)}
+            />
+          }
         />
         {images.length > 0 && (
           <div className="post-image-carousel">
@@ -187,20 +231,16 @@ export default function Post({ postId }: PostProps) {
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
-            <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-              Tags: {post.tags.join(", ")}
-            </Typography>
-            <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-              Following: {post.following ? "Ja" : "Nein"}
-            </Typography>
-            <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-              Status: {post.status}
+            {post.tags && post.tags.length > 0 && (
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                Tags: {post.tags.join(", ")}
+              </Typography>
+            )}
+            <Typography variant="body2" color="text.secondary">
+              Created at: {new Date(post.createdAt).toLocaleString()}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Erstellt am: {new Date(post.createdAt).toLocaleString()}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Zuletzt aktualisiert: {new Date(post.updatedAt).toLocaleString()}
+              Last updated: {new Date(post.updatedAt).toLocaleString()}
             </Typography>
           </CardContent>
         </Collapse>

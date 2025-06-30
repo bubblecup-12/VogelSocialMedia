@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
-import Post from "../Post";
+import Post from "../../components/post/Post";
 import "./feed.css";
 import api from "../../api/axios";
-import { create } from "axios";
-import WelcomeMessage from "./welcomeMessage/welcomeMessage";
+import WelcomeMessage from "../../components/welcomeMessage/welcomeMessage";
 import { useAuth } from "../../api/Auth";
-import ButtonRotkehlchen from "../ButtonRotkehlchen";
-import { useNavigate, useParams } from "react-router-dom";
+import LogInButton from "../../components/buttons/LogInButton";
+import SignUpButton from "../../components/buttons/SignUpButton";
+import NaggingFooter from "../../components/naggingFooter/NaggingFooter";
+import { useLocation, useParams } from "react-router-dom";
 
 interface PostListItem {
   id: string;
@@ -26,7 +27,19 @@ function Feed({ username }: FeedProps) {
   const feedRef = useRef<HTMLDivElement | null>(null);
   const PAGE_SIZE = 10;
   const { user } = useAuth();
-  const navigate = useNavigate();
+  const scrollTargetRef = useRef<string | null>(null);
+  const location = useLocation();
+
+  useEffect(() => {
+    // Remove the # character from the hash
+    const hashValue = location.hash.replace("#", "");
+    console.log(hashValue);
+    console.log("Hash value:", hashValue);
+
+    if (hashValue) {
+      scrollTargetRef.current = hashValue;
+    }
+  }, [location]);
 
   const fetchPosts = async () => {
     if (loading || !hasMore) return;
@@ -37,11 +50,13 @@ function Feed({ username }: FeedProps) {
         url = `/posts/getUserPosts/${encodeURIComponent(username)}`;
         const response = await api.get<{ posts: PostListItem[] }>(url);
         setPosts(response.data.posts);
-        setHasMore(false); 
+        setHasMore(false);
       } else {
         url = `/feed?limit=${PAGE_SIZE}`;
         if (nextCursor) {
-          url = `/feed?createdAt=${encodeURIComponent(nextCursor)}&limit=${PAGE_SIZE}`;
+          url = `/feed?createdAt=${encodeURIComponent(
+            nextCursor
+          )}&limit=${PAGE_SIZE}`;
         }
         interface FeedResponse {
           posts: PostListItem[];
@@ -49,7 +64,8 @@ function Feed({ username }: FeedProps) {
         }
         const response = await api.get<FeedResponse>(url);
         const { posts: newPosts, nextCursor: newCursor } = response.data;
-        setPosts((prev) => [...prev, ...newPosts]);
+        const tempPost: PostListItem[] = [...posts, ...newPosts];
+        setPosts(tempPost);
         setNextCursor(newCursor);
         setHasMore(!!newCursor && newPosts.length > 0);
       }
@@ -59,11 +75,6 @@ function Feed({ username }: FeedProps) {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    fetchPosts();
-  }, []);
-
   useEffect(() => {
     if (username) return;
 
@@ -94,30 +105,25 @@ function Feed({ username }: FeedProps) {
       {!user && (
         <div className="welcome-for-logged-out">
           <WelcomeMessage />
-          <ButtonRotkehlchen
-            style={"secondary"}
-            label={"Sign Up"}
-            type={"button"}
-            onClick={() => navigate("/register")}
-          />
-          <ButtonRotkehlchen
-            style={"primary"}
-            label={"Login"}
-            type={"button"}
-            onClick={() => navigate("/login")}
-          />
+          <SignUpButton />
+          <LogInButton />
         </div>
       )}
+
       <main className="feedContent" ref={feedRef}>
         {posts.length === 0 && !loading && <div>Keine Posts gefunden.</div>}
         {posts.map((post) => (
-          <div id={post.id} key={post.id}>
-            <Post postId={post.id} />
+          <div id={post.id} key={post.id} className="feed-post-container">
+            <Post
+              postId={post.id}
+              autoScroll={post.id === scrollTargetRef.current}
+            />
           </div>
         ))}
         {loading && <div className="loading">Loading more posts...</div>}
-        {!hasMore && <div>No more posts</div>}
+        {!hasMore && <div className="no-more-posts-message">No more posts</div>}
       </main>
+      {!user && <NaggingFooter />}
     </div>
   );
 }

@@ -3,7 +3,7 @@ import QuiltedImageList from "../components/profile/QuiltedImageList";
 import { StyledEngineProvider, Divider } from "@mui/material";
 import ChangeAvatarDialog from "../components/profile/ChangeAvatarDialog";
 import Bio from "../components/profile/Bio";
-import RotkehlchenButton from "../components/ButtonRotkehlchen";
+import RotkehlchenButton from "../components/buttons/buttonRotkehlchen/ButtonRotkehlchen";
 import api, { redirectToLogin } from "../api/axios";
 import { useAuth } from "../api/Auth";
 import { useNavigate, useParams } from "react-router-dom";
@@ -28,11 +28,11 @@ function Profile() {
 
   const userProfile = async () => {
     try {
-      const response = await api.get(`/profile/${username}`);
+      const response = await api.get<{ data: UserProfile }>(`/profile/${username}`);
       setUserData(response.data.data);
       return;
     } catch (error) {
-      navigate("/"); /* replace to 404 page */
+      navigate("/notfound");
       console.error("Error fetching user profile:", error);
       return null;
     }
