@@ -1,4 +1,3 @@
-
 import React, { use } from 'react';
 import logo from './logo.svg';
 import './App.css';
@@ -10,18 +9,21 @@ import "./styles/colors.css";
 import "./styles/fonts.css";
 import "./styles/sizes.css";
 import Footer from "./components/footer/Footer";
-import Header from "./components/Header";
+import Feed, {UserFeedRoute} from "./components/feed/Feed";
+import Header from './components/header/Header';
 import Profile from "./pages/Profile";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Auth } from "./api/Auth";
 import { NotFound } from "./pages/404Page/NotFoundPage";
-import Feed from './components/feed/Feed';
+import ScrollToAnchor from "./components/ScrollToAnchor";
+
 
 function App() {
   return (
     <Auth>
       <Router>
         <Header />
+        <ScrollToAnchor />
         <div className="App">
           <Routes>
             <Route path="*" element={<NotFound />} />
@@ -35,6 +37,8 @@ function App() {
             ></Route>
             <Route path="/profile/:username" element={<Profile />}></Route>
             <Route path="/createpost" element={<PostCreation />}></Route>
+            <Route path="/profile" element={<Profile />}></Route>
+            <Route path="/feed/:user" element={<UserFeedRoute />}></Route>
           </Routes>
           <Footer />
         </div>
