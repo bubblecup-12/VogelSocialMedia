@@ -1,6 +1,8 @@
 import "./about.css";
+import { useNavigate } from "react-router-dom";
 
 function About() {
+	const navigate = useNavigate();
 	return (
 		<div className="mainbox">
 			<div className="intro">
@@ -31,6 +33,36 @@ function About() {
 						src="/assets/images/owlFancyFace.jpg"
 						alt="A very confident looking owl"
 					/>
+				</div>
+			</div>
+			<div className="explain">
+				<div className="explain-announce">This is</div>
+				<div
+					className="explain-title generic-title cursor-pointer"
+					onClick={() => navigate("/feed")}
+				>
+					Feather Feed
+				</div>
+				<div className="explain-text">
+					... a social media platform about Birds.
+					<br />
+					Look up our
+					<span
+						className="color-orange cursor-pointer"
+						onClick={() => navigate("/feed")}
+					>
+						{" "}
+						Feed{" "}
+					</span>
+					and
+					<span
+						className="color-orange cursor-pointer"
+						onClick={() => navigate("/register")}
+					>
+						{" "}
+						Sign up{" "}
+					</span>
+					for your daily Feather Feed
 				</div>
 			</div>
 		</div>
