@@ -15,7 +15,7 @@ export default function UserAvatar({ username, size = 40 }: UserAvatarProps) {
     (async () => {
       try {
         const res = await api.get(`/profile/getProfilePicture/${username}`)
-            setPb(res.data.url);
+            setPb((res.data as { url: string }).url);
         } catch (error) {
             console.log(error);
       }
