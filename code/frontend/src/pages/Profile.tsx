@@ -1,8 +1,4 @@
 import "./profile.css";
-import "../components/bio.css";
-import "./loginAndSignUpPage.css";
-import "../styles/sizes.css";
-import "../styles/fonts.css";
 import QuiltedImageList from "../components/profile/QuiltedImageList";
 import { StyledEngineProvider, Divider } from "@mui/material";
 import ChangeAvatarDialog from "../components/profile/ChangeAvatarDialog";
