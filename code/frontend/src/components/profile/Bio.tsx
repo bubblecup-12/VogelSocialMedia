@@ -5,7 +5,7 @@ import { useState } from "react";
 import "./bio.css";
 import IconButton from "@mui/material/IconButton";
 import EditSquareIcon from "@mui/icons-material/EditSquare";
-import ButtonPrimary from "../ButtonRotkehlchen";
+import ButtonPrimary from "../buttons/buttonRotkehlchen/ButtonRotkehlchen";
 import api from "../../api/axios";
 
 export default function BioTextField({ ownAccount, bioText, setBio } : { ownAccount: boolean, bioText: string | undefined, setBio: (bio: string) => void }) {

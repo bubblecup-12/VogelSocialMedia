@@ -14,7 +14,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import EditSquareIcon from "@mui/icons-material/EditSquare";
 import "./changeAvatarDialog.css";
-import ButtonRotkehlchen from "../ButtonRotkehlchen";
+import ButtonRotkehlchen from "../buttons/buttonRotkehlchen/ButtonRotkehlchen";
 import Username from "./Username";
 import "./username.css";
 import api from "../../api/axios";
@@ -55,17 +55,17 @@ export default function AvatarDialog({
       console.log("Saving profile picture:", file);
       if (file) {
         formData.append("image", file);
-        const response = await api.post(
+        const response = await api.post<{ url: string }>(
           "/profile/uploadProfilePicture",
           formData
         );
         console.log("Profile picture saved:", response.data);
-        setUserData((prevData) => (prevData ?{
+        setUserData((prevData) => (prevData ? {
           ...prevData, 
           profilePictureUrl: response.data.url
         } : null));
       }
-      setOpen(false); // Close the dialog after saving
+      setOpen(false); 
     } catch (error) {
       console.error("Error saving profile picture:", error);
     }
