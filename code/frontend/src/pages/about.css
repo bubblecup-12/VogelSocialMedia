@@ -17,17 +17,25 @@
 	align-items: center;
 	margin: 3vw;
 }
+.explain-pic {
+	width: 90vw;
+	margin: 2vw;
+	border-radius: var(--border-radius);
+	box-shadow: 0px 5px 8.9px 15px rgba(115, 116, 206, 0.25);
+	border-radius: 8px;
+	border: 5px solid var(--Rotkehlchen-gray);
+}
 .explain-announce {
 	width: 90vw;
 	margin: 2vw;
-	font-size: clamp(5rem, 8vw, 15vw);
+	font-size: clamp(4rem, 8vw, 15vw);
 	color: white;
 	text-align: left;
 }
 .explain-title {
 	margin: 1vw;
 	width: 90vw;
-	font-size: clamp(7rem, 10vw, 17vw);
+	font-size: clamp(5rem, 10vw, 17vw);
 	color: var(--Rotkehlchen-orange-default);
 }
 .explain-text {
@@ -52,6 +60,9 @@
 	box-sizing: border-box;
 	margin: 3vw;
 }
+.block-l {
+	height: clamp(19rem, 55vh, 100%);
+}
 
 .block {
 	max-width: calc(100vw-var(--margin-mobile));
@@ -59,7 +70,7 @@
 	grid-template-rows: 1fr auto;
 	align-items: center;
 	justify-content: space-between;
-	height: clamp(30vw, 45vh, 100%);
+	height: clamp(22rem, 45vh, 100%);
 	margin: var(--margin-mobile);
 	vertical-align: center;
 	margin-block-end: var(--margin-mobile);
@@ -104,15 +115,12 @@
 	text-align: end;
 }
 
-/* TODO Entfernen vor final*/
-.test {
-	height: 100vh;
-	width: 100vw;
-	color: aqua;
-	background-color: aquamarine;
-}
-
 @media screen and (min-width: 768px) {
+	.explain-pic {
+		max-height: clamp(600px, 120vh, 1200px);
+		width: auto;
+		justify-self: center;
+	}
 	.about-title {
 		flex-direction: row;
 		justify-content: start;

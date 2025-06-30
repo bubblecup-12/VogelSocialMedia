@@ -6,7 +6,7 @@ function About() {
 	return (
 		<div className="mainbox">
 			<div className="intro">
-				<div className="block">
+				<div className="block block-l">
 					<div className="item text1 text-start">
 						Bringing Birds closer to you
 					</div>
@@ -42,6 +42,12 @@ function About() {
 				>
 					Feather Feed
 				</div>
+				<img
+					className="explain-pic cursor-pointer"
+					src="/assets/images/Feed.png"
+					alt="Feed with posts"
+					onClick={() => navigate("/feed")}
+				/>
 				<div className="explain-text">
 					... a social media platform about Birds.
 					<br />
