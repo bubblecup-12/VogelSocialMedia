@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import Chip from '@mui/material/Chip';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import Avatar from '@mui/material/Avatar';
 import ButtonPrimary from "../components/ButtonRotkehlchen";
 
 import api from "../api/axios";
@@ -13,7 +12,6 @@ import { useAuth } from "../api/Auth";
 import {Box,Card,CardMedia,CardActionArea,IconButton} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import UserAvatar from "../components/UserAvatar";
 
 const theme = createTheme({
   palette: {
@@ -112,13 +110,13 @@ function PostCreation(){
 
     try {
       await api.post("/posts/upload", fData)
-      navigate("/profile")
+      navigate(`/profile/${user?.username}`)
     } catch (error:any) {
       console.log(error);
     }
   };
   const onCancel= () => {
-    navigate("/profile")
+    navigate(`/profile/${user?.username}`)
   };
 
   const files = fileList ? [...fileList] : [];
