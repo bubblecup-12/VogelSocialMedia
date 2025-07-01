@@ -9,7 +9,7 @@ import ButtonPrimary from "../components/buttons/buttonRotkehlchen/ButtonRotkehl
 
 import api from "../api/axios";
 import { useAuth } from "../api/Auth";
-import {Box,Card,CardMedia,CardActionArea,IconButton} from '@mui/material';
+import {Box,Card,CardMedia,CardActionArea,IconButton, Typography} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
@@ -35,7 +35,7 @@ function PostCreation(){
   const [data, setData] = useState<ImageItem[]>([]);
   const navigate = useNavigate();
 
-  const [fileList,setFileList] = useState<FileList|null>(null);
+  const [fileList,setFileList] = useState<File[]>([]);
   const inputFile = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
@@ -66,18 +66,20 @@ function PostCreation(){
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
-    if (files && files.length > 0) {
+    if (files && files.length > 0) { 
+      const fileArr = Array.from(files); 
       const newItems: ImageItem[] = Array.from(files).map((file) => ({
         src: URL.createObjectURL(file),
         title: file.name,
       }
     ));
+      
       const lastImageUrl = newItems[newItems.length - 1].src;
 
       setData((prev) => [...prev, ...newItems]);
       setSelectedImage(lastImageUrl);
+      setFileList(prev => [...prev, ...fileArr]);
     }
-    setFileList(files);
   };
   const onEmptyImgClick = () =>{
     if(inputFile.current){
@@ -136,7 +138,7 @@ function PostCreation(){
             </label>}
             </div>
             <div className="create-post-desc">
-              <h2>Description</h2>
+              <h2>Description*</h2>
               <textarea className="create-post-description" value={description} onChange={handleChange} required></textarea>
               </div>
               <Box
@@ -179,6 +181,7 @@ function PostCreation(){
                       onChange={handleImageUpload}
                       style={{ display: 'none' }}
                       ref={inputFile}
+                      required
                     />
                   </label>
                 </Card>
@@ -258,7 +261,7 @@ function PostCreation(){
               <ButtonPrimary style="secondary" label="Cancel" type="button" onClick={onCancel} ></ButtonPrimary>
               <ButtonPrimary style="primary" label="Post" type="submit" ></ButtonPrimary>
               </div>
-              </div>          
+              </div>    
           </form>
         </div>
     </div>
