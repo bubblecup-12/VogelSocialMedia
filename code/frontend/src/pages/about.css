@@ -59,7 +59,7 @@
 	margin: 3vw;
 	max-width: 94vw;
 }
-.block-l {
+.pic-l {
 	height: clamp(24rem, 60vh, 100%) !important;
 }
 
@@ -118,7 +118,7 @@
 
 @media screen and (min-width: 768px) {
 	.explain-pic {
-		max-height: clamp(600px, 120vh, 1200px);
+		max-height: clamp(600px, 140vh, 1200px);
 		width: auto;
 		justify-self: center;
 	}
