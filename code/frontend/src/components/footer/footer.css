@@ -1,4 +1,4 @@
-/*mobile style first*/
+
 .footer {
   display: flex;
   flex-direction: row;
@@ -21,8 +21,8 @@
 .footer-link {
   display: flex;
   align-items: center;
-  gap: 0.5rem; /*Gap between icon and logo */
-  text-decoration: none; /*prevents constant underline*/
+  gap: 0.5rem; 
+  text-decoration: none; 
   color: black;
   font-weight: 500;
   cursor: pointer;
@@ -48,7 +48,7 @@
 .footer-right {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem; /*gap between the links*/
+  gap: 0.4rem; 
   align-items: flex-end;
 }
 
@@ -67,7 +67,7 @@
   text-decoration-color: var(--Rotkehlchen-orange-default);
 }
 
-/*@media adjusts styles for desktop */
+
 
 @media (min-width: 768px) {
   .footer {

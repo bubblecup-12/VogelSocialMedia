@@ -9,7 +9,7 @@ export default function LogInButton() {
       style={"secondary"}
       label={"Sign Up"}
       type={"button"}
-      onClick={() => navigate("/login")}
+      onClick={() => navigate("/register")}
     />
   );
 }
