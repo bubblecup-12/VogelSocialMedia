@@ -6,12 +6,12 @@ function About() {
 	return (
 		<div className="mainbox">
 			<div className="intro">
-				<div className="block block-l">
+				<div className="block">
 					<div className="item text1 text-start">
-						Bringing birds closer to you...
+						Bringing birds closer to you
 					</div>
 					<img
-						className="item item-end pic pic-justify"
+						className="item item-end pic pi-l pic-justify"
 						src="/assets/images/BirdOnCam.jpg"
 						alt="A bird sitting on a camera"
 					/>
@@ -23,11 +23,11 @@ function About() {
 						alt="A curious-interested looking cute bird"
 					/>
 					<div className="item text1 text-end grid-start text1">
-						..and the birds you love...
+						And the birds you love
 					</div>
 				</div>
 				<div className="block">
-					<div className="item text1 text-start">...enhance your day.</div>
+					<div className="item text1 text-start">Enhance your day</div>
 					<img
 						className="item item-end pic pic-justify"
 						src="/assets/images/owlFancyFace.jpg"
