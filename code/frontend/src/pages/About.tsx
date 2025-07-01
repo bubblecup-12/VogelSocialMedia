@@ -8,7 +8,7 @@ function About() {
 			<div className="intro">
 				<div className="block block-l">
 					<div className="item text1 text-start">
-						Bringing Birds closer to you
+						Bringing birds closer to you...
 					</div>
 					<img
 						className="item item-end pic pic-justify"
@@ -23,11 +23,11 @@ function About() {
 						alt="A curious-interested looking cute bird"
 					/>
 					<div className="item text1 text-end grid-start text1">
-						And the Birds you love
+						..and the birds you love...
 					</div>
 				</div>
 				<div className="block">
-					<div className="item text1 text-start">Enhance your day</div>
+					<div className="item text1 text-start">...enhance your day.</div>
 					<img
 						className="item item-end pic pic-justify"
 						src="/assets/images/owlFancyFace.jpg"
@@ -67,7 +67,7 @@ function About() {
 						{" "}
 						Sign up{" "}
 					</span>
-					for your daily Feather Feed
+					for your daily Feather Feed.
 				</div>
 			</div>
 		</div>

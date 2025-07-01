@@ -51,6 +51,7 @@ function App() {
 							path="/register"
 							element={<LoginAndSignUpPage signupProp={true} />}
 						/>
+						<Route path="/about" element={<About />} />
 						<Route path="/profile/:username" element={<Profile />} />
 					</Routes>
 					<Footer />
