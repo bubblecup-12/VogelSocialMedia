@@ -1,4 +1,5 @@
-import * as React from "react";
+import React from "react";
+import { useState, ChangeEvent } from "react";
 import {
   Button,
   styled,
@@ -13,13 +14,11 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import EditSquareIcon from "@mui/icons-material/EditSquare";
+import ButtonRotkehlchen from "../../buttons/buttonRotkehlchen/ButtonRotkehlchen";
+import Username from "../username/Username";
+import api from "../../../api/axios";
+import { UserProfile } from "../../../types/UserProfile";
 import "./changeAvatarDialog.css";
-import ButtonRotkehlchen from "../buttons/buttonRotkehlchen/ButtonRotkehlchen";
-import Username from "./Username";
-import "./username.css";
-import api from "../../api/axios";
-import { ChangeEvent, useState } from "react";
-import { UserProfile } from "../../types/UserProfile";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
