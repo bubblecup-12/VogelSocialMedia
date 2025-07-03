@@ -1,6 +1,6 @@
+import { useState, useEffect } from "react";
 import { Avatar, Box, Typography } from "@mui/material";
 import api from "../api/axios";
-import { useState, useEffect } from "react";
 
 interface UserAvatarProps {
   username: string | null;

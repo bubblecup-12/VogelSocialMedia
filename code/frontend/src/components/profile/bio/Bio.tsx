@@ -1,12 +1,12 @@
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import StyledEngineProvider from "@mui/styled-engine/StyledEngineProvider";
-import { useState } from "react";
-import "./bio.css";
 import IconButton from "@mui/material/IconButton";
+import StyledEngineProvider from "@mui/styled-engine/StyledEngineProvider";
 import EditSquareIcon from "@mui/icons-material/EditSquare";
-import ButtonPrimary from "../buttons/buttonRotkehlchen/ButtonRotkehlchen";
-import api from "../../api/axios";
+import ButtonPrimary from "../../buttons/buttonRotkehlchen/ButtonRotkehlchen";
+import api from "../../../api/axios";
+import "./bio.css";
 
 export default function BioTextField({ ownAccount, bioText, setBio } : { ownAccount: boolean, bioText: string | undefined, setBio: (bio: string) => void }) {
   const [oldBio, setOldbio] = useState<string>(bioText || "");

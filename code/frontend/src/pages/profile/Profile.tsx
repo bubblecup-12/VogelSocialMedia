@@ -1,14 +1,14 @@
-import "./profile.css";
-import QuiltedImageList from "../components/profile/QuiltedImageList";
-import { StyledEngineProvider, Divider } from "@mui/material";
-import ChangeAvatarDialog from "../components/profile/ChangeAvatarDialog";
-import Bio from "../components/profile/Bio";
-import RotkehlchenButton from "../components/buttons/buttonRotkehlchen/ButtonRotkehlchen";
-import api, { redirectToLogin } from "../api/axios";
-import { useAuth } from "../api/Auth";
-import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { UserProfile } from "../types/UserProfile";
+import { useNavigate, useParams } from "react-router-dom";
+import { StyledEngineProvider, Divider } from "@mui/material";
+import QuiltedImageList from "../../components/profile/quiltedImageList/QuiltedImageList";
+import ChangeAvatarDialog from "../../components/profile/changeAvatarDialog/ChangeAvatarDialog";
+import Bio from "../../components/profile/bio/Bio";
+import RotkehlchenButton from "../../components/buttons/buttonRotkehlchen/ButtonRotkehlchen";
+import api, { redirectToLogin } from "../../api/axios";
+import { useAuth } from "../../api/Auth";
+import { UserProfile } from "../../types/UserProfile";
+import "./profile.css";
 
 function Profile() {
   const { user } = useAuth();
@@ -83,7 +83,6 @@ function Profile() {
             setBio={setBio}
           />
           <Divider variant="middle" className="divider" />
-          {/* TODO: Change data to data from Database */}
           <div className="numeral-data body-bold">
             <div className="data">
               <span aria-label="current-post-number">{userData?.posts}</span>

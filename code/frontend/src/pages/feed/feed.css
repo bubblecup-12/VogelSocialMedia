@@ -34,7 +34,6 @@
   color: white;
 }
 
-/* Desktop view*/
 @media (min-width: 768px) {
   .feedContainer {
     display: grid;
