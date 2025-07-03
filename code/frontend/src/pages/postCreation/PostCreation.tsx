@@ -1,17 +1,15 @@
-import "./postCreation.css";
-import "./loginAndSignUpPage.css";
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import Chip from '@mui/material/Chip';
-import Autocomplete from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
-import ButtonPrimary from "../components/buttons/buttonRotkehlchen/ButtonRotkehlchen";
-
-import api from "../api/axios";
-import { useAuth } from "../api/Auth";
-import {Box,Card,CardMedia,CardActionArea,IconButton, Typography} from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Box, Card, CardMedia, CardActionArea, IconButton, Typography } from "@mui/material";
+import Chip from "@mui/material/Chip";
+import Autocomplete from "@mui/material/Autocomplete";
+import TextField from "@mui/material/TextField";
+import CloseIcon from "@mui/icons-material/Close";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import api from "../../api/axios";
+import { useAuth } from "../../api/Auth";
+import ButtonPrimary from "../../components/buttons/buttonRotkehlchen/ButtonRotkehlchen";
+import "./postCreation.css";
 
 const theme = createTheme({
   palette: {

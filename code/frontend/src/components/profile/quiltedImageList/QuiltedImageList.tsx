@@ -1,11 +1,10 @@
-import ImageListItem from "@mui/material/ImageListItem";
-import { StyledEngineProvider } from "@mui/material/styles";
-import "./quiltedImageList.css";
-import { Box, Grid, Skeleton } from "@mui/material";
-import api from "../../api/axios";
 import { useEffect, useState } from "react";
-import { UserProfile } from "../../types/UserProfile";
 import { useNavigate } from "react-router-dom";
+import { Box, Grid, Skeleton, StyledEngineProvider } from "@mui/material";
+import ImageListItem from "@mui/material/ImageListItem";
+import api from "../../../api/axios";
+import { UserProfile } from "../../../types/UserProfile";
+import "./quiltedImageList.css";
 
 type Post = {
   id: string;
@@ -50,7 +49,6 @@ export default function StandardImageList({ user }: { user: UserProfile }) {
                   id: post.id,
                   description: post.description || "",
                   createdAt: post.createdAt,
-                  
                 };
               }
             } catch (error) {

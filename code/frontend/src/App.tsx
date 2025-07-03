@@ -1,14 +1,11 @@
 import "./App.css";
-import LoginAndSignUpPage from "./pages/LoginAndSignUpPage";
-import PostCreation from "./pages/PostCreation";
-import "./App.css";
-import "./styles/colors.css";
-import "./styles/fonts.css";
-import "./styles/sizes.css";
+import "./styles/globalStyles.css";
+import LoginAndSignUpPage from "./pages/loginAndSignUpPage/LoginAndSignUpPage";
+import PostCreation from "./pages/postCreation/PostCreation";
 import Footer from "./components/footer/Footer";
 import Feed, { UserFeedRoute } from "./pages/feed/Feed";
 import Header from "./components/header/Header";
-import Profile from "./pages/Profile";
+import Profile from "./pages/profile/Profile";
 import {
 	BrowserRouter as Router,
 	Routes,
@@ -16,7 +13,7 @@ import {
 	Navigate,
 } from "react-router-dom";
 import { Auth } from "./api/Auth";
-import About from "./pages/About";
+import About from "./pages/about/About";
 import { NotFound } from "./pages/404Page/NotFoundPage";
 
 function App() {
