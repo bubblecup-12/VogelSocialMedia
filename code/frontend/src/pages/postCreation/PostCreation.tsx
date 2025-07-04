@@ -6,7 +6,6 @@ import {
   CardMedia,
   CardActionArea,
   IconButton,
-  Typography,
 } from "@mui/material";
 import Chip from "@mui/material/Chip";
 import Autocomplete from "@mui/material/Autocomplete";
